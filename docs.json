@@ -1,0 +1,60 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "willow",
+  "name": "MARCUS",
+  "colors": {
+    "primary": "#2A1B5E",
+    "light": "#4FC3E0",
+    "dark": "#C8156A"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "pages": [
+      {
+        "group": "Getting Started",
+        "pages": [
+          "index",
+          "quickstart"
+        ]
+      },
+      {
+        "group": "Deployment",
+        "pages": [
+          "product-overview"
+        ],
+        "icon": "rocket-launch"
+      }
+    ]
+  },
+  "logo": {
+    "light": "/images/involve-icon(1).png",
+    "dark": "/images/involve-icon(1).png"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:hi@mintlify.com"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Test",
+      "href": "https://app.mintlify.com"
+    }
+  },
+  "icons": {
+    "library": "fontawesome"
+  },
+  "appearance": {
+    "default": "light"
+  },
+  "fonts": {
+    "heading": {
+      "family": "Roboto"
+    },
+    "body": {
+      "family": "Roboto"
+    }
+  }
+}

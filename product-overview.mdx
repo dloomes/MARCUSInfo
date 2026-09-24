@@ -1,0 +1,383 @@
+---
+title: "Deployment Guide"
+icon:
+  name: "rocket-launch"
+  style: "regular"
+  library: "fontawesome"
+---
+
+M.A.R.C.U.S. deploys where it makes sense for your organisation. This guide covers every supported deployment shape: on-premises, cloud-hosted, containerised and orchestrated. For each one it gives the install steps, network requirements, sizing and operations detail you need to plan a rollout.
+
+Two things stay constant across every option:
+
+- **M.A.R.C.U.S. Cloud** is the managed service. It provides the operator portal, telemetry ingest, the alert engine and the Public API, and Involve operates it exclusively in the AWS London region (`eu-west-2`). You don't run any cloud components yourself.
+- **The M.A.R.C.U.S. Collector** is one lightweight service that runs on your network. It connects outbound to M.A.R.C.U.S. Cloud on HTTPS 443 and talks to devices on your local network using each device's native control protocol.
+
+<Info>
+  **UK-hosted exclusively.** All customer data is stored, processed and backed up inside the United Kingdom, including configuration, telemetry, audit records and backups. Where the Collector runs does not change this.
+</Info>
+
+## 1. Two decisions
+
+How you deploy comes down to two independent choices: where the Collector sits, and how it is packaged. You can mix the answers freely across a single estate.
+
+### Decision A — Where does the Collector sit?
+
+| Where | Best for |
+| --- | --- |
+| **On-premises at each site** | The default. The Collector reaches devices over the LAN, each site fails independently, and no site depends on another. |
+| **On-premises, central or hybrid** | A single Collector at your head office or in a data centre reaches every site over your corporate WAN, SD-WAN or MPLS. Alternatively, combine a central Collector with per-site Collectors. |
+| **Cloud-hosted in your own tenant** | Your wider IT or AV platform already runs in AWS, Azure or Google Cloud. Run the Collector alongside it and reach your sites over your existing site-to-site VPN, Direct Connect, ExpressRoute or Interconnect. |
+
+### Decision B — How is the Collector packaged?
+
+| Package | Best for |
+| --- | --- |
+| **Native binary + systemd (Linux)** | Traditional Linux estates. One install command, a native service, and systemd handles restarts. |
+| **Native binary + Windows service** | Windows Server estates. Installs as a standard Windows service. |
+| **Container image** | Teams that standardise on containers. The same image works on Docker, Kubernetes and managed container platforms. |
+
+For example, you might run the **native systemd** Collector at your head office, a **Docker Compose** Collector on a VM at a regional office, and a **Kubernetes** Collector in your cloud tenant. All three report to the same M.A.R.C.U.S. tenant and appear as three Collectors in the portal.
+
+## 2. Topology patterns
+
+Four topologies cover almost every real-world deployment. The _M.A.R.C.U.S. — Network Flow_ and _Multi-Site Network Flow_ diagrams illustrate them.
+
+### 2.1 Per-site Collector (the default)
+
+Each site has one Collector on its local AV VLAN, which reaches devices over the LAN. Each site's firewall allows outbound HTTPS only.
+
+<Tip>
+  **Best for:** most deployments. It gives the best failure isolation, the lowest latency to devices and the simplest network design.
+</Tip>
+
+### 2.2 Shared central Collector
+
+One Collector at your head office or in a data centre reaches every site's AV VLAN over your corporate WAN.
+
+<Tip>
+  **Best for:** small and medium estates on a reliable corporate WAN, where running a single host is preferable to deploying at every site.
+</Tip>
+
+### 2.3 Hybrid
+
+Each major site has its own Collector, and a central Collector serves the smaller regional offices.
+
+<Tip>
+  **Best for:** large estates with sites of mixed size. This is the most common pattern in practice.
+</Tip>
+
+### 2.4 Cloud-hosted Collector
+
+The Collector runs in your own cloud tenant (AWS, Azure or Google Cloud) and reaches your sites over your existing private connectivity.
+
+<Tip>
+  **Best for:** organisations whose IT or AV workloads already run in that cloud tenant and who want the Collector alongside them rather than on-premises.
+</Tip>
+
+## 3. Packaging options
+
+The Collector is a single static Go binary with no runtime dependencies, interpreter or shared libraries. It ships in the following forms.
+
+### 3.1 Native binary + systemd (Linux)
+
+The Collector installs directly onto a Linux host and runs as a systemd service. Builds are available for `amd64` and `arm64`.
+
+- **Installed to:** `/usr/local/bin/av-bridge`, running as a dedicated non-root `av-bridge` system user
+- **Configuration:** `/etc/av-bridge/config.yaml` and `/etc/av-bridge/env`
+- **State and logs:** `/var/lib/av-bridge/` and `/var/log/av-bridge/`
+- **Managed by:** systemd (`av-bridge.service`)
+
+### 3.2 Native binary + Windows service
+
+The same Collector, built for Windows and installed as a Windows service.
+
+- **Installed to:** `C:\Program Files\av-bridge\av-bridge.exe`
+- **Configuration:** `C:\ProgramData\av-bridge\config.yaml` and `C:\ProgramData\av-bridge\env`
+- **Logs:** `C:\ProgramData\av-bridge\logs\`
+- **Managed by:** the Windows Service Control Manager (service name `av-bridge`)
+
+### 3.3 Container image
+
+A multi-stage build produces a minimal `scratch` image. It contains only the Collector binary, the TLS certificate-authority bundle and timezone data.
+
+- **Configuration:** YAML mounted at `/etc/av-bridge/config.yaml`
+- **State:** a small volume mounted at `/var/lib/av-bridge/`
+- **Ports:** TCP 8080 is optional and serves the local API only. The Collector needs no ports for cloud operation.
+- **Image:** Involve provides the registry path and version tag during onboarding.
+
+The image runs as a standard Kubernetes `Deployment` (with configuration from a `ConfigMap` and secrets from a `Secret` or a Secrets Store CSI driver), or on a managed container platform such as AWS ECS on Fargate, Azure Container Instances or Google Compute Engine with Container-Optimized OS.
+
+<Note>
+  **One replica per Collector.** Each Collector has its own identity and HMAC key. To scale out, add more Collector deployments, each enrolled separately. Don't add replicas to an existing one.
+</Note>
+
+## 4. Install steps
+
+Every installation starts in the portal. Go to **Collectors → Add Collector**, name the Collector, and the portal issues a **single-use enrolment token** along with a ready-to-paste install command. Values shown in `[…]` below are placeholders for the values the portal gives you.
+
+### 4.1 On-premises Linux (systemd)
+
+This is the default install path. Run the command from the portal on your target host:
+
+```bash
+curl -fsSL https://[portal-host]/public/collectors/install.sh \
+  | sudo AV_ENROLL_TOKEN=[one-time-token] bash
+```
+
+The script:
+
+1. Checks the host (root access, `curl`, systemd).
+2. Redeems the enrolment token with M.A.R.C.U.S. Cloud and receives the Collector's identity and HMAC key.
+3. Creates the non-root `av-bridge` service user and the directories listed in §3.1.
+4. Installs the Collector binary and writes its configuration.
+5. Registers and starts `av-bridge.service`, then waits for the local health check to pass.
+
+Once running, the Collector downloads its device list from the cloud automatically.
+
+**Follow the logs:** `journalctl -u av-bridge -f`
+
+**Typical time to stand up:** under 15 minutes end to end.
+
+### 4.2 On-premises Windows Server
+
+Run the command from the portal in an **elevated** PowerShell session:
+
+```powershell
+$env:AV_ENROLL_TOKEN='[one-time-token]'
+iwr https://[portal-host]/public/collectors/install.ps1 -UseBasicParsing | iex
+```
+
+The script redeems the token and installs the Collector to `C:\Program Files\av-bridge\`. It then writes the configuration to `C:\ProgramData\av-bridge\`, registers and starts the `av-bridge` Windows service, and waits for the local health check to pass.
+
+**Follow the logs:** `C:\ProgramData\av-bridge\logs\`
+
+**Restart the service:** `Restart-Service av-bridge`
+
+**Typical time to stand up:** under 15 minutes end to end.
+
+<Note>
+  **Tokens are single-use.** Re-running the script with a token that has already been redeemed fails safely. To re-enrol a host, issue a new token from the portal.
+</Note>
+
+### 4.3 Docker Compose on any host
+
+For teams that prefer containers to native services:
+
+```yaml
+services:
+  marcus-collector:
+    image: [registry]/av-bridge:[version]
+    restart: unless-stopped
+    volumes:
+      - ./config.yaml:/etc/av-bridge/config.yaml:ro
+      - collector-state:/var/lib/av-bridge
+    environment:
+      - TZ=Europe/London
+
+volumes:
+  collector-state:
+```
+
+Start it with `docker compose up -d`. The same image and configuration work with `docker run` on any Docker host, including a VM in AWS, Azure or Google Cloud.
+
+### 4.4 Kubernetes (EKS, AKS, GKE or on-premises)
+
+A reference manifest:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: marcus-collector
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: marcus-collector
+  template:
+    metadata:
+      labels:
+        app: marcus-collector
+    spec:
+      containers:
+        - name: collector
+          image: "[registry]/av-bridge:[version]"
+          resources:
+            requests: { cpu: "500m", memory: "512Mi" }
+            limits:   { cpu: "2000m", memory: "2Gi" }
+          volumeMounts:
+            - name: config
+              mountPath: /etc/av-bridge
+              readOnly: true
+            - name: state
+              mountPath: /var/lib/av-bridge
+      volumes:
+        - name: config
+          secret: { secretName: marcus-collector-config }
+        - name: state
+          persistentVolumeClaim: { claimName: marcus-collector-state }
+```
+
+The configuration contains the Collector's HMAC key, so mount it from a `Secret` (as shown) or from a Secrets Store CSI driver backed by your cloud key vault. Don't use a plain `ConfigMap`.
+
+- **AWS EKS:** use IAM Roles for Service Accounts with the Secrets Store CSI driver.
+- **Azure AKS:** use the Azure Key Vault provider for Secrets Store CSI.
+- **Google GKE:** use Secret Manager through the Secrets Store CSI driver.
+
+### 4.5 Managed container platforms
+
+To run the image without operating a container platform:
+
+- **AWS ECS on Fargate:** a task of 0.5 vCPU and 1 GB runs one Collector. Keep state on Amazon EFS so it survives task replacement. Reference the configuration from AWS Secrets Manager in the task definition's `secrets` block, and set `desiredCount: 1`.
+- **Azure Container Instances:** run a single container group with `--restart-policy Always`, and mount the configuration from Azure Files.
+- **Google Compute Engine with Container-Optimized OS:** run one container per VM with `--container-restart-policy=always`.
+
+For any cloud-hosted Collector, choose a UK region (AWS `eu-west-2`, Azure UK South, or Google `europe-west2`) unless your own policy says otherwise. The Collector must also have routed reach into each site's AV VLAN (see §5.2).
+
+## 5. Network requirements
+
+These apply to every deployment option.
+
+### 5.1 Egress from the Collector to M.A.R.C.U.S. Cloud
+
+| From | To | Port | Purpose |
+| --- | --- | --- | --- |
+| Collector host | `*.involvecloud.com` | TCP 443 | Long-polled command channel, telemetry push and configuration sync |
+
+This is the only external firewall rule required. Every connection uses TLS 1.2 or higher. Each request is also signed with an HMAC-SHA256 key unique to the Collector, which authenticates every message independently of the transport.
+
+If your allow-list requires a specific hostname rather than a wildcard, Involve will provide the exact hostnames for your tenant on request.
+
+### 5.2 Collector to devices
+
+| From | To | Protocols | Purpose |
+| --- | --- | --- | --- |
+| Collector host | Site AV VLANs | Each device's native control protocol, for example HTTP/HTTPS, WebSocket, Telnet (including Biamp Tesira TTP on TCP 23), VISCA-over-IP (UDP 52381), serial-over-IP and ICMP | Live polling and command dispatch |
+
+For an on-premises Collector, this is ordinary LAN traffic. A cloud-hosted Collector needs a routed path from your cloud tenant into each site's AV VLAN, through site-to-site VPN, AWS Direct Connect, Azure ExpressRoute or Google Cloud Interconnect.
+
+### 5.3 Inbound to the Collector
+
+**Nothing inbound is required from the internet.** No customer location needs public-facing ports.
+
+An optional local-network port is available:
+
+| From | To | Port | Purpose |
+| --- | --- | --- | --- |
+| Operator workstations and site tooling (optional) | Collector host | TCP 8080 | Local API: health check, Prometheus metrics and the touch-panel proxy |
+
+The cloud does not use this port. Allow it only from your internal network.
+
+## 6. Configuration and secrets
+
+### 6.1 Configuration files
+
+The enrolment script generates the Collector's configuration. It holds the cloud endpoint, the Collector's identity, its HMAC key and the local state path. The files are `/etc/av-bridge/config.yaml` and `/etc/av-bridge/env` on Linux, and the equivalent files in `C:\ProgramData\av-bridge\` on Windows.
+
+You manage device configuration in the portal, and it syncs to the Collector automatically. The local configuration normally contains no device entries.
+
+### 6.2 Secret handling
+
+The HMAC key is the Collector's most important secret. Protect it in the way that suits your platform:
+
+| Platform | Recommended protection |
+| --- | --- |
+| On-premises Linux | Restrict the files to the `av-bridge` service user and root. The installer sets them to mode `0640`. |
+| On-premises Windows | Restrict `C:\ProgramData\av-bridge\` to Administrators and SYSTEM with NTFS permissions |
+| Docker on any host | A bind-mounted configuration file with strict permissions, or Docker Secrets |
+| Kubernetes | A Kubernetes `Secret`, or Secrets Store CSI backed by your cloud key vault |
+| AWS | AWS Secrets Manager, referenced from the task definition or through CSI |
+| Azure | Azure Key Vault, through the Key Vault provider for Secrets Store CSI |
+| Google Cloud | Secret Manager, through the Secrets Store CSI driver |
+
+Inside M.A.R.C.U.S. Cloud, every Collector key is encrypted at rest. To rotate a key, re-enrol the Collector with a new token from the portal. This issues a fresh key and retires the old identity.
+
+## 7. Sizing
+
+Per Collector, on typical host specifications:
+
+| Host | Comfortable | Stretch (relaxed poll rates) |
+| --- | --- | --- |
+| 2 vCPU · 4 GB RAM · 10 GB disk | 250 – 500 devices | Up to 1,000 devices |
+| 4 vCPU · 8 GB RAM · 10 GB disk | 500 – 1,000 devices | Up to 2,000 devices |
+| Codec-heavy estates (many video-conferencing endpoints) | Around 60% of the above | Around 75% of the above |
+
+Capacity depends on poll rates, WAN latency to each site and the mix of adapters. Involve confirms sizing for your estate during onboarding.
+
+**Add another Collector when:**
+
+- A single host is serving more than 500 devices.
+- A remote site is more than 50 ms away and has dozens of devices.
+- You want to isolate business units or environments from each other.
+
+Sizing does not depend on packaging: a container with 2 vCPU and 4 GB behaves the same as a VM with 2 vCPU and 4 GB.
+
+## 8. Operations
+
+### 8.1 Updates
+
+| Runtime | Update mechanism |
+| --- | --- |
+| Native binary + systemd | Replace the binary and run `systemctl restart av-bridge` |
+| Native binary + Windows service | Replace the binary and run `Restart-Service av-bridge` |
+| Docker Compose | `docker compose pull && docker compose up -d` |
+| Kubernetes | Update the image tag in the Deployment |
+| Managed container platforms | Redeploy with the new image tag |
+
+Collector releases use semantic version tags. The current cloud release always supports the two most recent Collector minor versions. The portal's **Collectors** page shows each Collector's version, so you can see which ones need updating. The _M.A.R.C.U.S. — Release & Upgrade Policy_ describes the full release policy.
+
+### 8.2 Health and monitoring
+
+- **Local health check:** `GET /healthz` on port 8080 returns `200 OK` when the Collector is running.
+- **Operational metrics:** `GET /metrics` on the same port, in Prometheus text format.
+- **Cloud view:** the portal's **Collectors** page shows each Collector's status, last heartbeat, version and host operating system. If a Collector stops reporting, the portal marks it offline, and every device behind it shows **Collector offline** instead of a stale status.
+
+### 8.3 Backup and restore
+
+The Collector keeps only a small amount of local state: last-known device statuses and telemetry waiting for its next push. On a fresh start, it downloads its device list from the cloud and rebuilds current device status within one poll cycle.
+
+<Note>
+  **You don't need to back up the Collector.** Redeploying is safe. The only file worth keeping is the configuration, because it holds the Collector's identity and HMAC key. If you lose it, re-enrol the Collector with a new token.
+</Note>
+
+### 8.4 Logging
+
+- **Linux:** the systemd journal (`journalctl -u av-bridge`) and `/var/log/av-bridge/`.
+- **Windows:** `C:\ProgramData\av-bridge\logs\`.
+- **Docker and Kubernetes:** stdout and stderr. Forward these to your logging platform, such as Amazon CloudWatch Logs, Azure Monitor, Google Cloud Logging or a self-hosted equivalent.
+
+## 9. Choosing your combination
+
+Answer these three questions in turn.
+
+**Do you already run workloads in a particular cloud tenant?**
+
+- **Yes:** deploy the Collector in that tenant. Use your existing container platform (EKS, AKS or GKE) if you have one; otherwise use the cloud's managed container option.
+- **No:** deploy on-premises.
+
+**How many sites do you have, and how are they connected?**
+
+- **One site, or several sites on a reliable WAN:** use a shared central Collector.
+- **Many sites with separate AV VLANs and no reliable connection between them:** use a Collector at each site.
+- **A mix of both:** use the hybrid pattern.
+
+**Do you run Kubernetes today?**
+
+- **Yes:** deploy the container as a `Deployment` in your cluster.
+- **No, but you run Docker:** use Docker Compose or a managed container platform.
+- **No, and you prefer native services:** use systemd on Linux or a Windows service.
+
+If your organisation has a policy on container images versus native binaries, follow it. Both are fully supported and give the same operational result.
+
+## Related documents
+
+- _M.A.R.C.U.S. — Product Overview:_ features and business context
+- _M.A.R.C.U.S. — Datasheet:_ full technical specifications
+- _M.A.R.C.U.S. — Security & Trust:_ security architecture, including how the Collector communicates with the cloud
+- _M.A.R.C.U.S. — Release & Upgrade Policy:_ versioning and compatibility commitments
+- _M.A.R.C.U.S. — Network Flow_ and _Multi-Site Network Flow_ diagrams: visual reference for the topologies in §2
+
+_Involve Visual Collaboration Ltd · M.A.R.C.U.S. Deployment Guide v1.0_
