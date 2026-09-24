@@ -1,0 +1,23 @@
+---
+title: "Size the host"
+description: "Host specifications per Collector and when to add another."
+icon: "gauge"
+---
+
+These figures are per Collector, on typical host specifications:
+
+| Host | Comfortable | Stretch (relaxed poll rates) |
+|---|---|---|
+| 2 vCPU · 4 GB RAM · 10 GB disk | 250 – 500 devices | Up to 1,000 devices |
+| 4 vCPU · 8 GB RAM · 10 GB disk | 500 – 1,000 devices | Up to 2,000 devices |
+| Codec-heavy estates (many video-conferencing endpoints) | Around 60% of the above | Around 75% of the above |
+
+Capacity depends on poll rates, WAN latency to each site and the mix of adapters. Involve confirms sizing for your estate during onboarding.
+
+## When to add another Collector
+
+- A single host serves more than 500 devices.
+- A remote site is more than 50 ms away and has dozens of devices.
+- You want to isolate business units or environments from each other.
+
+Packaging doesn't affect sizing: a container with 2 vCPU and 4 GB behaves the same as a VM with 2 vCPU and 4 GB.
