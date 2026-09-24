@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "willow",
-  "name": "MARCUS",
+  "name": "M.A.R.C.U.S.",
   "colors": {
     "primary": "#2A1B5E",
     "light": "#4FC3E0",
@@ -9,38 +9,66 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "pages": [
+    "groups": [
       {
         "group": "Getting Started",
         "pages": [
           "index",
-          "quickstart"
+          "quickstart",
+          "product-overview"
         ]
       },
       {
-        "group": "Deployment",
+        "group": "Deploy the Collector",
+        "icon": "rocket-launch",
         "pages": [
-          "product-overview"
-        ],
-        "icon": "rocket-launch"
+          "deploy/overview",
+          {
+            "group": "Plan",
+            "pages": [
+              "deploy/topologies",
+              "deploy/network-requirements",
+              "deploy/sizing"
+            ]
+          },
+          {
+            "group": "Install",
+            "pages": [
+              "deploy/install-linux",
+              "deploy/install-windows",
+              "deploy/docker",
+              "deploy/kubernetes",
+              "deploy/managed-containers",
+              "deploy/configuration"
+            ]
+          },
+          {
+            "group": "Operate",
+            "pages": [
+              "deploy/updates",
+              "deploy/monitoring",
+              "deploy/backup"
+            ]
+          }
+        ]
       }
     ]
   },
   "logo": {
-    "light": "/images/involve-icon(1).png",
-    "dark": "/images/involve-icon(1).png"
+    "light": "/images/involve-icon.png",
+    "dark": "/images/involve-icon.png"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@involve.vc"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Test",
-      "href": "https://app.mintlify.com"
+      "label": "Sign in",
+      "href": "https://app.involvecloud.com"
     }
   },
   "icons": {
