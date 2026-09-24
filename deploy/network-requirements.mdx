@@ -1,0 +1,37 @@
+---
+title: "Network requirements"
+description: "The single outbound firewall rule, device protocols and the optional local port."
+icon: "network-wired"
+---
+
+These requirements are the same for every deployment option.
+
+## Egress to M.A.R.C.U.S. Cloud
+
+| From | To | Port | Purpose |
+|---|---|---|---|
+| Collector host | `*.involvecloud.com` | TCP 443 | Long-polled command channel, telemetry push and configuration sync |
+
+This is the only external firewall rule required. Every connection uses TLS 1.2 or higher. Each request is also signed with an HMAC-SHA256 key unique to the Collector, so messages are authenticated independently of the transport.
+
+If your allow-list needs specific hostnames rather than a wildcard, Involve will give you the exact hostnames for your tenant on request.
+
+## Collector to devices
+
+| From | To | Protocols | Purpose |
+|---|---|---|---|
+| Collector host | Site AV VLANs | Each device's native control protocol. Examples: HTTP/HTTPS, WebSocket, Telnet (including Biamp Tesira TTP on TCP 23), VISCA-over-IP (UDP 52381), serial-over-IP and ICMP | Live polling and command dispatch |
+
+For an on-premises Collector, this is ordinary LAN traffic. A cloud-hosted Collector needs a routed path from your cloud tenant into each site's AV VLAN.
+
+## Inbound to the Collector
+
+**Nothing inbound is required from the internet.** No customer location needs public-facing ports.
+
+An optional local-network port is available:
+
+| From | To | Port | Purpose |
+|---|---|---|---|
+| Operator workstations and site tooling (optional) | Collector host | TCP 8080 | Local API: health check, Prometheus metrics and the touch-panel proxy |
+
+The cloud does not use this port. Allow it only from your internal network.
