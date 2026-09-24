@@ -1,0 +1,60 @@
+---
+title: "Choose a topology"
+description: "Per-site, central, hybrid or cloud-hosted: pick the Collector topology that fits your estate."
+icon: "sitemap"
+---
+
+Four topologies cover almost every real-world deployment. The *M.A.R.C.U.S. — Network Flow* and *Multi-Site Network Flow* diagrams illustrate them.
+
+## Per-site Collector (the default)
+
+Each site has one Collector on its local AV VLAN, which reaches devices over the LAN. Each site's firewall allows outbound HTTPS only.
+
+<Tip>
+**Best for:** most deployments. It gives the best failure isolation, the lowest latency to devices and the simplest network design.
+</Tip>
+
+## Shared central Collector
+
+One Collector, at head office or in a data centre, reaches every site's AV VLAN over your corporate WAN.
+
+<Tip>
+**Best for:** small and medium estates on a reliable corporate WAN, where running one host is preferable to deploying at every site.
+</Tip>
+
+## Hybrid
+
+Each major site runs its own Collector, and a central Collector serves the smaller regional offices.
+
+<Tip>
+**Best for:** large estates with sites of mixed sizes. This is the most common pattern in practice.
+</Tip>
+
+## Cloud-hosted Collector
+
+The Collector runs in your own cloud tenant (AWS, Azure or Google Cloud). It reaches your sites over your existing private connectivity: site-to-site VPN, AWS Direct Connect, Azure ExpressRoute or Google Cloud Interconnect.
+
+<Tip>
+**Best for:** organisations whose IT or AV workloads already run in that cloud tenant and who want the Collector alongside them.
+</Tip>
+
+## Which one is right for you?
+
+**Do you already run workloads in a particular cloud tenant?**
+
+- **Yes:** deploy the Collector in that tenant. Use your existing Kubernetes platform (see [Run on Kubernetes](/deploy/kubernetes)) or the cloud's managed container option (see [Run on a managed container platform](/deploy/managed-containers)).
+- **No:** deploy on-premises.
+
+**How many sites do you have, and what connects them?**
+
+- **One site, or several sites on a reliable WAN:** use a shared central Collector.
+- **Many sites with separate AV VLANs and no reliable link between them:** use a Collector at each site.
+- **A mix of both:** use the hybrid pattern.
+
+**How does your organisation prefer to run services?**
+
+- **Native services:** Linux (see [Install on Linux](/deploy/install-linux)) or Windows Server (see [Install on Windows Server](/deploy/install-windows)).
+- **Docker, without Kubernetes:** Docker (see [Run with Docker](/deploy/docker)) or a managed container platform (see [Run on a managed container platform](/deploy/managed-containers)).
+- **Kubernetes:** a `Deployment` in your cluster (see [Run on Kubernetes](/deploy/kubernetes)).
+
+If your organisation has a policy on container images versus native binaries, follow it. Both are fully supported and behave the same in operation.
