@@ -1,0 +1,53 @@
+---
+title: "Deploy the Collector"
+sidebarTitle: "Overview"
+description: "How the M.A.R.C.U.S. Collector fits your estate, the two decisions that shape a deployment, and where to start."
+icon: "compass"
+---
+
+M.A.R.C.U.S. deploys where it makes sense for your organisation. This guide covers every supported way to run it: on-premises, cloud-hosted, containerised and orchestrated. It walks you through planning, installing and operating the Collector.
+
+Two things are the same in every deployment:
+
+- **M.A.R.C.U.S. Cloud** is the managed service: the operator portal, telemetry ingest, the alert engine and the Public API. Involve operates it exclusively in the AWS London region (`eu-west-2`). You don't run any cloud components yourself.
+- **The M.A.R.C.U.S. Collector** is one lightweight service on your network. It connects outbound to M.A.R.C.U.S. Cloud on HTTPS 443, and talks to devices on your local network using each device's native control protocol.
+
+<Info>
+**UK-hosted exclusively.** All customer data is stored, processed and backed up inside the United Kingdom: configuration, telemetry, audit records and backups. Where you run the Collector doesn't change this.
+</Info>
+
+## Two decisions
+
+Your deployment comes down to two independent choices: where the Collector sits and how it's packaged. You can mix the answers freely across a single estate.
+
+**Where does the Collector sit?**
+
+| Where | Best for |
+|---|---|
+| **On-premises at each site** | The default. Each Collector reaches devices over the LAN, a failure affects only one site, and no site depends on another. |
+| **On-premises, central or hybrid** | A single Collector at head office or in a data centre reaches every site over your corporate WAN, SD-WAN or MPLS. You can also combine a central Collector with per-site ones. |
+| **Cloud-hosted in your own tenant** | Your wider IT or AV platform already runs in AWS, Azure or Google Cloud. Run the Collector alongside it. |
+
+**How is the Collector packaged?**
+
+| Package | Best for |
+|---|---|
+| **Linux service (systemd)** | Traditional Linux estates. One install command, and systemd handles restarts. |
+| **Windows service** | Windows Server estates. Installs as a standard Windows service. |
+| **Container image** | Teams that standardise on containers: Docker, Kubernetes or a managed container platform. |
+
+For example, you might run the Linux service at head office, a Docker container on a VM at a regional office, and a Kubernetes deployment in your cloud tenant. All three report to the same M.A.R.C.U.S. tenant and appear as three Collectors in the portal.
+
+## Where to start
+
+<CardGroup cols={3}>
+  <Card title="Plan" icon="sitemap" href="/deploy/topologies">
+    Choose a topology, check the network and size the host.
+  </Card>
+  <Card title="Install" icon="download" href="/deploy/install-linux">
+    Step-by-step recipes for Linux, Windows, Docker, Kubernetes and managed platforms.
+  </Card>
+  <Card title="Operate" icon="heart-pulse" href="/deploy/updates">
+    Update, monitor and back up your Collectors.
+  </Card>
+</CardGroup>
