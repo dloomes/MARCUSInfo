@@ -1,0 +1,62 @@
+---
+title: "ICMP Ping"
+sidebarTitle: "ICMP ping"
+description: "Network reachability probe. Sends ICMP echoes and records loss and latency. Use for devices with no vendor API — a switch, an unmanaged panel, an IP camera."
+icon: "wave-square"
+---
+
+**Works with:** Anything with an IP address, such as a network switch, an unmanaged panel or an IP camera without a supported API.
+
+| | |
+|---|---|
+| **Type** | Probe |
+| **Device types** | Display, Conferencing, Audio, Camera, Control |
+| **Connection** | ICMP echo |
+| **Power on/off from the portal** | No |
+| **Protocol in the portal** | ICMP Ping (`ping`) |
+
+## Before you start
+
+1. Make sure ICMP isn't blocked between the Collector and the device.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **ICMP Ping**.
+3. Enter the settings below and save. The Collector picks up the new device within five minutes.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | IP address or hostname to probe. | `192.168.80.10` |
+| **Tags → `ping_count`** | No | Packets per probe cycle. Defaults to 3. | `5` |
+| **Tags → `ping_timeout_ms`** | No | Per-packet timeout. Defaults to 1000ms. | `2000` |
+
+<Note>
+**Tags** are set under **Advanced (JSON) → Tags** in the device form, as a JSON object, for example `{"ping_count": "5"}`.
+</Note>
+
+## Readings
+
+These values appear under **Device Information** on the device page, and can be checked in Room Readiness routines.
+
+| Reading | Shown as |
+|---|---|
+| `reachable` | Reachable |
+| `packets_sent` | Packets Sent |
+| `packets_recv` | Packets Recv |
+| `packet_loss_pct` | Packet Loss Pct |
+| `response_ms` | Response Ms |
+| `min_ms` | Min Ms |
+| `max_ms` | Max Ms |
+
+## Commands
+
+Each command is a button on the device page, and can be used in Room Readiness routines.
+
+| Command | Button | Notes |
+|---|---|---|
+| `ping` | Ping |  |
+
+<Note>
+**Windows Collectors:** set the tag `ping_privileged` to `true` on each ping device. Windows only allows raw ICMP, and the Collector service already runs with the rights it needs.
+</Note>
