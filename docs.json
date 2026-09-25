@@ -10,14 +10,7 @@
   "favicon": "/favicon.svg",
   "navigation": {
     "groups": [
-      {
-        "group": "Getting Started",
-        "pages": [
-          "index",
-          "quickstart",
-          "product-overview"
-        ]
-      },
+     
       {
         "group": "Deploy the Collector",
         "icon": "rocket-launch",
