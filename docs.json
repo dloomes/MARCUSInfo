@@ -13,7 +13,7 @@
      {"group": "Deploy the Collector",
      "icon": "rocket-launch",
      "pages": [
-       "index.mdx"
+       "quickstart.mdx"
      ]
      },
       {
@@ -53,8 +53,8 @@
     ]
   },
   "logo": {
-    "light": "/images/involve-icon.png",
-    "dark": "/images/involve-icon.png"
+    "light": "/images/involve-icon(1).png",
+    "dark": "/images/involve-icon(1).png"
   },
   "navbar": {
     "links": [
