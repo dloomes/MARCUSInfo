@@ -1,0 +1,39 @@
+---
+title: "Generic Telnet"
+sidebarTitle: "Generic Telnet"
+description: "Raw line-oriented Telnet transport. Custom command strings sent as configured; useful for legacy AV gear."
+icon: "terminal"
+---
+
+**Works with:** Control processors, matrix switchers, older displays and other devices with a line-based Telnet interface.
+
+| | |
+|---|---|
+| **Type** | Generic adapter |
+| **Device types** | Display, Audio, Camera, Control |
+| **Connection** | Telnet (TCP, the port you specify) |
+| **Power on/off from the portal** | No |
+| **Protocol in the portal** | Generic Telnet (`telnet`) |
+
+## Before you start
+
+1. Find the device's Telnet port and the command strings it accepts.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **Generic Telnet**.
+3. Enter the settings below and save. The Collector picks up the new device within five minutes.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | host:port of the Telnet endpoint. | `192.168.70.10:23` |
+| **Commands** | No | Named command strings sent on demand from the portal. |  |
+
+## Readings
+
+Reachability and response time are recorded on every poll. The device's own values depend on what its endpoint returns.
+
+## Commands
+
+Commands are strings you define per device in the **Commands** section of the device form. Each one becomes a button on the device page. Put `{name}` in a command to ask for a value when the button is pressed.
