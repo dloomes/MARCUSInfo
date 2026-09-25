@@ -1,0 +1,40 @@
+---
+title: "Generic Serial (RS-232)"
+sidebarTitle: "Generic RS-232"
+description: "Direct RS-232 to a device wired to the collector host. Baud rate configurable; commands sent as raw byte strings."
+icon: "microchip"
+---
+
+**Works with:** Devices wired to the Collector host by RS-232.
+
+| | |
+|---|---|
+| **Type** | Generic adapter |
+| **Device types** | Display, Audio, Camera, Control |
+| **Connection** | RS-232 serial on the Collector host |
+| **Power on/off from the portal** | No |
+| **Protocol in the portal** | Generic Serial (RS-232) (`serial`) |
+
+## Before you start
+
+1. Connect the device to a serial port on the Collector host. That means the Collector runs on a machine next to the device.
+2. Note the port name: `/dev/ttyUSB0` or similar on Linux, `COM3` or similar on Windows.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **Generic Serial (RS-232)**.
+3. Enter the settings below and save. The Collector picks up the new device within five minutes.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | Serial device path on the host running the collector. | `/dev/ttyUSB0` |
+| **Baud rate (serial)** | No | Baud rate. Defaults to 9600. | `115200` |
+
+## Readings
+
+Reachability and response time are recorded on every poll. The device's own values depend on what its endpoint returns.
+
+## Commands
+
+This adapter monitors only; it has no commands.
