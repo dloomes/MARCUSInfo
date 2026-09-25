@@ -1,0 +1,45 @@
+---
+title: "Install on Linux"
+sidebarTitle: "Linux"
+description: "Install the Collector as a systemd service with one command."
+icon: "linux"
+---
+
+The Collector installs directly onto a Linux host (`amd64` or `arm64`) and runs as a systemd service. This is the default install path.
+
+## Before you start
+
+- A Linux host with systemd that meets the sizing in [Size the host](/deploy/sizing) and the network requirements in [Network requirements](/deploy/network-requirements).
+- Root access (`sudo`) and `curl`.
+- An enrolment token: in the portal, go to **Collectors → Add Collector** and name the Collector. The portal issues a **single-use token** and a ready-to-paste install command.
+
+## Run the installer
+
+Paste the command from the portal onto your host:
+
+```bash
+curl -fsSL https://[portal-host]/public/collectors/install.sh \
+  | sudo AV_ENROLL_TOKEN=[one-time-token] bash
+```
+
+The installer:
+
+1. Checks the host for root access, `curl` and systemd.
+2. Redeems the token with M.A.R.C.U.S. Cloud and receives the Collector's identity and HMAC key.
+3. Creates a dedicated non-root `av-bridge` system user.
+4. Installs the Collector binary and writes its configuration.
+5. Registers and starts `av-bridge.service`, then waits for the local health check to pass.
+
+The Collector then downloads its device list from the cloud automatically. The whole process typically takes **under 15 minutes**.
+
+## What gets installed
+
+| Item | Location |
+|---|---|
+| Binary | `/usr/local/bin/av-bridge` |
+| Configuration | `/etc/av-bridge/config.yaml` and `/etc/av-bridge/env` |
+| State | `/var/lib/av-bridge/` |
+| Logs | `/var/log/av-bridge/` and the systemd journal |
+| Service | `av-bridge.service`, running as user `av-bridge` |
+
+**Follow the logs:** `journalctl -u av-bridge -f`
