@@ -1,0 +1,69 @@
+---
+title: "VISCA-over-IP (PTZ cameras)"
+sidebarTitle: "PTZ cameras (VISCA)"
+description: "Sony VISCA-over-IP on UDP 52381. Cross-vendor: works with Sony BRC/SRG, Panasonic AW-UE, PTZOptics, HuddleCam, Marshall CV, Lumens VC-A61P and other VISCA-compliant PTZ cameras."
+icon: "camera"
+---
+
+**Works with:** PTZ cameras that speak Sony VISCA-over-IP, including Sony BRC and SRG, Panasonic AW-UE, PTZOptics, HuddleCam, Marshall CV and Lumens VC-A61P.
+
+| | |
+|---|---|
+| **Type** | Vendor adapter |
+| **Vendor** | Sony standard |
+| **Device types** | Camera |
+| **Connection** | VISCA-over-IP (UDP 52381) |
+| **Power on/off from the portal** | Yes |
+| **Protocol in the portal** | VISCA-over-IP (PTZ cameras) (`visca_over_ip`) |
+
+## Before you start
+
+1. Enable **VISCA over IP** in the camera's network settings, if it isn't on by default.
+2. Check the Collector can reach the camera on UDP 52381.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **VISCA-over-IP (PTZ cameras)**.
+3. Enter the settings below and save. The Collector picks up the new device within five minutes.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | Camera IP or host. Port 52381 is the Sony default; append :port to override. | `192.168.50.20` |
+| **Poll rate (seconds)** | No | How often to inquire power/zoom. Defaults to 30s. | `30` |
+
+## Readings
+
+These values appear under **Device Information** on the device page, and can be checked in Room Readiness routines.
+
+| Reading | Shown as |
+|---|---|
+| `power` | Power |
+| `zoom_position` | Zoom Position |
+| `zoom_percent` | Zoom Percent |
+| `version` | Version |
+| `response_ms` | Response Ms |
+
+## Commands
+
+Each command is a button on the device page, and can be used in Room Readiness routines.
+
+| Command | Button | Notes |
+|---|---|---|
+| `power_on` | Power On |  |
+| `power_off` | Power Off |  |
+| `zoom_stop` | Zoom Stop |  |
+| `zoom_tele` | Zoom Tele |  |
+| `zoom_wide` | Zoom Wide |  |
+| `zoom_direct` | Zoom Direct | Asks for the zoom position (0 = wide, 16384 = full tele). |
+| `focus_auto` | Focus Auto |  |
+| `focus_manual` | Focus Manual |  |
+| `focus_one_push` | Focus One Push |  |
+| `preset_recall` | Preset Recall | Asks for the preset number (0–255). |
+| `preset_set` | Preset Set | Asks for the preset number to save (0–255). |
+| `pan_left` | Pan Left |  |
+| `pan_right` | Pan Right |  |
+| `tilt_up` | Tilt Up |  |
+| `tilt_down` | Tilt Down |  |
+| `pan_tilt_stop` | Pan Tilt Stop |  |
+| `pan_tilt_home` | Pan Tilt Home |  |
