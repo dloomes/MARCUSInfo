@@ -1,0 +1,40 @@
+---
+title: "Generic REST"
+sidebarTitle: "Generic REST"
+description: "HTTP GET-based polling for devices that expose a plain REST endpoint. Use as a starting point when no vendor adapter fits."
+icon: "code"
+---
+
+**Works with:** Any device with a plain HTTP or JSON status endpoint.
+
+| | |
+|---|---|
+| **Type** | Generic adapter |
+| **Device types** | Display, Conferencing, Audio, Camera, Control |
+| **Connection** | HTTP or HTTPS polling |
+| **Power on/off from the portal** | No |
+| **Protocol in the portal** | Generic REST (`rest`) |
+
+## Before you start
+
+1. Find the URL of an endpoint that returns the device's status.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **Generic REST**.
+3. Enter the settings below and save. The Collector picks up the new device within five minutes.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | Full URL to the endpoint being polled. | `http://192.168.50.10/api/status` |
+| **Username** | No | HTTP Basic username if the endpoint requires auth. |  |
+| **Password** | No | HTTP Basic password if the endpoint requires auth. |  |
+
+## Readings
+
+Reachability and response time are recorded on every poll. The device's own values depend on what its endpoint returns.
+
+## Commands
+
+This adapter monitors only; it has no commands.
