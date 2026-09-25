@@ -7,7 +7,7 @@
     "light": "#4FC3E0",
     "dark": "#C8156A"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/images/favicon.svg",
   "navigation": {
     "groups": [
      {"group": "Introduction",
@@ -53,8 +53,8 @@
     ]
   },
   "logo": {
-    "light": "/images/involve-icon(1).png",
-    "dark": "/images/involve-icon(1).png"
+    "light": "/images/marcus-light.svg",
+    "dark": "/images/marcus-dark.svg"
   },
   "navbar": {
     "links": [
