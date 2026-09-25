@@ -1,0 +1,12 @@
+---
+title: "Back up and restore"
+sidebarTitle: "Backup & restore"
+description: "What the Collector stores locally and what, if anything, to back up."
+icon: "box-archive"
+---
+
+The Collector keeps only a small amount of local state: the last-known status of each device, and telemetry waiting for its next push. When it restarts from scratch, it downloads its device list from the cloud and rebuilds current device status within one poll cycle.
+
+<Note>
+**You don't need to back up the Collector.** Redeploying is safe. The only file worth keeping is the configuration, because it holds the Collector's identity and HMAC key. If it's lost, re-enrol the Collector with a new token (see [Secure the configuration](/deploy/configuration)).
+</Note>
