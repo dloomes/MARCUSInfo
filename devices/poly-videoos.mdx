@@ -1,0 +1,65 @@
+---
+title: "Poly VideoOS"
+sidebarTitle: "Poly VideoOS"
+description: "Studio X and G7500 conferencing codecs. REST with session/XSRF login lifecycle; reads work in appliance (Teams / Zoom Rooms) mode, writes lock."
+icon: "video"
+---
+
+**Works with:** Poly Studio X30, X50, X52 and X70, and the G7500.
+
+| | |
+|---|---|
+| **Type** | Vendor adapter |
+| **Vendor** | HP / Poly |
+| **Device types** | Conferencing |
+| **Connection** | REST API over HTTPS, using a local admin session |
+| **Power on/off from the portal** | No |
+| **Protocol in the portal** | Poly VideoOS (`poly_videoos`) |
+
+## Before you start
+
+1. Make sure the codec has a local admin account, and note its username and password.
+2. Check the Collector can reach the codec's web interface on HTTPS (port 443).
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **Poly VideoOS**.
+3. Enter the settings below and save. The Collector picks up the new device within five minutes.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | Codec base URL including scheme. | `https://192.168.20.30` |
+| **Username** | Yes | Local admin username. | `admin` |
+| **Password** | Yes | Local admin password. |  |
+
+## Readings
+
+These values appear under **Device Information** on the device page, and can be checked in Room Readiness routines.
+
+| Reading | Shown as |
+|---|---|
+| `call_state` | Call State |
+| `active_calls` | Active Calls |
+| `mic_mute` | Mic Mute |
+| `volume` | Volume |
+| `device_mode_active` | Device Mode Active |
+| `response_ms` | Response Ms |
+
+## Commands
+
+Each command is a button on the device page, and can be used in Room Readiness routines.
+
+| Command | Button | Notes |
+|---|---|---|
+| `dial` | Dial | Asks for the address to dial: SIP URI, H.323 address or phone number. |
+| `hangup` | Hangup |  |
+| `mute` | Mute |  |
+| `unmute` | Unmute |  |
+| `vol_up` | Vol Up |  |
+| `vol_dn` | Vol Dn |  |
+| `reboot` | Reboot |  |
+
+<Note>
+**Microsoft Teams Rooms and Zoom Rooms:** when the codec runs in appliance mode, its API is read-only. Readings still update, but the portal disables the command buttons.
+</Note>
