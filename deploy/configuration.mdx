@@ -1,0 +1,32 @@
+---
+title: "Secure the configuration"
+sidebarTitle: "Configuration & secrets"
+description: "What the Collector configuration holds, how to protect the HMAC key and how to rotate it."
+icon: "key"
+---
+
+## What the configuration contains
+
+The configuration holds the cloud endpoint, the Collector's identity, its HMAC key and local settings such as the state path. The Linux and Windows installers generate it automatically ([Install on Linux](/deploy/install-linux), [Install on Windows Server](/deploy/install-windows)).
+
+You manage device configuration in the portal, and it syncs to the Collector automatically. The local configuration normally contains no device entries.
+
+## Protect the HMAC key
+
+The HMAC key is the Collector's most important secret. Protect it the way that suits your platform:
+
+| Platform | Recommended protection |
+|---|---|
+| On-premises Linux | Restrict the files to root and the `av-bridge` service user. The installer sets mode `0640`. |
+| On-premises Windows | Use NTFS permissions to restrict `C:\ProgramData\av-bridge\` to Administrators and SYSTEM. |
+| Docker on any host | Use a bind-mounted configuration file with strict permissions, or Docker Secrets. |
+| Kubernetes | Use a Kubernetes `Secret`, or Secrets Store CSI backed by your cloud key vault. |
+| AWS | Use AWS Secrets Manager, referenced from the task definition or through CSI. |
+| Azure | Use Azure Key Vault, through the Key Vault provider for Secrets Store CSI. |
+| Google Cloud | Use Secret Manager, through the Secrets Store CSI driver. |
+
+Inside M.A.R.C.U.S. Cloud, every Collector key is encrypted at rest.
+
+## Rotate the key
+
+To rotate a key, re-enrol the Collector with a new token from the portal. This issues a fresh key and retires the old identity.
