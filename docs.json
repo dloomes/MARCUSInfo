@@ -63,6 +63,7 @@
               "devices/aurora-rxt",
               "devices/aurora-vpx",
               "devices/poly-videoos",
+              "devices/cisco-roomos",
               "devices/sony-bravia",
               "devices/tesira",
               "devices/visca-over-ip"
