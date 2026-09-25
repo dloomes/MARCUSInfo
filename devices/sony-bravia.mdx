@@ -1,0 +1,75 @@
+---
+title: "Sony Bravia Professional"
+sidebarTitle: "Sony Bravia"
+description: "Bravia Professional Displays. JSON-RPC REST with Pre-Shared Key authentication and Wake-on-LAN power-on support."
+icon: "tv"
+---
+
+**Works with:** Sony Bravia Professional Displays with IP control.
+
+| | |
+|---|---|
+| **Type** | Vendor adapter |
+| **Vendor** | Sony |
+| **Device types** | Display |
+| **Connection** | JSON-RPC over HTTP, with Wake-on-LAN for power-on |
+| **Power on/off from the portal** | Yes |
+| **Protocol in the portal** | Sony Bravia Professional (`sony_bravia`) |
+
+## Before you start
+
+1. On the display, open **Settings → Network → Home network setup → IP control**.
+2. Set **Authentication** to **Normal and Pre-Shared Key** and enter a pre-shared key. You'll use it as the device's password.
+3. Turn on **Remote start** so the display can be powered on over the network from standby.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **Sony Bravia Professional**.
+3. Enter the settings below and save. The Collector picks up the new device within five minutes.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | Display base URL (http:// is fine on the LAN). | `http://192.168.30.40` |
+| **Password** | Yes | Pre-Shared Key configured on the display. |  |
+| **Tags → `mac_address`** | No | MAC for Wake-on-LAN. Discovered automatically once the display is powered on; set explicitly if power_on must work from a cold start. | `AA:BB:CC:11:22:33` |
+
+<Note>
+**Tags** are set under **Advanced (JSON) → Tags** in the device form, as a JSON object, for example `{"mac_address": "AA:BB:CC:11:22:33"}`.
+</Note>
+
+## Readings
+
+These values appear under **Device Information** on the device page, and can be checked in Room Readiness routines.
+
+| Reading | Shown as |
+|---|---|
+| `power_status` | Power Status |
+| `power_saving_mode` | Power Saving Mode |
+| `current_input` | Current Input |
+| `input_title` | Input Title |
+| `input_source` | Input Source |
+| `volume_speaker` | Volume Speaker |
+| `mute_speaker` | Mute Speaker |
+| `response_ms` | Response Ms |
+
+## Commands
+
+Each command is a button on the device page, and can be used in Room Readiness routines.
+
+| Command | Button | Notes |
+|---|---|---|
+| `power_on` | Power On |  |
+| `power_off` | Power Off |  |
+| `input_hdmi1` | Input Hdmi1 |  |
+| `input_hdmi2` | Input Hdmi2 |  |
+| `input_hdmi3` | Input Hdmi3 |  |
+| `input_hdmi4` | Input Hdmi4 |  |
+| `mute` | Mute |  |
+| `unmute` | Unmute |  |
+| `volume_up` | Volume Up |  |
+| `volume_down` | Volume Down |  |
+
+<Note>
+**Power-on:** M.A.R.C.U.S. sends a Wake-on-LAN packet straight to the display's address, then the IP-control power command. The display's MAC address is learned automatically the first time it's reached while switched on; set the `mac_address` tag if you need power-on to work before that.
+</Note>
