@@ -1,0 +1,16 @@
+---
+title: "Update the Collector"
+sidebarTitle: "Updates"
+description: "Update each runtime and the version compatibility commitment."
+icon: "arrows-rotate"
+---
+
+| Runtime | How to update |
+|---|---|
+| Linux service | Replace the binary, then run `systemctl restart av-bridge` |
+| Windows service | Replace the binary, then run `Restart-Service av-bridge` |
+| Docker Compose | `docker compose pull && docker compose up -d` |
+| Kubernetes | Update the image tag in the Deployment |
+| Managed container platforms | Redeploy with the new image tag |
+
+Collector releases use semantic version tags. The current cloud release always supports the two most recent Collector minor versions. The portal's **Collectors** page shows each Collector's version, so you can see which ones need updating. The *M.A.R.C.U.S. — Release & Upgrade Policy* has the full compatibility commitments.
