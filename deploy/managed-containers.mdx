@@ -1,0 +1,22 @@
+---
+title: "Run on a managed container platform"
+sidebarTitle: "Managed containers"
+description: "Run the Collector on AWS ECS Fargate, Azure Container Instances or Google Compute Engine."
+icon: "cloud"
+---
+
+To run the image without operating a container platform, use your cloud's managed option. You need the image and enrolled configuration described in [Run with Docker](/deploy/docker).
+
+<Tabs>
+  <Tab title="AWS ECS on Fargate">
+    A task of 0.5 vCPU and 1 GB runs one Collector. Keep state on Amazon EFS so it survives task replacement. Reference the configuration from AWS Secrets Manager in the task definition's `secrets` block, and set `desiredCount: 1`.
+  </Tab>
+  <Tab title="Azure Container Instances">
+    Run a single container group with `--restart-policy Always`, and mount the configuration from Azure Files.
+  </Tab>
+  <Tab title="Google Compute Engine">
+    Run the image on Container-Optimized OS, one container per VM, with `--container-restart-policy=always`.
+  </Tab>
+</Tabs>
+
+For any cloud-hosted Collector, choose a UK region (AWS `eu-west-2`, Azure UK South or Google `europe-west2`) unless your own policy requires otherwise. The Collector also needs routed reach into each site's AV VLAN (see [Network requirements](/deploy/network-requirements)).
