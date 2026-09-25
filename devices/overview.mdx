@@ -1,0 +1,50 @@
+---
+title: "Supported devices"
+sidebarTitle: "Overview"
+description: "The device adapters M.A.R.C.U.S. supports, and how to add each kind of device."
+icon: "plug-circle-check"
+---
+
+## Vendor adapters
+
+<CardGroup cols={2}>
+  <Card title="ATEN eco PDU" icon="plug" href="/devices/aten-pdu">
+    ATEN eco PDU range, such as the PE6108G.
+  </Card>
+  <Card title="Aurora RXT-x Touch Panels" icon="tablet-screen-button" href="/devices/aurora-rxt">
+    Aurora Multimedia RXT-x wall-mount touch panels.
+  </Card>
+  <Card title="Aurora VPX Series" icon="tower-broadcast" href="/devices/aurora-vpx">
+    Aurora Multimedia VPX-series AV-over-IP encoders and decoders.
+  </Card>
+  <Card title="Poly VideoOS" icon="video" href="/devices/poly-videoos">
+    Poly Studio X30, X50, X52 and X70, and the G7500.
+  </Card>
+  <Card title="Sony Bravia Professional" icon="tv" href="/devices/sony-bravia">
+    Sony Bravia Professional Displays with IP control.
+  </Card>
+  <Card title="Biamp Tesira" icon="sliders" href="/devices/tesira">
+    Biamp Tesira DSPs, including TesiraFORTÉ, over the Tesira Text Protocol (TTP).
+  </Card>
+  <Card title="VISCA-over-IP (PTZ cameras)" icon="camera" href="/devices/visca-over-ip">
+    PTZ cameras that speak Sony VISCA-over-IP, including Sony BRC and SRG, Panasonic AW-UE, PTZOptics, HuddleCam, Marshall CV and Lumens VC-A61P.
+  </Card>
+</CardGroup>
+
+M.A.R.C.U.S. talks to each device using its own control protocol, through the Collector on your network. Nothing on the device needs to reach the internet. Each **adapter** below supports a family of devices. You choose it as the device's **Protocol** when you add the device in the portal.
+
+## Generic adapters
+
+When there's no vendor adapter for a device, a generic adapter can usually still monitor it, and often control it too.
+
+| Adapter | Use it for |
+|---|---|
+| [Generic REST](/devices/rest) | Any device with a plain HTTP or JSON status endpoint. |
+| [Generic WebSocket](/devices/websocket) | Any device that pushes its state as JSON over a WebSocket. |
+| [Generic Telnet](/devices/telnet) | Control processors, matrix switchers, older displays and other devices with a line-based Telnet interface. |
+| [Generic Serial (RS-232)](/devices/serial) | Devices wired to the Collector host by RS-232. |
+| [ICMP Ping](/devices/ping) | Anything with an IP address, such as a network switch, an unmanaged panel or an IP camera without a supported API. |
+
+## Don't see your device?
+
+New vendor adapters are added in most releases, and customer requests set the priorities. Contact commercial@involve.vc with the make and model you need.
