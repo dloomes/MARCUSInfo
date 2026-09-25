@@ -1,47 +1,35 @@
 ---
 title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+description: "Get from sign-in to live device status in four steps."
+icon: "bolt"
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
-
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
-
-## Prerequisites
-
-Before you begin, you must have:
-
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
-
-## Get started
+M.A.R.C.U.S. monitors and controls the AV and video collaboration equipment across your estate from one portal. It covers displays, codecs, DSPs, cameras, touch panels and PDUs. A small **Collector** on your network talks to your devices and reports to **M.A.R.C.U.S. Cloud**, which is hosted exclusively in the UK. The Collector needs only one outbound firewall rule.
 
 <Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
-
-    ```bash
-    npm install your-package
-    ```
+  <Step title="Sign in to the portal">
+    Sign in with your organisation's Microsoft account, or with the email and password your administrator gave you.
   </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
+  <Step title="Install a Collector">
+    Go to **Collectors** and select **New collector**. Copy the one-line install command it gives you and run it on a Linux or Windows host that can reach your AV network. The Collector shows as online within a minute or so.
 
-    ```bash
-    your-cli init
-    ```
+    The Collector needs outbound HTTPS (TCP 443) to `*.involvecloud.com` and nothing inbound. See [Network requirements](/deploy/network-requirements).
   </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
-
-    ```bash
-    your-cli start
-    ```
+  <Step title="Add your devices">
+    Go to **Devices** and select **New device**. Choose your Collector, pick the device's **Protocol**, enter its address and credentials, and save. The Collector picks the device up within five minutes, and its status and readings then appear on the device page.
+  </Step>
+  <Step title="Get alerted">
+    Go to **Notifications** and add an Email, Microsoft Teams or webhook channel. You'll then hear about problems before your users do.
   </Step>
 </Steps>
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
+## Next steps
 
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
-</Tip>
+<CardGroup cols={2}>
+  <Card title="Deploy the Collector" icon="rocket-launch" href="/deploy/overview">
+    Choose a topology, size the host, and install on Linux, Windows, Docker or Kubernetes.
+  </Card>
+  <Card title="Supported devices" icon="plug-circle-check" href="/devices/overview">
+    What each adapter supports, and how to set up each kind of device.
+  </Card>
+</CardGroup>
