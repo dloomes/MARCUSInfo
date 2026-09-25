@@ -10,12 +10,13 @@
   "favicon": "/images/favicon.svg",
   "navigation": {
     "groups": [
-     {"group": "Introduction",
-     "icon": "rocket-launch",
-     "pages": [
-       "quickstart"
-     ]
-     },
+      {
+        "group": "Introduction",
+        "icon": "book-open",
+        "pages": [
+          "quickstart"
+        ]
+      },
       {
         "group": "Deploy the Collector",
         "icon": "rocket-launch",
@@ -46,6 +47,35 @@
               "deploy/updates",
               "deploy/monitoring",
               "deploy/backup"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Supported devices",
+        "icon": "plug-circle-check",
+        "pages": [
+          "devices/overview",
+          {
+            "group": "Vendor adapters",
+            "pages": [
+              "devices/aten-pdu",
+              "devices/aurora-rxt",
+              "devices/aurora-vpx",
+              "devices/poly-videoos",
+              "devices/sony-bravia",
+              "devices/tesira",
+              "devices/visca-over-ip"
+            ]
+          },
+          {
+            "group": "Generic adapters",
+            "pages": [
+              "devices/rest",
+              "devices/websocket",
+              "devices/telnet",
+              "devices/serial",
+              "devices/ping"
             ]
           }
         ]
