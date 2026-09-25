@@ -13,7 +13,8 @@
      {"group": "Introduction",
      "icon": "rocket-launch",
      "pages": [
-       "quickstart.mdx"
+       "quickstart.mdx",
+       "product-overview.mdx"
      ]
      },
       {
