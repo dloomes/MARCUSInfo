@@ -1,0 +1,55 @@
+---
+title: "Run with Docker"
+sidebarTitle: "Docker"
+description: "Run the Collector container with Docker Compose or docker run."
+icon: "docker"
+---
+
+The Collector is available as a minimal container image built from `scratch`. It contains only the Collector binary, the TLS certificate-authority bundle and timezone data.
+
+## Before you start
+
+- A Docker host that meets the sizing in [Size the host](/deploy/sizing) and the network requirements in [Network requirements](/deploy/network-requirements).
+- The **image path and version tag**, and the **enrolled Collector configuration**. Involve provides both during onboarding for container deployments.
+
+## Image reference
+
+| Item | Value |
+|---|---|
+| Configuration | Mounted read-only at `/etc/av-bridge/config.yaml` |
+| State | A small volume at `/var/lib/av-bridge/` |
+| Ports | TCP 8080 is optional (local API only). No ports are needed for cloud operation. |
+
+## Docker Compose
+
+```yaml
+services:
+  marcus-collector:
+    image: [registry]/av-bridge:[version]
+    restart: unless-stopped
+    volumes:
+      - ./config.yaml:/etc/av-bridge/config.yaml:ro
+      - collector-state:/var/lib/av-bridge
+    environment:
+      - TZ=Europe/London
+
+volumes:
+  collector-state:
+```
+
+Start it with `docker compose up -d`.
+
+## docker run
+
+```bash
+docker run -d --restart unless-stopped --name marcus-collector \
+  -v /etc/av-bridge/config.yaml:/etc/av-bridge/config.yaml:ro \
+  -v collector-state:/var/lib/av-bridge \
+  [registry]/av-bridge:[version]
+```
+
+The same commands work on any Docker host, including a VM in AWS, Azure or Google Cloud.
+
+<Note>
+**One container per Collector.** Each Collector has its own identity and HMAC key. To scale out, add more Collectors, each enrolled separately. Never run two copies of the same one.
+</Note>
