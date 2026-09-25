@@ -10,10 +10,10 @@
   "favicon": "/favicon.svg",
   "navigation": {
     "groups": [
-     {"group": "Deploy the Collector",
+     {"group": "Introduction",
      "icon": "rocket-launch",
      "pages": [
-       "/quickstart.mdx"
+       "quickstart.mdx"
      ]
      },
       {
