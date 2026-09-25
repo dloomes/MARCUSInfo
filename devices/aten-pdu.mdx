@@ -1,0 +1,70 @@
+---
+title: "ATEN eco PDU"
+sidebarTitle: "ATEN eco PDU"
+description: "ATEN eco PDU range (PE6108G and siblings) over the Telnet CLI on port 23. Per-outlet on/off/reboot control and per-outlet power metering; device-level voltage and total power draw."
+icon: "plug"
+---
+
+**Works with:** ATEN eco PDU range, such as the PE6108G.
+
+| | |
+|---|---|
+| **Type** | Vendor adapter |
+| **Vendor** | ATEN |
+| **Device types** | Control |
+| **Connection** | Telnet CLI (TCP 23) |
+| **Power on/off from the portal** | No |
+| **Protocol in the portal** | ATEN eco PDU (`aten_pdu`) |
+
+## Before you start
+
+1. Enable Telnet on the PDU and note an admin username and password.
+2. For models with more than 8 outlets, set the `outlet_count` tag on the device.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **ATEN eco PDU**.
+3. Enter the settings below and save. The Collector picks up the new device within five minutes.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | PDU IP or host. Port 23 is the ATEN Telnet default; append :port to override. | `192.168.90.10` |
+| **Username** | Yes | Admin username configured on the PDU. | `administrator` |
+| **Password** | Yes | Admin password. |  |
+| **Poll rate (seconds)** | No | How often to sample outlet state and power. 30s is a good default — every outlet is queried each poll. | `30` |
+| **Tags → `outlet_count`** | No | Override the outlet count for non-PE6108G models. Defaults to 8. | `16` |
+| **Tags → `outlet_N_name`** | No | Optional per-outlet label override (e.g. the `outlet_1_name` tag set to `Codec`). Wins over the name configured on the PDU itself. | `Codec` |
+
+<Note>
+**Tags** are set under **Advanced (JSON) → Tags** in the device form, as a JSON object, for example `{"outlet_count": "16"}`.
+</Note>
+
+## Readings
+
+These values appear under **Device Information** on the device page, and can be checked in Room Readiness routines.
+
+| Reading | Shown as |
+|---|---|
+| `voltage_v` | Voltage V |
+| `total_power_w` | Total Power W |
+| `outlet_count` | Outlet Count |
+| `response_ms` | Response Ms |
+| `outlet_N_state` | Outlet N State |
+| `outlet_N_current_a` | Outlet N Current A |
+| `outlet_N_power_w` | Outlet N Power W |
+| `outlet_N_name` | Outlet N Name |
+
+## Commands
+
+Each command is a button on the device page, and can be used in Room Readiness routines.
+
+| Command | Button | Notes |
+|---|---|---|
+| `outlet_on` | Outlet On | Asks for the outlet number. |
+| `outlet_off` | Outlet Off | Asks for the outlet number. |
+| `outlet_reboot` | Outlet Reboot | Asks for the outlet number (power-cycles it). |
+
+<Note>
+**Power readings:** per-outlet current and power show the live draw of whatever is plugged in. Energy estimates in Reports use the **Power on** and **Power standby** wattage set on each device's own record.
+</Note>
