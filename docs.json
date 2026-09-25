@@ -10,7 +10,12 @@
   "favicon": "/favicon.svg",
   "navigation": {
     "groups": [
-     
+     {"group": "Deploy the Collector",
+     "icon": "rocket-launch",
+     "pages": [
+       "index.mdx"
+     ]
+     },
       {
         "group": "Deploy the Collector",
         "icon": "rocket-launch",
