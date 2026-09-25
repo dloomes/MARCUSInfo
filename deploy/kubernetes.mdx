@@ -1,0 +1,64 @@
+---
+title: "Run on Kubernetes"
+sidebarTitle: "Kubernetes"
+description: "Deploy the Collector on EKS, AKS, GKE or an on-premises cluster."
+icon: "dharmachakra"
+---
+
+The container image runs as a standard `Deployment` on EKS, AKS, GKE or an on-premises cluster. Before you start, you need the image and enrolled configuration described in [Run with Docker](/deploy/docker).
+
+## Reference manifest
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: marcus-collector
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: marcus-collector
+  template:
+    metadata:
+      labels:
+        app: marcus-collector
+    spec:
+      containers:
+        - name: collector
+          image: "[registry]/av-bridge:[version]"
+          resources:
+            requests: { cpu: "500m", memory: "512Mi" }
+            limits:   { cpu: "2000m", memory: "2Gi" }
+          volumeMounts:
+            - name: config
+              mountPath: /etc/av-bridge
+              readOnly: true
+            - name: state
+              mountPath: /var/lib/av-bridge
+      volumes:
+        - name: config
+          secret: { secretName: marcus-collector-config }
+        - name: state
+          persistentVolumeClaim: { claimName: marcus-collector-state }
+```
+
+Keep `replicas: 1` and the `Recreate` strategy. To scale out, add another Deployment for each additional Collector.
+
+## Secrets on your platform
+
+The configuration contains the Collector's HMAC key, so mount it from a `Secret` (as above) or from a Secrets Store CSI driver backed by your cloud key vault. Never put it in a plain `ConfigMap`.
+
+<Tabs>
+  <Tab title="AWS EKS">
+    Use IAM Roles for Service Accounts with the Secrets Store CSI driver and AWS Secrets Manager.
+  </Tab>
+  <Tab title="Azure AKS">
+    Use the Azure Key Vault provider for Secrets Store CSI.
+  </Tab>
+  <Tab title="Google GKE">
+    Use Secret Manager through the Secrets Store CSI driver.
+  </Tab>
+</Tabs>
