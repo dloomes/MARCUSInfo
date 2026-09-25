@@ -1,0 +1,88 @@
+---
+title: "Cisco RoomOS"
+sidebarTitle: "Cisco RoomOS"
+description: "Cisco collaboration devices running RoomOS: Room Kit, Room Bar, Board, Desk and Codec series. xAPI over HTTPS with a local Admin user; call control, standby power, audio and the device's own diagnostics."
+icon: "video"
+---
+
+**Works with:** Cisco collaboration devices running RoomOS, including the Room Kit, Room Bar, Board, Desk and Codec series.
+
+| | |
+|---|---|
+| **Type** | Vendor adapter |
+| **Vendor** | Cisco |
+| **Device types** | Conferencing |
+| **Connection** | xAPI over HTTPS (TCP 443), using Basic authentication |
+| **Power on/off from the portal** | Yes |
+| **Protocol in the portal** | Cisco RoomOS (`cisco_roomos`) |
+
+## Before you start
+
+1. In the device's web interface, add a local user with the **Admin** role for M.A.R.C.U.S. to use. The HTTP xAPI requires that role.
+2. Check HTTPS is enabled. It is by default; if `NetworkServices HTTP Mode` has been changed, it must still include HTTPS.
+3. RoomOS uses a self-signed certificate unless you've installed your own. If you haven't, set the `tls_skip_verify` tag to `true` on the device.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **Cisco RoomOS**.
+3. Enter the settings below and save. The Collector picks up the new device within five minutes.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | Device address. HTTPS is assumed; include http:// only if HTTP has been enabled on the device. | `192.168.20.40` |
+| **Username** | Yes | Local user with the Admin role. |  |
+| **Password** | Yes | That user's password. |  |
+| **Tags → `tls_skip_verify`** | No | Set to "true" to accept the device's self-signed certificate, which RoomOS uses unless you've installed your own. | `true` |
+
+<Note>
+**Tags** are set under **Advanced (JSON) → Tags** in the device form, as a JSON object, for example `{"tls_skip_verify": "true"}`.
+</Note>
+
+## Readings
+
+These values appear under **Device Information** on the device page, and can be checked in Room Readiness routines.
+
+| Reading | Shown as |
+|---|---|
+| `call_state` | Call State |
+| `active_calls` | Active Calls |
+| `remote_number` | Remote Number |
+| `mic_mute` | Mic Mute |
+| `volume` | Volume |
+| `power_status` | Power Status |
+| `standby_state` | Standby State |
+| `product_id` | Product Id |
+| `software_version` | Software Version |
+| `serial_number` | Serial Number |
+| `ip_address` | Ip Address |
+| `mac_address` | Mac Address |
+| `uptime_s` | Uptime S |
+| `fault_count` | Fault Count |
+| `faults` | Faults |
+| `people_count` | People Count |
+| `response_ms` | Response Ms |
+
+## Commands
+
+Each command is a button on the device page, and can be used in Room Readiness routines.
+
+| Command | Button | Notes |
+|---|---|---|
+| `dial` | Dial | Asks for the address to dial: SIP URI, H.323 address or phone number. |
+| `hangup` | Hangup |  |
+| `mute` | Mute |  |
+| `unmute` | Unmute |  |
+| `vol_up` | Vol Up |  |
+| `vol_dn` | Vol Dn |  |
+| `power_on` | Power On |  |
+| `power_off` | Power Off |  |
+| `reboot` | Reboot |  |
+
+<Note>
+**Power:** **Power Off** puts the device into standby and **Power On** wakes it. The device page shows the standby state: Off (awake), Halfwake, EnteringStandby or Standby.
+</Note>
+
+<Note>
+**Diagnostics:** **Fault Count** and **Faults** come from the device's own health check. They include its Warning, Error and Critical messages, such as a camera that isn't detected.
+</Note>
