@@ -1,0 +1,20 @@
+---
+title: "Monitor health and logs"
+sidebarTitle: "Health & logs"
+description: "Local health checks, Prometheus metrics, portal status and logs."
+icon: "heart-pulse"
+---
+
+## Health checks
+
+- **Local health check:** `GET /healthz` on port 8080 returns `200 OK` when the Collector is running.
+- **Metrics:** `GET /metrics` on the same port, in Prometheus text format.
+- **In the portal:** the **Collectors** page shows each Collector's status, last heartbeat, version and host operating system. If a Collector stops reporting, the portal marks it offline, and every device behind it shows **Collector offline** instead of a stale status.
+
+## Logs
+
+| Runtime | Where to find logs |
+|---|---|
+| Linux | The systemd journal (`journalctl -u av-bridge`) and `/var/log/av-bridge/` |
+| Windows | `C:\ProgramData\av-bridge\logs\` |
+| Docker and Kubernetes | stdout and stderr. Forward these to your logging platform, such as Amazon CloudWatch Logs, Azure Monitor, Google Cloud Logging or a self-hosted equivalent. |
