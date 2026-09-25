@@ -1,0 +1,38 @@
+---
+title: "Generic WebSocket"
+sidebarTitle: "Generic WebSocket"
+description: "Long-lived WebSocket connection with periodic keep-alive probes. Suitable for devices that push state as JSON frames."
+icon: "bolt"
+---
+
+**Works with:** Any device that pushes its state as JSON over a WebSocket.
+
+| | |
+|---|---|
+| **Type** | Generic adapter |
+| **Device types** | Display, Conferencing, Audio, Camera, Control |
+| **Connection** | WebSocket (`ws://` or `wss://`) |
+| **Power on/off from the portal** | No |
+| **Protocol in the portal** | Generic WebSocket (`websocket`) |
+
+## Before you start
+
+1. Find the device's WebSocket URL.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **Generic WebSocket**.
+3. Enter the settings below and save. The Collector picks up the new device within five minutes.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | ws:// or wss:// URL of the endpoint. | `wss://192.168.60.10/socket` |
+
+## Readings
+
+Reachability and response time are recorded on every poll. The device's own values depend on what its endpoint returns.
+
+## Commands
+
+This adapter monitors only; it has no commands.
