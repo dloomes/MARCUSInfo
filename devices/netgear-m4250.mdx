@@ -1,0 +1,102 @@
+---
+title: "NETGEAR M4250 / M4350"
+sidebarTitle: "NETGEAR M4250"
+description: "NETGEAR AV Line fully managed switches over the CLI on Telnet port 23. Identity, uptime, temperature, fans and power supplies; PoE budget; per-port link, speed and PoE draw; PoE power-cycle and port control."
+icon: "network-wired"
+---
+
+**Works with:** NETGEAR AV Line fully managed switches: the M4250 series and the M4350 series.
+
+| | |
+|---|---|
+| **Type** | Vendor adapter |
+| **Vendor** | NETGEAR |
+| **Device types** | Control |
+| **Connection** | Switch CLI over Telnet (TCP 23) |
+| **Power on/off from the portal** | No |
+| **Protocol in the portal** | NETGEAR M4250 / M4350 (`netgear_m4250`) |
+
+## Before you start
+
+1. Check Telnet is enabled on the switch. It is by default (`ip telnet server enable`).
+2. Note a username and password for a switch user with admin (Privileged EXEC) access. If an enable password is set, add it as the `enable_password` tag.
+3. For an M4350, set the `port_prefix` tag to `1/0/` so port numbers in commands match its unit/slot/port names.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **NETGEAR M4250 / M4350**.
+3. Enter the settings below and save. The Collector picks up the new device within five minutes.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | Switch management IP or hostname. Port 23 is the Telnet default; append :port to override. | `192.168.1.2` |
+| **Username** | Yes | Switch user with Privileged EXEC (admin) access. | `admin` |
+| **Password** | Yes | That user's password. |  |
+| **Poll rate (seconds)** | No | How often to poll. Each poll logs in and runs six show commands; 60s suits most sites. | `60` |
+| **Tags → `enable_password`** | No | Enable password, if one is set on the switch. Blank by default. |  |
+| **Tags → `port_prefix`** | No | Prefix added to a bare port number in port commands. Defaults to 0/ (M4250); use 1/0/ for an M4350 or stack unit 1. | `1/0/` |
+
+<Note>
+**Tags** are set under **Advanced (JSON) → Tags** in the device form, as a JSON object, for example `{"enable_password": "value"}`.
+</Note>
+
+## Readings
+
+These values appear under **Device Information** on the device page, and can be checked in Room Readiness routines.
+
+| Reading | Shown as |
+|---|---|
+| `model` | Model |
+| `system_description` | System Description |
+| `serial_number` | Serial Number |
+| `mac_address` | Mac Address |
+| `software_version` | Software Version |
+| `boot_version` | Boot Version |
+| `system_name` | System Name |
+| `system_location` | System Location |
+| `uptime_s` | Uptime S |
+| `temperature_c` | Temperature C |
+| `fan_count` | Fan Count |
+| `psu_count` | Psu Count |
+| `poe_status` | Poe Status |
+| `poe_budget_w` | Poe Budget W |
+| `poe_consumed_w` | Poe Consumed W |
+| `poe_threshold_w` | Poe Threshold W |
+| `poe_ports_delivering` | Poe Ports Delivering |
+| `ports_total` | Ports Total |
+| `ports_up` | Ports Up |
+| `port_N_link` | Port N Link |
+| `port_N_admin` | Port N Admin |
+| `port_N_speed` | Port N Speed |
+| `port_N_poe_status` | Port N Poe Status |
+| `port_N_poe_power_w` | Port N Poe Power W |
+| `port_N_poe_class` | Port N Poe Class |
+| `fault_count` | Fault Count |
+| `faults` | Faults |
+| `response_ms` | Response Ms |
+
+## Commands
+
+Each command is a button on the device page, and can be used in Room Readiness routines.
+
+| Command | Button | Notes |
+|---|---|---|
+| `reboot` | Reboot |  |
+| `poe_reset` | Poe Reset | Asks for the port, such as `5` or `0/5`, and power-cycles its PoE. |
+| `poe_on` | Poe On | Asks for the port. |
+| `poe_off` | Poe Off | Asks for the port. |
+| `port_enable` | Port Enable | Asks for the port. |
+| `port_disable` | Port Disable | Asks for the port. |
+
+<Note>
+**Port readings:** each front-panel port reports its link state, speed, admin state and, on PoE models, its PoE status, class and power draw in watts. Readings are named by port number, such as **Port 5 Link** and **Port 5 Poe Power W**. On a non-PoE model the PoE readings are left out.
+</Note>
+
+<Note>
+**Faults:** **Faults** lists failed fans or power supplies, temperature sensors outside their normal range, PoE port faults and a faulty PoE controller.
+</Note>
+
+<Note>
+**Commands change the running configuration only.** **PoE Reset** power-cycles the device on a port, such as a touch panel or camera. PoE on/off and port enable/disable are not saved to the switch's startup configuration, so rebooting the switch restores its saved settings. **Reboot** restarts the switch without saving unsaved changes.
+</Note>
