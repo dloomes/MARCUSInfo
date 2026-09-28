@@ -59,16 +59,46 @@
           {
             "group": "Vendor adapters",
             "pages": [
-              "devices/aten-pdu",
-              "devices/aurora-rxt",
-              "devices/aurora-vpx",
-              "devices/poly-videoos",
-              "devices/cisco-roomos",
-              "devices/sony-bravia",
-              "devices/tesira",
-              "devices/visca-over-ip",
-              "devices/netgear-m4250",
-              "devices/philips-display"
+              {
+                "group": "Displays",
+                "pages": [
+                  "devices/philips-sicp",
+                  "devices/sony-bravia"
+                ]
+              },
+              {
+                "group": "Video conferencing",
+                "pages": [
+                  "devices/cisco-roomos",
+                  "devices/poly-videoos"
+                ]
+              },
+              {
+                "group": "Audio",
+                "pages": [
+                  "devices/tesira"
+                ]
+              },
+              {
+                "group": "Cameras",
+                "pages": [
+                  "devices/visca-over-ip"
+                ]
+              },
+              {
+                "group": "Control and AV-over-IP",
+                "pages": [
+                  "devices/aurora-rxt",
+                  "devices/aurora-vpx"
+                ]
+              },
+              {
+                "group": "Power and network",
+                "pages": [
+                  "devices/aten-pdu",
+                  "devices/netgear-m4250"
+                ]
+              }
             ]
           },
           {
