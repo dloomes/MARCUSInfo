@@ -1,0 +1,75 @@
+---
+title: "Aurora RXT-x Touch Panels"
+sidebarTitle: "Aurora RXT panels"
+description: "Wall-mount control touch panels. JSON-RPC over Telnet on port 6975, with proximity, lux, and relay control."
+icon: "tablet-screen-button"
+---
+
+**Works with:** Aurora Multimedia RXT-x wall-mount touch panels.
+
+| | |
+|---|---|
+| **Type** | Vendor adapter |
+| **Vendor** | Aurora Multimedia |
+| **Device types** | Control |
+| **Connection** | JSON-RPC over Telnet (TCP 6975) |
+| **Power on/off from the portal** | No |
+| **Protocol in the portal** | Aurora RXT-x Touch Panels (`aurora_rxt`) |
+
+## Before you start
+
+1. Check the Collector can reach the panel on TCP 6975.
+2. If the panel is secured, note its login username and password.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **Aurora RXT-x Touch Panels**.
+3. Enter the settings below and save. The Collector picks up the new device within five minutes.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | Panel IP or hostname (port 6975 is implied). | `192.168.1.50` |
+| **Username** | No | Login username if the panel is secured. | `admin` |
+| **Password** | No | Login password if the panel is secured. |  |
+
+## Readings
+
+These values appear under **Device Information** on the device page, and can be checked in Room Readiness routines.
+
+| Reading | Shown as |
+|---|---|
+| `volume` | Volume |
+| `mute` | Mute |
+| `lcd_brightness` | Lcd Brightness |
+| `lcd_timeout` | Lcd Timeout |
+| `lux` | Lux |
+| `proximity` | Proximity |
+| `auto_brightness` | Auto Brightness |
+| `relay_N` | Relay N |
+| `event_manager` | Event Manager |
+| `response_ms` | Response Ms |
+
+## Commands
+
+Each command is a button on the device page, and can be used in Room Readiness routines.
+
+| Command | Button | Notes |
+|---|---|---|
+| `reboot` | Reboot |  |
+| `factory_default` | Factory Default |  |
+| `test_audio` | Test Audio |  |
+| `mute` | Mute |  |
+| `unmute` | Unmute |  |
+| `auto_brightness_on` | Auto Brightness On |  |
+| `auto_brightness_off` | Auto Brightness Off |  |
+| `relay_1_on` | Relay 1 On |  |
+| `relay_1_off` | Relay 1 Off |  |
+| `relay_1_toggle` | Relay 1 Toggle |  |
+| `relay_2_on` | Relay 2 On |  |
+| `relay_2_off` | Relay 2 Off |  |
+| `relay_2_toggle` | Relay 2 Toggle |  |
+
+<Note>
+**Touch-panel web UI:** if the portal user's browser can't reach the panel directly, the device page can open its web interface through the Collector. See the Collector's local URL setting on the Collectors page.
+</Note>
