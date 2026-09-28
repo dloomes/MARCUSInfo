@@ -1,0 +1,97 @@
+---
+title: "Philips Professional Displays"
+sidebarTitle: "Philips displays"
+description: "Philips professional and signage displays over SICP on TCP port 5000. Power, inputs, volume, mute and backlight; temperature, signal presence, operating hours and identity. Wake-on-LAN for power-on from deep standby."
+icon: "display"
+---
+
+**Works with:** Philips professional displays from PPDS that support SICP over the network, including the Q-Line, D-Line and T-Line signage and meeting-room ranges.
+
+| | |
+|---|---|
+| **Type** | Vendor adapter |
+| **Vendor** | Philips (PPDS) |
+| **Device types** | Display |
+| **Connection** | SICP over TCP (port 5000), with Wake-on-LAN for power-on |
+| **Power on/off from the portal** | Yes |
+| **Protocol in the portal** | Philips Professional Displays (`philips_sicp`) |
+
+## Before you start
+
+1. Connect the display to the network and note its IP address. SICP over the network uses port 5000.
+2. Check the display's **Monitor ID** in its menu (default 1). If it isn't 1, set the `monitor_id` tag.
+3. So that the display can be powered on remotely, either set its advanced power management (**APM**) to keep the network on in standby (TCP on), or set the `mac_address` tag and turn on Wake-on-LAN.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **Philips Professional Displays**.
+3. Enter the settings below and save. The Collector picks up the new device within five minutes.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | Display IP or hostname. Port 5000 is the SICP default; append :port to override. | `192.168.30.50` |
+| **Tags → `monitor_id`** | No | The display's Monitor ID (1–255), set in its menu. Defaults to 1. | `1` |
+| **Tags → `mac_address`** | No | MAC address for Wake-on-LAN, so power_on works when the display's network sleeps in standby. | `AA:BB:CC:11:22:33` |
+
+<Note>
+**Tags** are set under **Advanced (JSON) → Tags** in the device form, as a JSON object, for example `{"monitor_id": "1"}`.
+</Note>
+
+## Readings
+
+These values appear under **Device Information** on the device page, and can be checked in Room Readiness routines.
+
+| Reading | Shown as |
+|---|---|
+| `power_status` | Power Status |
+| `current_input` | Current Input |
+| `signal_present` | Signal Present |
+| `backlight` | Backlight |
+| `volume` | Volume |
+| `volume_audio_out` | Volume Audio Out |
+| `mute` | Mute |
+| `temperature_c` | Temperature C |
+| `temperature_N_c` | Temperature N C |
+| `operating_hours` | Operating Hours |
+| `model` | Model |
+| `firmware_version` | Firmware Version |
+| `serial_number` | Serial Number |
+| `response_ms` | Response Ms |
+
+## Commands
+
+Each command is a button on the device page, and can be used in Room Readiness routines.
+
+| Command | Button | Notes |
+|---|---|---|
+| `power_on` | Power On |  |
+| `power_off` | Power Off |  |
+| `input_hdmi1` | Input Hdmi1 |  |
+| `input_hdmi2` | Input Hdmi2 |  |
+| `input_hdmi3` | Input Hdmi3 |  |
+| `input_hdmi4` | Input Hdmi4 |  |
+| `input_displayport` | Input Displayport |  |
+| `input_dvi` | Input Dvi |  |
+| `input_vga` | Input Vga |  |
+| `input_ops` | Input Ops |  |
+| `set_volume` | Set Volume | Asks for the level, 0–100. |
+| `volume_up` | Volume Up |  |
+| `volume_down` | Volume Down |  |
+| `mute` | Mute |  |
+| `unmute` | Unmute |  |
+| `backlight_on` | Backlight On |  |
+| `backlight_off` | Backlight Off |  |
+| `reboot` | Reboot |  |
+
+<Note>
+**Standby:** while the display is in standby it reports its power state, operating hours and identity; input, volume, signal and temperature readings return when it's switched on.
+</Note>
+
+<Note>
+**Backlight off** blanks the picture but leaves audio playing, which suits rooms where the screen should go dark without a full power-off.
+</Note>
+
+<Note>
+**Older models:** some older platforms only accept the short form of the volume commands. M.A.R.C.U.S. retries with that form automatically.
+</Note>
