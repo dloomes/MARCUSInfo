@@ -1,0 +1,56 @@
+---
+title: "Biamp Tesira"
+sidebarTitle: "Biamp Tesira"
+description: "Tesira DSPs over TTP (Telnet). Subscription-based metrics; commands are TTP strings you define per device."
+icon: "sliders"
+---
+
+**Works with:** Biamp Tesira DSPs, including TesiraFORTÉ, over the Tesira Text Protocol (TTP).
+
+| | |
+|---|---|
+| **Type** | Vendor adapter |
+| **Vendor** | Biamp |
+| **Device types** | Audio |
+| **Connection** | TTP over Telnet (TCP 23) |
+| **Power on/off from the portal** | No |
+| **Protocol in the portal** | Biamp Tesira (`tesira`) |
+
+## Before you start
+
+1. Make sure Telnet is enabled on the Tesira, which is the default.
+2. If the Tesira has login security turned on, note a username and password to enter on the device.
+3. In Tesira software, find the **instance tags** of the blocks you want to control or read, such as a level block or a meter.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **Biamp Tesira**.
+3. Enter the settings below and save. The Collector picks up the new device within five minutes.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | DSP IP (Telnet port 23 is implied). | `192.168.40.10` |
+| **Username** | No | Login username, if login security is enabled on the Tesira. |  |
+| **Password** | No | Login password, if login security is enabled on the Tesira. |  |
+| **Commands** | No | Named TTP command map (&lt;instance tag> &lt;verb> &lt;attribute> &lt;channel> [value]). Each entry becomes a button in the portal; \{name\} placeholders are prompted for when the button is pressed. |  |
+| **Readings** | No | Push-notification subscriptions. Each becomes a live metric. |  |
+
+## Readings
+
+Every Tesira reports its identity and health on each poll: hostname, part number, serial number, software version, IP and MAC address, fault count and the active fault list.
+
+Readings from your own DSP blocks are added per device in the **Readings** section of the device form:
+
+- **Add meter readings** takes a meter block's instance tag and a channel range such as `1-8`, and adds one reading per channel.
+- **Snapshot** reads a value on every poll, which suits meters. **Live** updates the moment a value changes and records each change as an event, which suits mute or call state.
+
+## Commands
+
+Tesira commands are TTP strings you define per device in the **Commands** section of the device form. Each command becomes a button on the device page.
+
+- **Add standard commands** takes a level or mute block's instance tag, channel and step size, and adds mute, unmute, toggle mute, volume up/down and set level.
+- **Add preset recall** adds `DEVICE recallPreset {preset}`.
+- Put `{name}` in a command to ask for a value when the button is pressed, for example `master_level set level 1 {level}`.
+
+The TTP form is `<instance tag> <verb> <attribute> <channel> [value]`, for example `master_level set mute 1 true`.
