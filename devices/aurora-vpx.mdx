@@ -1,0 +1,72 @@
+---
+title: "Aurora VPX Series"
+sidebarTitle: "Aurora VPX"
+description: "AV-over-IP encoders and decoders. JSON over Telnet on port 6970; encoder vs decoder mode is auto-detected at connect."
+icon: "tower-broadcast"
+---
+
+**Works with:** Aurora Multimedia VPX-series AV-over-IP encoders and decoders.
+
+| | |
+|---|---|
+| **Type** | Vendor adapter |
+| **Vendor** | Aurora Multimedia |
+| **Device types** | Display |
+| **Connection** | JSON over Telnet (TCP 6970) |
+| **Power on/off from the portal** | No |
+| **Protocol in the portal** | Aurora VPX Series (`aurora_vpx`) |
+
+## Before you start
+
+1. Check the Collector can reach the unit on TCP 6970. Encoder or decoder mode is detected automatically.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **Aurora VPX Series**.
+3. Enter the settings below and save. The Collector picks up the new device within five minutes.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | Encoder or decoder IP (port 6970 is implied). | `192.168.10.20` |
+| **Poll rate (seconds)** | No | How often to poll. Defaults to 60s. | `30` |
+
+## Readings
+
+These values appear under **Device Information** on the device page, and can be checked in Room Readiness routines.
+
+| Reading | Shown as |
+|---|---|
+| `state` | State |
+| `mode` | Mode |
+| `fw_version` | Fw Version |
+| `mac` | Mac |
+| `hostname` | Hostname |
+| `ip_address` | Ip Address |
+| `ip_mode` | Ip Mode |
+| `display_mode` | Display Mode |
+| `hdmi_hdcp` | Hdmi Hdcp |
+| `hdmi_hpd_in1` | Hdmi Hpd In1 |
+| `hdmi_hpd_in2` | Hdmi Hpd In2 |
+| `local_display_source` | Local Display Source |
+| `stream_source` | Stream Source |
+| `stream_status` | Stream Status |
+| `video_h_size` | Video H Size |
+| `video_v_size` | Video V Size |
+| `video_fps` | Video Fps |
+
+## Commands
+
+Each command is a button on the device page, and can be used in Room Readiness routines.
+
+| Command | Button | Notes |
+|---|---|---|
+| `reboot` | Reboot |  |
+| `identify` | Identify |  |
+| `stop_identify` | Stop Identify |  |
+| `mute` | Mute |  |
+| `unmute` | Unmute |  |
+| `join` | Join |  |
+| `leave` | Leave |  |
+| `start_stream` | Start Stream |  |
+| `stop_stream` | Stop Stream |  |
