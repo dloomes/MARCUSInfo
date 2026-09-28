@@ -62,7 +62,7 @@
               {
                 "group": "Displays",
                 "pages": [
-                  "devices/philips-sicp",
+                  "devices/philips-display",
                   "devices/sony-bravia"
                 ]
               },
