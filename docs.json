@@ -66,7 +66,8 @@
               "devices/cisco-roomos",
               "devices/sony-bravia",
               "devices/tesira",
-              "devices/visca-over-ip"
+              "devices/visca-over-ip",
+              "devices/netgear-m4250"
             ]
           },
           {
