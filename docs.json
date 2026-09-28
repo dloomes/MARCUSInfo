@@ -67,7 +67,8 @@
               "devices/sony-bravia",
               "devices/tesira",
               "devices/visca-over-ip",
-              "devices/netgear-m4250"
+              "devices/netgear-m4250",
+              "devices/philips-display"
             ]
           },
           {
