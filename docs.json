@@ -22,6 +22,29 @@
             ]
           },
           {
+            "group": "Using the portal",
+            "icon": "computer-mouse",
+            "pages": [
+              "portal/getting-around",
+              "portal/overview-and-map",
+              "portal/devices",
+              "portal/alerts"
+            ]
+          },
+          {
+            "group": "Administration",
+            "icon": "user-gear",
+            "pages": [
+              "admin/users-and-access",
+              "admin/roles",
+              "admin/single-sign-on",
+              "admin/notifications",
+              "admin/api-tokens",
+              "admin/branding",
+              "admin/audit-log"
+            ]
+          },
+          {
             "group": "Deploy the Collector",
             "icon": "rocket-launch",
             "pages": [
