@@ -1,0 +1,41 @@
+---
+title: "Pagination"
+description: "Cursor-based paging through list endpoints."
+icon: "list"
+---
+
+List endpoints return a page of results and a cursor for the next page:
+
+```json
+{
+  "data": [ ... ],
+  "next_cursor": "eyJ0cyI6IjIwMjYtMTAtMDVUMDk6MTI6MDBaIiwiaWQiOiIuLi4ifQ"
+}
+```
+
+- `limit` sets the page size: 100 by default, 500 at most.
+- When `next_cursor` is `null`, there are no more results.
+- Otherwise, pass it back unchanged as `cursor`, keeping the same filters, to get the next page.
+
+Treat the cursor as an opaque string. Its contents may change; only its use as `cursor` is part of the contract.
+
+Results are newest first (for devices, most recently seen first), and the cursor keeps paging stable while new records arrive: you won't see an item twice or miss one.
+
+## Example: fetch every device
+
+```bash
+cursor=""
+while :; do
+  page=$(curl -s -H "Authorization: Bearer $TOKEN" \
+    "https://api.uat.involvecloud.com/pub/v1/devices?limit=500${cursor:+&cursor=$cursor}")
+  echo "$page" | jq -c '.data[]'
+  cursor=$(echo "$page" | jq -r '.next_cursor // empty')
+  [ -z "$cursor" ] && break
+done
+```
+
+## Polling
+
+For a feed such as alerts, events or the audit trail, poll on a schedule and stop when you reach records you've already processed. Once a minute is ample for most integrations.
+
+Paginated endpoints: devices, a device's events, assets, alerts, events and audit. Buildings and rooms return a complete list in one response.
