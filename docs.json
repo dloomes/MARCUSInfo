@@ -62,7 +62,7 @@
               {
                 "group": "Displays",
                 "pages": [
-                  "devices/philips-display",
+                  "devices/philips-sicp",
                   "devices/sony-bravia"
                 ]
               },
@@ -109,6 +109,70 @@
               "devices/telnet",
               "devices/serial",
               "devices/ping"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "API reference",
+        "icon": "code",
+        "pages": [
+          "api-reference/introduction",
+          "api-reference/authentication",
+          "api-reference/pagination",
+          "api-reference/errors",
+          {
+            "group": "Token check",
+            "icon": "key",
+            "pages": [
+              "api-reference/meta/verify-a-token"
+            ]
+          },
+          {
+            "group": "Devices",
+            "icon": "display",
+            "pages": [
+              "api-reference/devices/list-devices",
+              "api-reference/devices/get-a-device",
+              "api-reference/devices/get-latest-telemetry",
+              "api-reference/devices/list-events-for-a-device"
+            ]
+          },
+          {
+            "group": "Buildings and rooms",
+            "icon": "building",
+            "pages": [
+              "api-reference/hierarchy/list-buildings",
+              "api-reference/hierarchy/list-rooms"
+            ]
+          },
+          {
+            "group": "Assets",
+            "icon": "boxes-stacked",
+            "pages": [
+              "api-reference/assets/list-assets",
+              "api-reference/assets/get-one-asset"
+            ]
+          },
+          {
+            "group": "Alerts",
+            "icon": "bell",
+            "pages": [
+              "api-reference/alerts/list-alerts"
+            ]
+          },
+          {
+            "group": "Events",
+            "icon": "wave-square",
+            "pages": [
+              "api-reference/events/list-events"
+            ]
+          },
+          {
+            "group": "Audit",
+            "icon": "clipboard-list",
+            "pages": [
+              "api-reference/audit/list-audit-entries"
             ]
           }
         ]
