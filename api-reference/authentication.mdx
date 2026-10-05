@@ -1,0 +1,45 @@
+---
+title: "Authentication"
+description: "API tokens, scopes and revocation."
+icon: "key"
+---
+
+Every request needs an API token in the `Authorization` header:
+
+```
+Authorization: Bearer avb_<prefix>_<secret>
+```
+
+Tokens in the query string are not accepted, because URLs end up in logs.
+
+## Create a token
+
+1. In the portal, go to **Settings → API tokens** and select **New token**. You need the **Manage API tokens** permission.
+2. Give it a name that says what uses it, such as *ServiceNow CMDB sync*.
+3. Choose its scopes (below) and when it expires.
+4. Copy the token. It's shown once only; M.A.R.C.U.S. keeps just a hash of it.
+
+The token's prefix (`avb_1a2b3c4d`) is shown in the token list, so you can tell tokens apart and revoke the right one.
+
+## Scopes
+
+A token can only read what its scopes allow. Give each integration only the scopes it needs.
+
+| Scope | Shown in the portal as | Grants |
+|---|---|---|
+| `view.assets` | Read assets (CMDB) | Assets |
+| `view.audit` | Read audit log | Audit |
+| `view.dashboard` | Read fleet + devices | Devices, Buildings and rooms, Alerts, Events |
+
+`/pub/v1/ping` works with any valid token.
+
+## Revoke or replace a token
+
+Revoke a token from **Settings → API tokens** and it stops working immediately. To rotate, create the new token, update the integration, then revoke the old one.
+
+## When a request is refused
+
+| Status | Meaning |
+|---|---|
+| `401 unauthorized` | No token, or the token is wrong, expired or revoked. |
+| `403 forbidden` | The token is valid but doesn't have the scope this endpoint needs. |
