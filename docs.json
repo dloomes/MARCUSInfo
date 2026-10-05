@@ -9,9 +9,9 @@
   },
   "favicon": "/images/favicon.svg",
   "navigation": {
-    "tabs": [
+    "anchors": [
       {
-        "tab": "Documentation",
+        "anchor": "Documentation",
         "icon": "book-open",
         "groups": [
           {
@@ -120,7 +120,7 @@
         ]
       },
       {
-        "tab": "API reference",
+        "anchor": "API reference",
         "icon": "code",
         "groups": [
           {
