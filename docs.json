@@ -1,183 +1,231 @@
 {
-  "tabs": [
-    {
-      "tab": "Documentation",
-      "icon": "book-open",
-      "groups": [
-        {
-          "group": "Introduction",
-          "icon": "book-open",
-          "pages": [
-            "quickstart"
-          ]
-        },
-        {
-          "group": "Deploy the Collector",
-          "icon": "rocket-launch",
-          "pages": [
-            "deploy/overview",
-            {
-              "group": "Plan",
-              "pages": [
-                "deploy/topologies",
-                "deploy/network-requirements",
-                "deploy/sizing"
-              ]
-            },
-            {
-              "group": "Install",
-              "pages": [
-                "deploy/install-linux",
-                "deploy/install-windows",
-                "deploy/docker",
-                "deploy/kubernetes",
-                "deploy/managed-containers",
-                "deploy/configuration"
-              ]
-            },
-            {
-              "group": "Operate",
-              "pages": [
-                "deploy/updates",
-                "deploy/monitoring",
-                "deploy/backup"
-              ]
-            }
-          ]
-        },
-        {
-          "group": "Supported devices",
-          "icon": "plug-circle-check",
-          "pages": [
-            "devices/overview",
-            {
-              "group": "Vendor adapters",
-              "pages": [
-                {
-                  "group": "Displays",
-                  "pages": [
-                    "devices/philips-sicp",
-                    "devices/sony-bravia"
-                  ]
-                },
-                {
-                  "group": "Video conferencing",
-                  "pages": [
-                    "devices/cisco-roomos",
-                    "devices/poly-videoos"
-                  ]
-                },
-                {
-                  "group": "Audio",
-                  "pages": [
-                    "devices/tesira"
-                  ]
-                },
-                {
-                  "group": "Cameras",
-                  "pages": [
-                    "devices/visca-over-ip"
-                  ]
-                },
-                {
-                  "group": "Control and AV-over-IP",
-                  "pages": [
-                    "devices/aurora-rxt",
-                    "devices/aurora-vpx"
-                  ]
-                },
-                {
-                  "group": "Power and network",
-                  "pages": [
-                    "devices/aten-pdu",
-                    "devices/netgear-m4250"
-                  ]
-                }
-              ]
-            },
-            {
-              "group": "Generic adapters",
-              "pages": [
-                "devices/rest",
-                "devices/websocket",
-                "devices/telnet",
-                "devices/serial",
-                "devices/ping"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "tab": "API reference",
-      "icon": "code",
-      "groups": [
-        {
-          "group": "Getting started",
-          "icon": "rocket",
-          "pages": [
-            "api-reference/introduction",
-            "api-reference/authentication",
-            "api-reference/pagination",
-            "api-reference/errors"
-          ]
-        },
-        {
-          "group": "Token check",
-          "icon": "key",
-          "pages": [
-            "api-reference/meta/verify-a-token"
-          ]
-        },
-        {
-          "group": "Devices",
-          "icon": "display",
-          "pages": [
-            "api-reference/devices/list-devices",
-            "api-reference/devices/get-a-device",
-            "api-reference/devices/get-latest-telemetry",
-            "api-reference/devices/list-events-for-a-device"
-          ]
-        },
-        {
-          "group": "Buildings and rooms",
-          "icon": "building",
-          "pages": [
-            "api-reference/hierarchy/list-buildings",
-            "api-reference/hierarchy/list-rooms"
-          ]
-        },
-        {
-          "group": "Assets",
-          "icon": "boxes-stacked",
-          "pages": [
-            "api-reference/assets/list-assets",
-            "api-reference/assets/get-one-asset"
-          ]
-        },
-        {
-          "group": "Alerts",
-          "icon": "bell",
-          "pages": [
-            "api-reference/alerts/list-alerts"
-          ]
-        },
-        {
-          "group": "Events",
-          "icon": "wave-square",
-          "pages": [
-            "api-reference/events/list-events"
-          ]
-        },
-        {
-          "group": "Audit",
-          "icon": "clipboard-list",
-          "pages": [
-            "api-reference/audit/list-audit-entries"
-          ]
-        }
-      ]
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "willow",
+  "name": "M.A.R.C.U.S.",
+  "colors": {
+    "primary": "#2A1B5E",
+    "light": "#4FC3E0",
+    "dark": "#C8156A"
+  },
+  "favicon": "/images/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": "Introduction",
+            "icon": "book-open",
+            "pages": [
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Deploy the Collector",
+            "icon": "rocket-launch",
+            "pages": [
+              "deploy/overview",
+              {
+                "group": "Plan",
+                "pages": [
+                  "deploy/topologies",
+                  "deploy/network-requirements",
+                  "deploy/sizing"
+                ]
+              },
+              {
+                "group": "Install",
+                "pages": [
+                  "deploy/install-linux",
+                  "deploy/install-windows",
+                  "deploy/docker",
+                  "deploy/kubernetes",
+                  "deploy/managed-containers",
+                  "deploy/configuration"
+                ]
+              },
+              {
+                "group": "Operate",
+                "pages": [
+                  "deploy/updates",
+                  "deploy/monitoring",
+                  "deploy/backup"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Supported devices",
+            "icon": "plug-circle-check",
+            "pages": [
+              "devices/overview",
+              {
+                "group": "Vendor adapters",
+                "pages": [
+                  {
+                    "group": "Displays",
+                    "pages": [
+                      "devices/philips-sicp",
+                      "devices/sony-bravia"
+                    ]
+                  },
+                  {
+                    "group": "Video conferencing",
+                    "pages": [
+                      "devices/cisco-roomos",
+                      "devices/poly-videoos"
+                    ]
+                  },
+                  {
+                    "group": "Audio",
+                    "pages": [
+                      "devices/tesira"
+                    ]
+                  },
+                  {
+                    "group": "Cameras",
+                    "pages": [
+                      "devices/visca-over-ip"
+                    ]
+                  },
+                  {
+                    "group": "Control and AV-over-IP",
+                    "pages": [
+                      "devices/aurora-rxt",
+                      "devices/aurora-vpx"
+                    ]
+                  },
+                  {
+                    "group": "Power and network",
+                    "pages": [
+                      "devices/aten-pdu",
+                      "devices/netgear-m4250"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Generic adapters",
+                "pages": [
+                  "devices/rest",
+                  "devices/websocket",
+                  "devices/telnet",
+                  "devices/serial",
+                  "devices/ping"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API reference",
+        "icon": "code",
+        "groups": [
+          {
+            "group": "Getting started",
+            "icon": "rocket",
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/authentication",
+              "api-reference/pagination",
+              "api-reference/errors"
+            ]
+          },
+          {
+            "group": "Token check",
+            "icon": "key",
+            "pages": [
+              "api-reference/meta/verify-a-token"
+            ]
+          },
+          {
+            "group": "Devices",
+            "icon": "display",
+            "pages": [
+              "api-reference/devices/list-devices",
+              "api-reference/devices/get-a-device",
+              "api-reference/devices/get-latest-telemetry",
+              "api-reference/devices/list-events-for-a-device"
+            ]
+          },
+          {
+            "group": "Buildings and rooms",
+            "icon": "building",
+            "pages": [
+              "api-reference/hierarchy/list-buildings",
+              "api-reference/hierarchy/list-rooms"
+            ]
+          },
+          {
+            "group": "Assets",
+            "icon": "boxes-stacked",
+            "pages": [
+              "api-reference/assets/list-assets",
+              "api-reference/assets/get-one-asset"
+            ]
+          },
+          {
+            "group": "Alerts",
+            "icon": "bell",
+            "pages": [
+              "api-reference/alerts/list-alerts"
+            ]
+          },
+          {
+            "group": "Events",
+            "icon": "wave-square",
+            "pages": [
+              "api-reference/events/list-events"
+            ]
+          },
+          {
+            "group": "Audit",
+            "icon": "clipboard-list",
+            "pages": [
+              "api-reference/audit/list-audit-entries"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "api": {
+    "openapi": "api-reference/openapi.json",
+    "playground": {
+      "display": "interactive"
     }
-  ]
+  },
+  "logo": {
+    "light": "/images/marcus-light.svg",
+    "dark": "/images/marcus-dark.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:support@involve.vc"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Sign in",
+      "href": "https://app.uat.involvecloud.com"
+    }
+  },
+  "icons": {
+    "library": "fontawesome"
+  },
+  "appearance": {
+    "default": "light"
+  },
+  "fonts": {
+    "heading": {
+      "family": "Roboto"
+    },
+    "body": {
+      "family": "Roboto"
+    }
+  }
 }
