@@ -1,0 +1,28 @@
+---
+title: "Errors"
+description: "Error responses and status codes."
+icon: "triangle-exclamation"
+---
+
+Errors use the same shape on every endpoint:
+
+```json
+{
+  "error": {
+    "code": "not_found",
+    "message": "device not found"
+  }
+}
+```
+
+`code` is stable and safe to match on; `message` is for people and may be reworded.
+
+| Status | `code` | When |
+|---|---|---|
+| 400 | `bad_request` | A parameter is invalid, such as a malformed `cursor` or a `since` that isn't an RFC 3339 timestamp. |
+| 401 | `unauthorized` | No token, or the token is wrong, expired or revoked. |
+| 403 | `forbidden` | The token doesn't have the scope this endpoint needs. |
+| 404 | `not_found` | The record doesn't exist, or belongs to another customer. |
+| 500 | `internal_error` | Something went wrong on our side. Retry later; if it persists, contact support with the time and endpoint. |
+
+A filter that matches nothing returns `200` with an empty `data` list, not `404`.
