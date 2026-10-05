@@ -1,0 +1,58 @@
+---
+title: "Public API"
+sidebarTitle: "Introduction"
+description: "Read-only access to your estate for CMDBs, incident tools, dashboards and SIEMs."
+icon: "code"
+---
+
+The M.A.R.C.U.S. Public API gives other systems read-only access to your estate: sync devices and assets into a CMDB, mirror alerts into an incident tool, feed dashboards, or send the audit trail to a SIEM.
+
+Every request is scoped to the customer the token belongs to, and the API never changes anything — it only reads.
+
+## Base URL
+
+```
+https://api.uat.involvecloud.com
+```
+
+All endpoints are under `/pub/v1`. Requests and responses are JSON over HTTPS.
+
+## Make your first call
+
+<Steps>
+  <Step title="Create a token">
+    In the portal, go to **Settings → API tokens** and select **New token**. Choose the scopes it needs and an expiry. Copy the token when it's shown: it isn't displayed again. See [Authentication](/api-reference/authentication).
+  </Step>
+  <Step title="Check it works">
+    ```bash
+    curl -H "Authorization: Bearer avb_..." https://api.uat.involvecloud.com/pub/v1/ping
+    ```
+    The reply names the customer and the token's scopes.
+  </Step>
+  <Step title="Read some data">
+    ```bash
+    curl -H "Authorization: Bearer avb_..." "https://api.uat.involvecloud.com/pub/v1/devices?status=offline"
+    ```
+  </Step>
+</Steps>
+
+## Endpoints
+
+| Endpoint | What it does | Scope |
+|---|---|---|
+| [`GET /pub/v1/ping`](/api-reference/meta/verify-a-token) | Verify a token | Any |
+| [`GET /pub/v1/devices`](/api-reference/devices/list-devices) | List devices | `view.dashboard` |
+| [`GET /pub/v1/devices/{id}`](/api-reference/devices/get-a-device) | Get a device | `view.dashboard` |
+| [`GET /pub/v1/devices/{id}/telemetry`](/api-reference/devices/get-latest-telemetry) | Get latest telemetry | `view.dashboard` |
+| [`GET /pub/v1/devices/{id}/events`](/api-reference/devices/list-events-for-a-device) | List events for a device | `view.dashboard` |
+| [`GET /pub/v1/buildings`](/api-reference/hierarchy/list-buildings) | List buildings | `view.dashboard` |
+| [`GET /pub/v1/rooms`](/api-reference/hierarchy/list-rooms) | List rooms | `view.dashboard` |
+| [`GET /pub/v1/assets`](/api-reference/assets/list-assets) | List assets | `view.assets` |
+| [`GET /pub/v1/assets/{id}`](/api-reference/assets/get-one-asset) | Get one asset | `view.assets` |
+| [`GET /pub/v1/alerts`](/api-reference/alerts/list-alerts) | List alerts | `view.dashboard` |
+| [`GET /pub/v1/events`](/api-reference/events/list-events) | List events | `view.dashboard` |
+| [`GET /pub/v1/audit`](/api-reference/audit/list-audit-entries) | List audit entries | `view.audit` |
+
+<Tip>
+The OpenAPI 3.1 document is also served by the API itself at `https://api.uat.involvecloud.com/pub/v1/openapi.json`, for importing into Postman, Insomnia or a code generator.
+</Tip>
