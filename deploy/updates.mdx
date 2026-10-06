@@ -1,16 +1,37 @@
 ---
 title: "Update the Collector"
 sidebarTitle: "Updates"
-description: "Update each runtime and the version compatibility commitment."
+description: "Update Collectors from the portal, automatically or by hand, and the version compatibility commitment."
 icon: "arrows-rotate"
 ---
 
+## From the portal
+
+Collectors running as a Linux or Windows service can update themselves. The **Collectors** page shows **vX.Y.Z available** under any Collector that's behind the latest release.
+
+- **Update now:** select the update button on the Collector's row, or **Update all** at the top of the page. An online Collector starts within seconds.
+- **Update automatically:** select the schedule button on the row, tick **Update automatically** and choose a time. When a newer version is available, the Collector updates within two hours of that time, in its building's time zone.
+
+During an update, the Collector downloads the new version from M.A.R.C.U.S. Cloud and checks its digital signature. Then it confirms the new version accepts its configuration and restarts. Monitoring pauses for under a minute. If the new version can't reach the cloud within five minutes, or fails to start, the Collector puts the previous version back and restarts on it. The portal then shows **Update rolled back** and the reason.
+
+Updates are signed with a release key held by Involve, separately from M.A.R.C.U.S. Cloud. A Collector only installs software signed with that key, so even M.A.R.C.U.S. Cloud can't make it run anything else.
+
+Updating needs the **Manage collectors** permission. If a Collector can't update itself, the portal says why, for example "runs in a container".
+
+<Note>
+**Linux Collectors installed before version 1.0.20** keep their binary in `/usr/local/bin`, which the service can't write to. Re-run the install command from the portal once to move it to `/opt/av-bridge/bin`; after that the Collector updates itself.
+</Note>
+
+## By hand
+
 | Runtime | How to update |
 |---|---|
-| Linux service | Replace the binary, then run `systemctl restart av-bridge` |
+| Linux service | Replace `/opt/av-bridge/bin/av-bridge`, then run `systemctl restart av-bridge` |
 | Windows service | Replace the binary, then run `Restart-Service av-bridge` |
 | Docker Compose | `docker compose pull && docker compose up -d` |
 | Kubernetes | Update the image tag in the Deployment |
 | Managed container platforms | Redeploy with the new image tag |
+
+Collectors in containers are always updated by deploying a new image.
 
 Collector releases use semantic version tags. The current cloud release always supports the two most recent Collector minor versions. The portal's **Collectors** page shows each Collector's version, so you can see which ones need updating. The *M.A.R.C.U.S. — Release & Upgrade Policy* has the full compatibility commitments.
