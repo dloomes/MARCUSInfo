@@ -1,35 +1,42 @@
 ---
-title: "Quickstart"
-description: "Get from sign-in to live device status in four steps."
-icon: "bolt"
+title: "API tokens"
+description: "Give another system read-only access to your estate through the Public API."
+icon: "key"
 ---
 
-M.A.R.C.U.S. monitors and controls the AV and video collaboration equipment across your estate from one portal. It covers displays, codecs, DSPs, cameras, touch panels and PDUs. A small **Collector** on your network talks to your devices and reports to **M.A.R.C.U.S. Cloud**, which is hosted exclusively in the UK. The Collector needs only one outbound firewall rule.
+API tokens let other systems, such as a CMDB, BI tool or SIEM, read from M.A.R.C.U.S. through the [Public API](/api-reference/introduction). Tokens are read-only. You need **View API tokens** to see the list and **Manage API tokens** to create or revoke them.
 
-<Steps>
-  <Step title="Sign in to the portal">
-    Sign in with your organisation's Microsoft account, or with the email and password your administrator gave you.
-  </Step>
-  <Step title="Install a Collector">
-    Go to **Collectors** and select **New collector**. Copy the one-line install command it gives you and run it on a Linux or Windows host that can reach your AV network. The Collector shows as online within a minute or so.
+## Create a token
 
-    The Collector needs outbound HTTPS (TCP 443) to `*.involvecloud.com` and nothing inbound. See [Network requirements](/deploy/network-requirements).
-  </Step>
-  <Step title="Add your devices">
-    Go to **Devices** and select **New device**. Choose your Collector, pick the device's **Protocol**, enter its address and credentials, and save. The Collector picks the device up within five minutes, and its status and readings then appear on the device page.
-  </Step>
-  <Step title="Get alerted">
-    Go to **Notifications** and add an Email, Microsoft Teams or webhook channel. You'll then hear about problems before your users do.
-  </Step>
-</Steps>
+1. Go to **API tokens** and select **New token**.
+2. Give it a **Name** that says what uses it, such as *Facilities BI export*.
+3. Tick only the **Scopes** it needs:
 
-## Next steps
+   | Scope | Lets it read |
+   |---|---|
+   | **Read fleet + devices** | Devices, telemetry, rooms, buildings, alerts and events |
+   | **Read assets (CMDB)** | The asset register |
+   | **Read audit log** | The audit trail |
+   | **Read Room Readiness** | Nightly run results, down to each test routine step |
 
-<CardGroup cols={2}>
-  <Card title="Deploy the Collector" icon="rocket-launch" href="/deploy/overview">
-    Choose a topology, size the host, and install on Linux, Windows, Docker or Kubernetes.
-  </Card>
-  <Card title="Supported devices" icon="plug-circle-check" href="/devices/overview">
-    What each adapter supports, and how to set up each kind of device.
-  </Card>
-</CardGroup>
+   The other scopes listed (firmware, notification channels, reports) are reserved for endpoints not yet in the API.
+4. Choose when it **Expires**: 30 days, 90 days (the default) or 1 year. **Never** is available but not recommended.
+5. Select **Create token**, then copy the token.
+
+<Warning>
+The token is shown only once. Store it in the integration's secret store straight away; M.A.R.C.U.S. keeps only a fingerprint of it and can't show it again.
+</Warning>
+
+## Keep track of tokens
+
+The list shows each token's prefix (such as `avb_1a2b3c4d…`), its scopes, who created it, when and from where it was last used, and when it expires. A token that has never been used, or hasn't been used for months, may be safe to revoke.
+
+## Revoke a token
+
+Select the token's revoke icon, then **Revoke token**. The integration using it stops working immediately. The token stays in the history so past activity can still be traced.
+
+To rotate a token without downtime, create the new one, update the integration, then revoke the old one.
+
+<Tip>
+**API docs**, at the top of the page, opens the interactive API reference for trying calls with a token.
+</Tip>
