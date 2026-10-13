@@ -1,7 +1,7 @@
 ---
 title: "ATEN eco PDU"
 sidebarTitle: "ATEN eco PDU"
-description: "ATEN eco PDU range (PE6108G and siblings) over the Telnet CLI on port 23. Per-outlet on/off/reboot control and per-outlet power metering; device-level voltage and total power draw."
+description: "ATEN eco PDU range (PE6108G and siblings) over the Telnet CLI on port 23. Per-outlet on/off/reboot control and per-outlet power metering; device-level voltage and total power draw. Polled every 5 minutes by default."
 icon: "plug"
 ---
 
@@ -18,21 +18,21 @@ icon: "plug"
 
 ## Before you start
 
-1. Enable Telnet on the PDU and note an admin username and password.
+1. Enable Telnet on the PDU and note its Telnet username and password. These are separate from the web interface login; PE-series PDUs typically ship with `teladmin` / `telpwd`.
 2. For models with more than 8 outlets, set the `outlet_count` tag on the device.
 
 ## Add the device
 
 1. In the portal, go to **Devices** and select **New device**.
 2. Choose the **Collector** that can reach the device, and set **Protocol** to **ATEN eco PDU**.
-3. Enter the settings below and save. The Collector picks up the new device within five minutes.
+3. Enter the settings below and save. The Collector picks up the new device within seconds.
 
 | Setting | Required | What to enter | Example |
 |---|---|---|---|
 | **Address** | Yes | PDU IP or host. Port 23 is the ATEN Telnet default; append :port to override. | `192.168.90.10` |
-| **Username** | Yes | Admin username configured on the PDU. | `administrator` |
-| **Password** | Yes | Admin password. |  |
-| **Poll rate (seconds)** | No | How often to sample outlet state and power. 30s is a good default — every outlet is queried each poll. | `30` |
+| **Username** | Yes | The PDU's Telnet username. This is a separate account from the web interface login; PE-series PDUs typically ship with teladmin. | `teladmin` |
+| **Password** | Yes | That Telnet user's password (typically telpwd until changed). Wrong credentials show the PDU offline with "login rejected". |  |
+| **Poll rate (seconds)** | No | How often to read outlet state and power. Leave blank for every 5 minutes. Each reading is its own Telnet login, so faster polling adds load on the PDU; outlet names are re-read hourly. | `300` |
 | **Tags → `outlet_count`** | No | Override the outlet count for non-PE6108G models. Defaults to 8. | `16` |
 | **Tags → `outlet_N_name`** | No | Optional per-outlet label override (e.g. the `outlet_1_name` tag set to `Codec`). Wins over the name configured on the PDU itself. | `Codec` |
 
