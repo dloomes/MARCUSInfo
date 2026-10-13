@@ -28,7 +28,9 @@
               "portal/getting-around",
               "portal/overview-and-map",
               "portal/devices",
-              "portal/alerts"
+              "portal/alerts",
+              "portal/room-readiness",
+              "portal/test-routines"
             ]
           },
           {
@@ -208,6 +210,15 @@
             "icon": "clipboard-list",
             "pages": [
               "api-reference/audit/list-audit-entries"
+            ]
+          },
+          {
+            "group": "Room Readiness",
+            "icon": "moon",
+            "pages": [
+              "api-reference/room-readiness/list-rooms-with-their-latest-run",
+              "api-reference/room-readiness/list-runs",
+              "api-reference/room-readiness/get-a-run-with-its-steps"
             ]
           }
         ]
