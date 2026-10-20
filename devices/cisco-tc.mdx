@@ -1,0 +1,91 @@
+---
+title: "Cisco TC (TC7)"
+sidebarTitle: "Cisco TC (TC7)"
+description: "Cisco TelePresence codecs on TC software (TC7.x): SX, MX, EX, C and Profile series. The same xAPI as RoomOS, with TC's standby and reboot commands and support for its older HTTPS."
+icon: "video"
+---
+
+**Works with:** Cisco TelePresence codecs running TC software (TC7.x), including the SX, MX, EX, C and Profile series. For CE or RoomOS software, use [Cisco RoomOS](/devices/cisco-roomos).
+
+| | |
+|---|---|
+| **Type** | Vendor adapter |
+| **Vendor** | Cisco |
+| **Device types** | Conferencing |
+| **Connection** | xAPI over HTTPS (TCP 443) or HTTP (TCP 80), using Basic authentication |
+| **Power on/off from the portal** | Yes |
+| **Protocol in the portal** | Cisco TC (TC7) (`cisco_tc`) |
+
+## Before you start
+
+1. Check the codec's software version in its web interface, under **System Information**. It starts `TC7` for this adapter.
+2. Note the username and password of a user with the **Admin** role. On TC, the built-in `admin` user has it.
+3. TC uses a self-signed certificate unless you've installed your own. If you haven't, set the `tls_skip_verify` tag to `true` on the device.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **Cisco TC (TC7)**.
+3. Enter the settings below and save. The Collector picks up the new device within seconds.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | Codec address. HTTPS is assumed; TC also enables HTTP by default, so http:// works if HTTPS gives trouble. | `192.168.1.19` |
+| **Username** | Yes | Local user with the Admin role (admin by default on TC). |  |
+| **Password** | Yes | That user's password. |  |
+| **Tags → `tls_skip_verify`** | No | Set to "true" to accept the codec's self-signed certificate. | `true` |
+
+<Note>
+**Tags** are set under **Advanced (JSON) → Tags** in the device form, as a JSON object, for example `{"tls_skip_verify": "true"}`.
+</Note>
+
+## Readings
+
+These values appear under **Device Information** on the device page, and can be checked in Room Readiness routines.
+
+| Reading | Shown as |
+|---|---|
+| `call_state` | Call State |
+| `active_calls` | Active Calls |
+| `remote_number` | Remote Number |
+| `mic_mute` | Mic Mute |
+| `volume` | Volume |
+| `power_status` | Power Status |
+| `standby_state` | Standby State |
+| `product_id` | Product Id |
+| `software_version` | Software Version |
+| `serial_number` | Serial Number |
+| `ip_address` | Ip Address |
+| `mac_address` | Mac Address |
+| `uptime_s` | Uptime S |
+| `fault_count` | Fault Count |
+| `faults` | Faults |
+| `response_ms` | Response Ms |
+
+## Commands
+
+Each command is a button on the device page, and can be used in Room Readiness routines.
+
+| Command | Button | Notes |
+|---|---|---|
+| `dial` | Dial | Asks for the address to dial: SIP URI, H.323 address or phone number. |
+| `hangup` | Hangup |  |
+| `mute` | Mute |  |
+| `unmute` | Unmute |  |
+| `vol_up` | Vol Up |  |
+| `vol_dn` | Vol Dn |  |
+| `power_on` | Power On |  |
+| `power_off` | Power Off |  |
+| `reboot` | Reboot |  |
+
+<Note>
+**Older HTTPS:** TC's web server predates current TLS, so this adapter also accepts TLS 1.0 and 1.1 and older cipher suites. TC enables HTTP as well as HTTPS by default; if HTTPS still won't connect, enter the address as `http://` followed by the codec's IP address.
+</Note>
+
+<Note>
+**Power:** **Power Off** puts the codec into standby and **Power On** wakes it. The device page shows the standby state as Off (awake) or Standby.
+</Note>
+
+<Note>
+**Not available on TC:** people count, which needs RoomOS.
+</Note>
