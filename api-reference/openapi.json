@@ -42,7 +42,7 @@
     },
     {
       "name": "Room Readiness",
-      "description": "Results of the nightly power-cycle and test routine for each room, down to every routine step. Needs the nightly.view scope."
+      "description": "Results of each room's power schedule (switched off at night, on in the morning) and readiness checks (a test routine, down to every step). Needs the nightly.view scope."
     }
   ],
   "paths": {
@@ -102,7 +102,8 @@
               "enum": [
                 "online",
                 "offline",
-                "unknown"
+                "unknown",
+                "switched_off"
               ]
             }
           },
@@ -659,9 +660,45 @@
             }
           },
           {
+            "name": "device_id",
+            "in": "query",
+            "description": "Entries about this device, including commands sent to it.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "room_id",
+            "in": "query",
+            "description": "Entries about this room and everything in it: its devices and their commands, its assets, and its Room Readiness runs.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "building_id",
+            "in": "query",
+            "description": "Entries about this building, its rooms and everything in them.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "location_id",
+            "in": "query",
+            "description": "Entries about this location (site), its buildings, rooms and everything in them. Place filters use each record's current place, so a device moved to another room appears under its new room, history included.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
             "name": "since",
             "in": "query",
-            "description": "Entries at or after this time (RFC 3339).",
+            "description": "Entries at or after this time (RFC 3339). Use `since` or `last`, not both.",
             "schema": {
               "type": "string",
               "format": "date-time"
@@ -674,6 +711,15 @@
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "name": "last",
+            "in": "query",
+            "description": "A rolling window instead of `since`: `15m`, `2h`, `7d`, up to `366d`. For example `last=15m` returns the last 15 minutes.",
+            "schema": {
+              "type": "string",
+              "example": "15m"
             }
           },
           {
@@ -727,8 +773,8 @@
         "tags": [
           "Room Readiness"
         ],
-        "summary": "List rooms with their latest run",
-        "description": "Every room with the test routine it runs (its own, or the customer default) and its most recent run, so one call answers \"is every room ready this morning?\". `latest_run` is null for a room that hasn't run yet. Not paginated. Requires the `nightly.view` scope.",
+        "summary": "List rooms with their latest runs",
+        "description": "Every room with its readiness check (the routine, its own or the customer default, and when it runs) and its latest power and readiness runs, so one call answers \"is every room ready this morning?\". A latest run is null for a room that hasn't had one. Not paginated. Requires the `nightly.view` scope.",
         "responses": {
           "200": {
             "description": "Rooms, ordered by building then room.",
@@ -759,10 +805,22 @@
           "Room Readiness"
         ],
         "summary": "List runs",
-        "description": "Nightly runs, most recent first, each with a count of passed and failed routine steps. Fetch a run by id for the individual steps. Requires the `nightly.view` scope.",
+        "description": "Runs, most recent first: power runs (the room switched off and back on) and readiness runs (a test routine), each with a count of passed and failed steps. Fetch a run by id for the individual steps. Requires the `nightly.view` scope.",
         "parameters": [
           {
             "$ref": "#/components/parameters/RoomID"
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "description": "`power` or `readiness`. Both when omitted.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "power",
+                "readiness"
+              ]
+            }
           },
           {
             "name": "status",
@@ -1118,8 +1176,10 @@
             "enum": [
               "online",
               "offline",
-              "unknown"
-            ]
+              "unknown",
+              "switched_off"
+            ],
+            "description": "`unknown` when the device's Collector isn't reporting; `switched_off` while Room Readiness has it switched off for the night."
           },
           "ip_address": {
             "type": "string"
@@ -1569,6 +1629,7 @@
         "type": "object",
         "required": [
           "id",
+          "kind",
           "room_id",
           "room",
           "building_id",
@@ -1584,6 +1645,14 @@
           "id": {
             "type": "string",
             "format": "uuid"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "power",
+              "readiness"
+            ],
+            "description": "`power`: the room switched off at night and back on. `readiness`: a test routine."
           },
           "room_id": {
             "type": "string",
@@ -1647,7 +1716,16 @@
               "string",
               "null"
             ],
-            "format": "date-time"
+            "format": "date-time",
+            "description": "When the run began: the evening power-off, or the start of a run without a power cycle."
+          },
+          "powered_on_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "When the morning power-on began; null until then, and for runs without a power cycle."
           },
           "completed_at": {
             "type": [
@@ -1660,7 +1738,8 @@
             "type": [
               "integer",
               "null"
-            ]
+            ],
+            "description": "How long the room took to be ready (or to fail) after power-on; for a run without a power cycle, from its start."
           },
           "failure_reason": {
             "type": [
@@ -1670,7 +1749,7 @@
           },
           "steps_total": {
             "type": "integer",
-            "description": "Routine steps recorded so far."
+            "description": "Steps recorded so far, including the scheduled power off and power on."
           },
           "steps_passed": {
             "type": "integer"
@@ -1691,14 +1770,14 @@
         "properties": {
           "index": {
             "type": "integer",
-            "description": "Position in the routine, from 0."
+            "description": "Position in the routine, from 0. The scheduled power off and power on come first, as -2 and -1."
           },
           "name": {
             "type": "string"
           },
           "type": {
             "type": "string",
-            "description": "e.g. `wait`, `power_on`, `expect_status`, `check_metric`, `device_command`."
+            "description": "e.g. `power_off`, `power_on`, `wait`, `expect_status`, `check_metric`, `device_command`."
           },
           "device_id": {
             "type": [
@@ -1795,7 +1874,7 @@
               "null"
             ],
             "format": "uuid",
-            "description": "The routine tonight's run will use; null means power-cycle only."
+            "description": "The room's readiness routine (its own, or the customer default); null when the room isn't checked."
           },
           "routine": {
             "type": [
@@ -1803,15 +1882,43 @@
               "null"
             ]
           },
+          "readiness_time": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "When the readiness check runs, HH:MM in the customer's timezone; null when the room isn't checked."
+          },
           "excluded_until": {
             "type": [
               "string",
               "null"
             ],
             "format": "date",
-            "description": "The room is left out of the nightly cycle up to and including this date."
+            "description": "The room is left out of both the power schedule and readiness checks up to and including this date."
           },
           "latest_run": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ReadinessRun"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The more recent of the two below."
+          },
+          "latest_power_run": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ReadinessRun"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "latest_readiness_run": {
             "oneOf": [
               {
                 "$ref": "#/components/schemas/ReadinessRun"
@@ -1827,8 +1934,12 @@
   },
   "servers": [
     {
+      "url": "https://api.involvecloud.com",
+      "description": "Production"
+    },
+    {
       "url": "https://api.uat.involvecloud.com",
-      "description": "M.A.R.C.U.S. Cloud (UK)"
+      "description": "UAT"
     }
   ]
 }
