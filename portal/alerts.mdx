@@ -11,11 +11,13 @@ An alert is raised when something needs attention, most often a device or Collec
 
 | Alert | Raised when | Clears |
 |---|---|---|
-| **Device offline** | A device stops responding | Automatically, when it responds again |
-| **Collector offline** | A Collector stops checking in. Always critical, because none of its devices can be monitored | Automatically, when it checks in again |
+| **Device offline** | A device stops responding. Warning by default | Automatically, when it responds again |
+| **Collector offline** | A Collector stops checking in. Critical, because none of its devices can be monitored; Warning when a standby Collector has taken over its devices, or when the offline machine is the standby itself | Automatically, when it checks in again |
 | Device-specific alerts | A device reports a problem, depending on the device | When resolved |
 
 Alerts are also closed automatically if their device is deleted.
+
+Devices that [Room Readiness](/portal/room-readiness) has switched off for the night don't raise offline alerts until the morning warm-up is over.
 
 ## Severity
 
@@ -41,3 +43,7 @@ You need the **Acknowledge alerts** or **Resolve alerts** permission for these a
 Alerts can also be sent by email, to a Microsoft Teams channel, to any system that accepts a webhook, or straight into ServiceNow as incidents. An administrator sets these up; see [Notifications](/admin/notifications).
 
 Notifications go out when an alert first opens, not every time it repeats, so an unstable device doesn't flood your inbox.
+
+## How long alerts are kept
+
+Resolved alerts are kept for 12 months after they're resolved, then deleted. Open and acknowledged alerts are kept until they're resolved.
