@@ -36,7 +36,7 @@ Packaging doesn't affect sizing: a container with 4 vCPU and 8 GB behaves the sa
 
 ## Bandwidth
 
-**Collector to M.A.R.C.U.S. Cloud** (outbound HTTPS 443): about 0.11 Mbps per 1,000 devices at the default 60-second poll rate, covering telemetry, configuration sync and the command channel. A 5,000-device Collector sends about 0.6 Mbps. Allow twice that for estates with many devices that report in detail. Traffic from the cloud to the Collector is small, about 0.02 Mbps. After an outage, a Collector sends its buffered telemetry (up to 256 MB) as a one-off burst.
+**Collector to M.A.R.C.U.S. Cloud** (outbound HTTPS 443): about 0.11 Mbps per 1,000 devices at the default 60-second poll rate, covering telemetry, configuration sync and the command channel. A 5,000-device Collector sends about 0.6 Mbps. Allow twice that for estates with many devices that report in detail. Traffic from the cloud to the Collector is small, about 0.02 Mbps. Each open remote access session adds the device's web page traffic, typically 1 to 5 MB when a page loads and little while it's idle. After an outage, a Collector sends its buffered telemetry (up to 256 MB) as a one-off burst.
 
 **Collector to devices** depends on the device type:
 
@@ -65,3 +65,5 @@ When Collectors run in a public cloud, the provider usually charges for traffic 
 - **Device replies** arrive as ingress, which is usually free.
 
 As a guide, an estate of 50,000 devices without codecs, on ten Collectors, comes to about 2–3 TB of chargeable egress a month.
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Docs build 23 Oct 2026 14:52 · page c8f7267</p>
