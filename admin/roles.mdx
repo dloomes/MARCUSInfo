@@ -13,7 +13,7 @@ Every organisation starts with three roles. They can't be edited or deleted, so 
 
 | Role | Can do |
 |---|---|
-| **admin** | Everything: manage devices, locations, Collectors, business units, users, roles, notifications, firmware targets, assets, Room Readiness, API tokens and branding, plus all monitoring and control, opening devices' web interfaces through **Remote access**, and sharing dashboards with the organisation. |
+| **admin** | Everything: manage devices, locations, Collectors (and read their logs), business units, users, roles, notifications, firmware targets, assets, Room Readiness, API tokens and branding, plus all monitoring and control, opening devices' web interfaces through **Remote access**, and sharing dashboards with the organisation. |
 | **operator** | All monitoring; send commands, including to many devices at once; reconnect devices; acknowledge and resolve alerts; test notification channels; view Room Readiness and defer tonight's power-down. No user or role management. |
 | **viewer** | Read-only monitoring. No control actions. |
 
@@ -35,7 +35,7 @@ When you give roles to users, you can only give roles whose permissions you hold
 | **Reads** | View dashboard (fleet summary, devices, live events) · View audit log · View reports · View firmware · View notifications · View users · View assets |
 | **Device control** | Send device commands · Bulk command fan-out (up to 200 devices) · Reconnect device · Remote access (open a device's web interface from the portal through its Collector) |
 | **Alerts** | Acknowledge alerts · Resolve alerts |
-| **Fleet management** | Manage devices · Manage locations · Manage business units · Manage collectors · Share dashboards (publish dashboards for the organisation, and edit or delete them) |
+| **Fleet management** | Manage devices · Manage locations · Manage business units · Manage collectors · View Collector logs (read what Collectors send of their own log, kept 30 days) · Share dashboards (publish dashboards for the organisation, and edit or delete them) |
 | **Notifications** | Manage notification channels · Test notification channel |
 | **Firmware** | Manage firmware targets |
 | **Users and roles** | Create users · Update users · Reset user passwords · Delete users · Manage roles · Manage sign-in mappings |
@@ -47,3 +47,5 @@ When you give roles to users, you can only give roles whose permissions you hold
 <Tip>
 Combine a role with an [access scope](/admin/users-and-access#limit-a-user-to-part-of-the-estate) to give, say, a site technician operator rights over their own building only.
 </Tip>
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Docs build 23 Oct 2026 14:52 · page 5057f06</p>
