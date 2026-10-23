@@ -10,9 +10,19 @@ These requirements are the same for every deployment option.
 
 | From | To | Port | Purpose |
 |---|---|---|---|
-| Collector host | `*.involvecloud.com` | TCP 443 | Long-polled command channel, telemetry push and configuration sync |
+| Collector host | `*.involvecloud.com` | TCP 443 | Long-polled command channel, telemetry push, configuration sync and the remote access tunnel |
 
-This is the only external firewall rule required. Every connection uses TLS 1.2 or higher. Each request is also signed with an HMAC-SHA256 key unique to the Collector, so messages are authenticated independently of the transport.
+This is the only external firewall rule required for the Collector. Every connection uses TLS 1.2 or higher. The Collector's requests, and the handshake that opens the remote access tunnel, are signed with an HMAC-SHA256 key unique to the Collector, so they are authenticated independently of the transport.
+
+The remote access tunnel, which lets administrators open a device's web interface from the portal, is a WebSocket on the same port. If outbound traffic passes through a proxy or TLS-inspecting firewall, it must allow WebSocket upgrades to `*.involvecloud.com`. Through the tunnel, the Collector only connects to its own devices, on ports 80, 443, 8080 or 8443, the device's own control port, or the port in its `web_port` tag, never to anything else on the network.
+
+## Browsers used for remote access
+
+| From | To | Port | Purpose |
+|---|---|---|---|
+| Administrators' browsers | `*.access.involvecloud.com` | TCP 443 | Remote access sessions to device web interfaces |
+
+Each remote access session has its own address, such as `<session>.access.involvecloud.com`. That is one label deeper than `*.involvecloud.com`, and many web proxies and allow-lists match a wildcard to one level only, so allow `*.access.involvecloud.com` explicitly.
 
 If your allow-list needs specific hostnames rather than a wildcard, Involve will give you the exact hostnames for your tenant on request.
 
@@ -35,3 +45,5 @@ An optional local-network port is available:
 | Operator workstations and site tooling (optional) | Collector host | TCP 8080 | Local API: health check, Prometheus metrics and the touch-panel proxy |
 
 The cloud does not use this port. Allow it only from your internal network.
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Docs build 23 Oct 2026 14:52 · page 172bec4</p>
