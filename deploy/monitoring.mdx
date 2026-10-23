@@ -13,8 +13,21 @@ icon: "heart-pulse"
 
 ## Logs
 
+**In the portal.** From version 1.0.55, every Collector sends its log to M.A.R.C.U.S. Cloud with each update, so you can read it without signing in to the host: on the **Collectors** page, select **Logs** under the Collector's name. You can search, show only warnings and errors, follow new lines as they arrive, and download the lines as a text file. Lines logged while the cloud is unreachable are buffered with the telemetry and arrive when the connection returns.
+
+- What's sent: the Collector's normal (Info) level and above, not debug output.
+- Kept for 30 days, in the UK, separately for each organisation.
+- Never included: passwords, keys and tokens are never logged, and are removed if they ever appear. Usernames are masked to their first letter.
+- Who can see it: users with the **View Collector logs** permission, which administrators have, and Involve support.
+
+**On the host:**
+
 | Runtime | Where to find logs |
 |---|---|
-| Linux | The systemd journal (`journalctl -u av-bridge`) and `/var/log/av-bridge/` |
-| Windows | `C:\ProgramData\av-bridge\logs\` |
+| Linux | The systemd journal: `journalctl -u av-bridge` |
+| Windows | `C:\ProgramData\av-bridge\logs\av-bridge.log`, kept to 10 MB, with the five previous files alongside it (from version 1.0.55) |
 | Docker and Kubernetes | stdout and stderr. Forward these to your logging platform, such as Amazon CloudWatch Logs, Azure Monitor, Google Cloud Logging or a self-hosted equivalent. |
+
+To keep Collector logs in your own logging or SIEM platform for longer, forward the journal (Linux) or the log file (Windows) with your usual agent.
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Docs build 23 Oct 2026 14:52 · page 2289391</p>
