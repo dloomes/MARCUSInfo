@@ -1,29 +1,40 @@
 ---
-title: "Audit log"
-description: "See who changed what, and when, across your organisation."
-icon: "clipboard-list"
+title: "Branding"
+description: "Put your name, logo and colours on the portal and the sign-in page."
+icon: "palette"
 ---
 
-The audit log records every change made in the portal: devices, locations, users, roles, notification channels, branding, API tokens and more, plus every command sent to a device. It's on the **Activity** page in the sidebar, and needs the **View audit log** permission.
+Branding changes how the portal looks for everyone in your organisation, and how your sign-in page looks before anyone signs in. Changes apply as soon as you save. You need the **Update branding** permission, which the admin role includes.
 
-## Read the log
+## Portal
 
-Entries are newest first, and the page refreshes every 30 seconds. Each entry shows what was changed, the action (**Created**, **Updated**, **Deleted** or **Submitted**), who did it and when.
+| Setting | What it does |
+|---|---|
+| **Product name** | Replaces "M.A.R.C.U.S." in the header and browser tab. The sign-in page then reads "*Your name* on M.A.R.C.U.S.". Leave blank for the default. |
+| **Accent colour** | Colour for buttons, links and highlights. |
+| **Logo** | PNG, JPEG or SVG, up to 256 KB. Shown in the sidebar and page headers. |
 
-Expand an entry to see exactly what changed: a field-by-field comparison of before and after.
+## Sign-in page
 
-Secrets, such as device passwords and token values, are never recorded.
+Your organisation has its own sign-in address. Ask your service provider for it if you don't have it.
 
-## One device's history
+| Setting | What it does |
+|---|---|
+| **Welcome message** | A short line under the heading, such as who the portal is for or who to contact. Up to 500 characters. |
+| **Support contact** | An email address or web link, shown as "Need help?" under the form. |
+| **SSO button label** | Replaces the "Sign in with Microsoft" text, when Microsoft sign-in is set up. |
+| **Hero background image** | PNG, JPEG, SVG or WebP, up to 1 MB. Fills the left half of the sign-in page on wide screens. |
 
-Every device page has an **Activity** button showing just that device's history: edits, and every command sent to it, with who sent it.
+## Sign-in policy
 
-## Keep or analyse the log elsewhere
+**Require single sign-on** turns off passwords so that everyone signs in with Microsoft. It's only available once Microsoft sign-in is set up for your organisation. See [Sign-in with Microsoft](/admin/single-sign-on#require-microsoft-sign-in) before using it.
 
-The page shows the latest 100 entries. For the full history, a longer retention, or to feed a SIEM, read the log through the Public API with a token that has the **Read audit log** scope. The API can filter by action, kind of record, record, person and date range. It can also filter by device, room, building or location, each including everything in it: its devices, their commands, assets and Room Readiness runs. For a rolling window, such as the last 15 minutes, use `last=15m`. See [List audit entries](/api-reference/audit/list-audit-entries).
+## Preview and save
 
-## How long it's kept
+The **Preview** card shows the current branding. Select **Save changes**; the sidebar, headers and browser tab update straight away.
 
-The audit log is kept for 24 months, then deleted.
+<Tip>
+For the clearest logo, use an SVG, or a PNG with a transparent background at least 200 pixels wide.
+</Tip>
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Docs build 23 Oct 2026 14:52 · page 9441cf4</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Docs build 23 Oct 2026 14:52 · page f33aa66</p>
