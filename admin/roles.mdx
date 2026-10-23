@@ -1,51 +1,53 @@
 ---
-title: "Roles and permissions"
-sidebarTitle: "Roles"
-description: "The built-in roles, and how to create your own from individual permissions."
-icon: "user-shield"
+title: "Sign-in with Microsoft"
+sidebarTitle: "Single sign-on"
+description: "Let users sign in with Microsoft Entra ID, and give them roles from their Entra groups."
+icon: "microsoft"
 ---
 
-A role is a named set of permissions. Users need a role to see anything: someone who signs in with single sign-on and has no mapped role sees a **You don't have access yet** page. A user with several roles can do everything any of them allows. People with the **Manage roles** permission see **Roles** in the sidebar, and can create, edit and delete roles.
+M.A.R.C.U.S. supports single sign-on with Microsoft Entra ID. Users sign in with their work account, nobody needs a separate password, and roles follow Entra group membership, so joiners, movers and leavers are handled in Entra.
 
-## Built-in roles
+## Turn it on
 
-Every organisation starts with three roles. They can't be edited or deleted, so there's always a known starting point.
+Your service provider links your M.A.R.C.U.S. organisation to your Entra tenant. You'll need to give them your **Entra tenant ID**, and an Entra administrator may need to grant consent the first time someone signs in. Once linked, the sign-in page shows **Sign in with Microsoft**.
 
-| Role | Can do |
-|---|---|
-| **admin** | Everything: manage devices, locations, Collectors (and read their logs), business units, users, roles, notifications, firmware targets, assets, Room Readiness, API tokens and branding, plus all monitoring and control, opening devices' web interfaces through **Remote access**, and sharing dashboards with the organisation. |
-| **operator** | All monitoring; send commands, including to many devices at once; reconnect devices; acknowledge and resolve alerts; test notification channels; view Room Readiness and defer tonight's power-down. No user or role management. |
-| **viewer** | Read-only monitoring. No control actions. |
+## Give roles from Entra groups
 
-## Create a custom role
+Sign-in mappings connect an Entra security group to a M.A.R.C.U.S. role. You need the **Manage sign-in mappings** permission.
 
-1. Go to **Roles** and select **New role**.
-2. Give it a **Role name** and a **Description**. The names admin, operator and viewer are reserved.
-3. Tick its **Permissions**. They're grouped by area, and each group has a single toggle that selects or clears the whole group.
-4. Select **Create role**.
+1. In Entra, find the group's **Object ID** (a GUID).
+2. In M.A.R.C.U.S., go to **Sign-in mappings** and select **New mapping**.
+3. Paste the **Entra group ID**, choose the **Role**, and select **Create**.
 
-A role can't be deleted while users still have it. Give those users another role first.
+Each group maps to one role. Map several groups to give different people different roles, for example *AV Engineers* to operator and *AV Managers* to admin.
 
-When you give roles to users, you can only give roles whose permissions you hold yourself. See [You can't give more than you have](/admin/users-and-access#you-cant-give-more-than-you-have).
+## What happens when someone signs in
 
-## Permissions
+1. **First sign-in:** M.A.R.C.U.S. creates their account. If a password user with the same email already exists, it's linked to their Microsoft account instead.
+2. **Every sign-in:** their roles from Entra are rebuilt from their current groups. Someone added to a mapped group gets the role at their next sign-in; someone removed from it loses it.
+3. **Roles you assign by hand** in **Users** are kept; sign-in only changes roles that came from Entra. In **Edit user**, roles from Entra are marked **from Entra**.
 
-| Area | Permissions |
-|---|---|
-| **Reads** | View dashboard (fleet summary, devices, live events) · View audit log · View reports · View firmware · View notifications · View users · View assets |
-| **Device control** | Send device commands · Bulk command fan-out (up to 200 devices) · Reconnect device · Remote access (open a device's web interface from the portal through its Collector) |
-| **Alerts** | Acknowledge alerts · Resolve alerts |
-| **Fleet management** | Manage devices · Manage locations · Manage business units · Manage collectors · View Collector logs (read what Collectors send of their own log, kept 30 days) · Share dashboards (publish dashboards for the organisation, and edit or delete them) |
-| **Notifications** | Manage notification channels · Test notification channel |
-| **Firmware** | Manage firmware targets |
-| **Users and roles** | Create users · Update users · Reset user passwords · Delete users · Manage roles · Manage sign-in mappings |
-| **Tenant** | Update branding |
-| **Assets** | Manage assets |
-| **Room Readiness** | View Room Readiness · Defer tonight's power-down · Manage Room Readiness |
-| **Public API** | View API tokens · Manage API tokens |
+<Note>
+Someone in no mapped group can still sign in, but has no roles. They see a **You don't have access yet** page explaining what to ask for. Add them to a mapped group in Entra, or give them a role in **Users**.
+</Note>
 
-<Tip>
-Combine a role with an [access scope](/admin/users-and-access#limit-a-user-to-part-of-the-estate) to give, say, a site technician operator rights over their own building only.
-</Tip>
+Deleting a mapping takes that role away from users at their next sign-in, unless it was also given by hand.
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Docs build 23 Oct 2026 14:52 · page 5057f06</p>
+To restrict Microsoft users to part of the estate, set their [access scope](/admin/users-and-access#limit-a-user-to-part-of-the-estate) in **Users** after their first sign-in.
+
+## Require Microsoft sign-in
+
+Once Microsoft sign-in works, you can turn passwords off for everyone: on **Branding**, tick **Require single sign-on**. Then:
+
+- the sign-in page shows only **Sign in with Microsoft**;
+- passwords, password resets and adding users by hand stop working.
+
+<Warning>
+This includes your own password. Before turning it on, check that at least one administrator can sign in with Microsoft and that your sign-in mappings cover the roles your team needs.
+</Warning>
+
+## Customise the sign-in button
+
+On **Branding**, **SSO button label** replaces the "Sign in with Microsoft" text, for example with *Sign in with your Acme account*.
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Docs build 23 Oct 2026 14:52 · page d9e1b20</p>
