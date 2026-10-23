@@ -5,3 +5,6 @@
 # Draft content
 drafts/
 *.draft.mdx
+
+# The av-bridge docs build's record of the files it manages
+.marcus-build.json

@@ -27,6 +27,7 @@ A token can only read what its scopes allow. Give each integration only the scop
 
 | Scope | Shown in the portal as | Grants |
 |---|---|---|
+| `nightly.view` | Read Room Readiness | Room Readiness |
 | `view.assets` | Read assets (CMDB) | Assets |
 | `view.audit` | Read audit log | Audit |
 | `view.dashboard` | Read fleet + devices | Devices, Buildings and rooms, Alerts, Events |
@@ -43,3 +44,5 @@ Revoke a token from **Settings → API tokens** and it stops working immediately
 |---|---|
 | `401 unauthorized` | No token, or the token is wrong, expired or revoked. |
 | `403 forbidden` | The token is valid but doesn't have the scope this endpoint needs. |
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page b392cc7</p>

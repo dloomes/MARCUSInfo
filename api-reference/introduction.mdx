@@ -5,7 +5,7 @@ description: "Read-only access to your estate for CMDBs, incident tools, dashboa
 icon: "code"
 ---
 
-The M.A.R.C.U.S. Public API gives other systems read-only access to your estate: sync devices and assets into a CMDB, mirror alerts into an incident tool, feed dashboards, or send the audit trail to a SIEM.
+The M.A.R.C.U.S. Public API gives other systems read-only access to your estate: sync devices and assets into a CMDB, mirror alerts into an incident tool, feed dashboards, report on which rooms are ready each morning, or send the audit trail to a SIEM.
 
 Every request is scoped to the customer the token belongs to, and the API never changes anything — it only reads.
 
@@ -52,7 +52,12 @@ All endpoints are under `/pub/v1`. Requests and responses are JSON over HTTPS.
 | [`GET /pub/v1/alerts`](/api-reference/alerts/list-alerts) | List alerts | `view.dashboard` |
 | [`GET /pub/v1/events`](/api-reference/events/list-events) | List events | `view.dashboard` |
 | [`GET /pub/v1/audit`](/api-reference/audit/list-audit-entries) | List audit entries | `view.audit` |
+| [`GET /pub/v1/room-readiness/rooms`](/api-reference/room-readiness/list-rooms-with-their-latest-runs) | List rooms with their latest runs | `nightly.view` |
+| [`GET /pub/v1/room-readiness/runs`](/api-reference/room-readiness/list-runs) | List runs | `nightly.view` |
+| [`GET /pub/v1/room-readiness/runs/{id}`](/api-reference/room-readiness/get-a-run-with-its-steps) | Get a run with its steps | `nightly.view` |
 
 <Tip>
 The OpenAPI 3.1 document is also served by the API itself at `https://api.uat.involvecloud.com/pub/v1/openapi.json`, for importing into Postman, Insomnia or a code generator.
 </Tip>
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page 7a32813</p>

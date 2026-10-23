@@ -23,6 +23,8 @@ Select **View** on a device to open its page. The header shows its status, room,
 
 Sony displays also show their power state next to their status: **Power on** or **Standby**. A display in standby still answers on the network, so it shows as **Online** as well. The power state shows on the **Devices** list too.
 
+Video codecs show their call state next to their status in the same way: **In a call** (or **In 2 calls**), **Ringing**, **Connecting**, **On hold** or **Idle**. It shows on the **Devices** list and the device page while the codec is online. Cisco and Poly codecs report it; see [Supported devices](/devices/overview).
+
 ### Device Information
 
 **Device Information** shows everything the device reports, refreshed every 10 seconds: identity such as model, serial number and firmware version, network details, and the device's own readings, such as power state, input, volume or temperature. Which readings appear depends on the device; see [Supported devices](/devices/overview).
@@ -110,3 +112,5 @@ Leave **Poll rate (seconds)** blank to use the default for the kind of device: e
 Edit the device and choose a different **Collector**. When you save, the device moves with its history, alerts and settings, and both Collectors pick up the change within seconds. The move is refused if the other Collector already has a device with the same **Reported ID**.
 
 To move every device off a failed Collector at once, use **Replace** on the **Collectors** page. See [Replace a failed Collector](/deploy/backup#replace-a-failed-collector).
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page 7b4da43</p>

@@ -1934,12 +1934,12 @@
   },
   "servers": [
     {
-      "url": "https://api.involvecloud.com",
-      "description": "Production"
-    },
-    {
       "url": "https://api.uat.involvecloud.com",
       "description": "UAT"
+    },
+    {
+      "url": "https://api.involvecloud.com",
+      "description": "Production"
     }
   ]
 }

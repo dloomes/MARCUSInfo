@@ -26,7 +26,7 @@ icon: "sliders"
 
 1. In the portal, go to **Devices** and select **New device**.
 2. Choose the **Collector** that can reach the device, and set **Protocol** to **Biamp Tesira**.
-3. Enter the settings below and save. The Collector picks up the new device within five minutes.
+3. Enter the settings below and save. The Collector picks up the new device within seconds.
 
 | Setting | Required | What to enter | Example |
 |---|---|---|---|
@@ -42,15 +42,31 @@ Every Tesira reports its identity and health on each poll: hostname, part number
 
 Readings from your own DSP blocks are added per device in the **Readings** section of the device form:
 
-- **Add meter readings** takes a meter block's instance tag and a channel range such as `1-8`, and adds one reading per channel.
+- **Add readings for a DSP block** takes the block type, its instance tag, and a channel range such as `1-8`:
+  - **Meter**: one snapshot reading per channel, in dB.
+  - **Level**: each channel's level (dB) and mute, updated live.
+  - **Mute**: each channel's mute, updated live.
+  - **Logic meter**: each channel's logic state, updated live.
+  - **VoIP call state**: the phone's call state, updated live, plus an `_active_calls` reading that counts calls in progress.
 - **Snapshot** reads a value on every poll, which suits meters. **Live** updates the moment a value changes and records each change as an event, which suits mute or call state.
+- Mutes and logic states read as true or false, and levels and meters as numbers, so Room Readiness routines can check them, for example that a microphone isn't muted. The all-channel attributes `levels` and `mutes` read as a list of every channel.
 
 ## Commands
 
 Tesira commands are TTP strings you define per device in the **Commands** section of the device form. Each command becomes a button on the device page.
 
-- **Add standard commands** takes a level or mute block's instance tag, channel and step size, and adds mute, unmute, toggle mute, volume up/down and set level.
+- **Add commands for a DSP block** takes the block type and its instance tag:
+  - **Level**: mute, unmute, toggle mute, volume up and down by the step you choose, and set level.
+  - **Mute**: mute, unmute and toggle mute.
+  - **Logic state**: on, off and toggle.
+  - **Source selector**: select source, which asks for the source number (0 selects none).
+  - **VoIP phone**: dial (asks for the number), answer and hang up, on the line you choose.
+
+  Use channel 0 for a ganged block. Press each new command once from the device page to check it against your design.
+- Once the device is saved and its Collector has connected, the **Instance tag** boxes suggest the blocks in the DSP's design. The Collector reads them each time it connects, so a newly loaded design appears after its next reconnect.
 - **Add preset recall** adds `DEVICE recallPreset {preset}`.
 - Put `{name}` in a command to ask for a value when the button is pressed, for example `master_level set level 1 {level}`.
 
 The TTP form is `<instance tag> <verb> <attribute> <channel> [value]`, for example `master_level set mute 1 true`.
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page 97bad9e</p>

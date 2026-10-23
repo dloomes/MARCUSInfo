@@ -20,6 +20,7 @@ icon: "plug"
 
 1. Enable Telnet on the PDU and note its Telnet username and password. These are separate from the web interface login; PE-series PDUs typically ship with `teladmin` / `telpwd`.
 2. For models with more than 8 outlets, set the `outlet_count` tag on the device.
+3. To label outlets, add tags such as `outlet_1_name: Codec` and `outlet_2_name: Display`. The PDU's Telnet interface can't report the names set in its web interface.
 
 ## Add the device
 
@@ -66,5 +67,11 @@ Each command is a button on the device page, and can be used in Room Readiness r
 | `outlet_reboot` | Outlet Reboot | Asks for the outlet number (power-cycles it). |
 
 <Note>
-**Power readings:** per-outlet current and power show the live draw of whatever is plugged in. Energy estimates in Reports use the **Power on** and **Power standby** wattage set on each device's own record.
+**Power readings:** each outlet reports its state, current and power, and the PDU its voltage, total power and total current. They show the live draw of whatever is plugged in. Energy estimates in Reports use the **Power on** and **Power standby** wattage set on each device's own record. A reading the model doesn't measure is left out.
 </Note>
+
+<Note>
+**Outlet control:** **Outlet On**, **Outlet Off** and **Outlet Reboot** switch an outlet straight away, ignoring any delay set on the PDU. Older firmwares use a different command form; the Collector detects that on the first command and remembers it.
+</Note>
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page 70bc41a</p>
