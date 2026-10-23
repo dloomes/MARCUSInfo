@@ -1471,8 +1471,10 @@
             "type": "string",
             "enum": [
               "device",
-              "collector"
-            ]
+              "collector",
+              "room"
+            ],
+            "description": "What the alert is about. `room` alerts come from Room Readiness: a failed health check (`readiness_failed`) or power cycle (`power_cycle_failed`)."
           },
           "device_id": {
             "type": "string",
@@ -1486,6 +1488,13 @@
             "format": "uuid"
           },
           "collector_name": {
+            "type": "string"
+          },
+          "room_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "room_name": {
             "type": "string"
           },
           "alert_key": {

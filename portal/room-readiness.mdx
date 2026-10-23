@@ -45,6 +45,17 @@ You can also **exclude** a room up to and including a date, with a reason such a
 
 Customised rooms show **Customised**, and their button reads **Edit**. Select **Reset** to return a room to the defaults.
 
+### One-off dates
+
+For a day that differs from the weekly schedule, add a date under **One-off dates** on the **Power schedule** tab. Select **Add a date**, pick the day and the rooms it applies to (one room, or **Every room**), and choose:
+
+| On this day | What happens |
+|---|---|
+| **Closed** | Rooms aren't switched back on that morning, and their readiness check doesn't run. Use it for bank holidays, closures and works. |
+| **Open** | Rooms are in use, even on a day the weekly schedule skips (a Saturday sitting). Set **Power on at** and **Power off at** for that day only (a late finish, an early start), or leave them blank for the room's usual times. The readiness check runs that morning too. |
+
+A room's own date wins over one for every room, so you can close the whole estate and keep one court open. Dates are in the organisation's timezone, and an excluded room stays excluded whatever its dates say. Select the bin on a date to remove it; the weekly schedule applies again. You need **Manage Room Readiness** to add or remove dates.
+
 ### Defer tonight
 
 If a room is in use this evening, select **Defer tonight**. The room skips tonight's power-down and returns to its schedule tomorrow; its readiness check the next morning is unaffected. You need **Defer tonight's power-down**, which operators have by default.
@@ -54,6 +65,8 @@ If a room is in use this evening, select **Defer tonight**. The room skips tonig
 A device that the power schedule has switched off shows as **Switched off**, not offline, from power-off until the morning warm-up is over. A device that stays reachable in standby keeps showing **Online**.
 
 It also doesn't raise an offline alert while the room is powered down, or during the morning warm-up. If it's still offline after the warm-up, it alerts as usual, within 30 minutes, and the run shows which device didn't come back. Devices that weren't switched off, including any whose power-off failed, alert overnight as normal.
+
+A run that fails raises one alert for the room, through the same channels as other alerts (email, Teams, ServiceNow). A failed readiness check raises **Readiness check failed**, naming the steps that failed and why; a failed power cycle raises **Power cycle failed**, with the reason. If the room fails again before the alert is resolved, the same alert is updated rather than a new one raised. The next run that passes resolves it, and closes any ServiceNow incident with it.
 
 ## Readiness checks
 
@@ -116,4 +129,4 @@ Each morning, 30 minutes after the later of the power-on time and the readiness 
 
 Integrations can read the same results through the Public API: each room's readiness check and its latest power and readiness runs, every run with its type, and every step. Create a token with the **Read Room Readiness** scope; see [API tokens](/admin/api-tokens) and the API reference.
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page 39429e0</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:50 · page 69e48b4</p>

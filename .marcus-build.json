@@ -1,5 +1,5 @@
 {
-  "built": "23 Oct 2026 15:21",
+  "built": "23 Oct 2026 15:50",
   "files": {
     "admin/api-tokens.mdx": "7b0269f4bf53e808e78d90f3c4f3f4648dadf9c3d1b0e30fb7581ffaccea34a2",
     "admin/audit-log.mdx": "1246a653a3195e9c58d89fd32a302ddfff73adff4a0e9e6fa1f38843c3b33c63",
@@ -23,7 +23,7 @@
     "api-reference/hierarchy/list-rooms.mdx": "f5bf6719610cd80540a953e75bee23a6a03475e96242a6c9768e48bcb891a99e",
     "api-reference/introduction.mdx": "8ef64c90b63e5ea50dbbf7936f2ee909c5ba484187d047a95d52c9350a37b26d",
     "api-reference/meta/verify-a-token.mdx": "70f0fa2070957098b2198c842b0272630afed27a8eedf2c6a7f086ed22a8dc15",
-    "api-reference/openapi.json": "1a19e6db55ded9ddd165a97385bd0e0e3ea1e736a0459edae0343e095425f898",
+    "api-reference/openapi.json": "d17718aee806ea81429f04719655e200b14753bc8722326414cf426d9a758447",
     "api-reference/pagination.mdx": "c930045e1a83f4ff65707323bcebfbf3a9aa72ba58253468bf297b8497d0dd05",
     "api-reference/room-readiness/get-a-run-with-its-steps.mdx": "a019c7be021b4d004767e16e26a222f01448e9b8d551481d09b40de0439f2933",
     "api-reference/room-readiness/list-rooms-with-their-latest-runs.mdx": "d6a752e91fe549169a2ae8227ffa70155c0d342eb98cc915b3488ca28b3d7079",
@@ -63,13 +63,13 @@
     "images/marcus-dark.svg": "d31b5ff4343ca3371a17c56e86f2afc95f4dbeb7ed65d73a9b3e19f3ab521cdf",
     "images/marcus-light.svg": "5a0a1c0ba6b13cb986f5e2ec511e1a1c979057d6960b503e05eb0985e978913e",
     "onboarding.mdx": "6f09663a6ba1e26ae81a0b8d1ac7f73ef9cf6ce3b30901c75d02eab219de8f3a",
-    "portal/alerts.mdx": "9c1b980f435a14d5e1856b75694210fa5da3f1c3d7f7e21853f5c7f62a3c8968",
+    "portal/alerts.mdx": "0516dec5f7d75695b1bf82b1e113d1cb0765f21725cc5f4bb2059c87543816c5",
     "portal/dashboards.mdx": "8ee1e034139b55fd3fbb496a1ba75a3016377dabb9904dae891f0e7cf5a58db0",
     "portal/devices.mdx": "ed5952fe2a20427c5ff79ab39c6c4cb561d7efce494e2bf2b527185f07689766",
     "portal/getting-around.mdx": "fa13e7cb8108f87cc0301375d476dea711dff877f1e4776cf852b3b18c569d3c",
     "portal/overview-and-map.mdx": "eb50937cc94d8e50de074efbfc985aeb6a8726e537433510082ea73e65b5bbd6",
     "portal/reports.mdx": "166d63e6eed04480391a2c508d2ce4fc41f7a0f6a57bfe3485e1c19fdc4c3cdb",
-    "portal/room-readiness.mdx": "d195521030c180502ac638ee46c21ed90acb35ed3ea39d800e90119a77ca452e",
+    "portal/room-readiness.mdx": "3b84fba05d70ca37efe06caec47b69b2ad1f73eb945d8ad1a8c1f366d27f0c76",
     "portal/test-routines.mdx": "16eda72225d10222714ee27dcde6f63a44cea13e3500ef7a8e4e73731f67cca5",
     "quickstart.mdx": "491e6b85f0655e63799a21af843aeff6bb1db52ffda99fac9d6ac305d1fcebd3"
   }
