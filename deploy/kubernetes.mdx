@@ -31,7 +31,7 @@ spec:
           image: "[registry]/av-bridge:[version]"
           resources:
             requests: { cpu: "500m", memory: "512Mi" }
-            limits:   { cpu: "2000m", memory: "2Gi" }
+            limits:   { cpu: "2000m", memory: "4Gi" }
           volumeMounts:
             - name: config
               mountPath: /etc/av-bridge
@@ -44,6 +44,8 @@ spec:
         - name: state
           persistentVolumeClaim: { claimName: marcus-collector-state }
 ```
+
+The limits match the minimum host in [Size the host](/deploy/sizing) (2 vCPU, 4 GB). For the recommended size, raise them to `cpu: "4000m"` and `memory: "8Gi"`. The requests reserve enough for the measured load of a 5,000-device Collector.
 
 Keep `replicas: 1` and the `Recreate` strategy. To scale out, add another Deployment for each additional Collector.
 
@@ -62,3 +64,5 @@ The configuration contains the Collector's HMAC key, so mount it from a `Secret`
     Use Secret Manager through the Secrets Store CSI driver.
   </Tab>
 </Tabs>
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Docs build 23 Oct 2026 14:52 · page e2e4e42</p>
