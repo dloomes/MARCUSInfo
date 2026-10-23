@@ -11,7 +11,7 @@ The Collector installs directly onto a Linux host (`amd64` or `arm64`) and runs 
 
 - A Linux host with systemd that meets the sizing in [Size the host](/deploy/sizing) and the network requirements in [Network requirements](/deploy/network-requirements).
 - Root access (`sudo`) and `curl`.
-- An enrolment token: in the portal, go to **Collectors → Add Collector** and name the Collector. The portal issues a **single-use token** and a ready-to-paste install command.
+- An enrolment token: in the portal, go to **Collectors → New collector** and name the Collector. The portal issues a **single-use token** and a ready-to-paste install command.
 
 ## Run the installer
 
@@ -39,7 +39,9 @@ The Collector then downloads its device list from the cloud automatically. The w
 | Binary | `/usr/local/bin/av-bridge` |
 | Configuration | `/etc/av-bridge/config.yaml` and `/etc/av-bridge/env` |
 | State | `/var/lib/av-bridge/` |
-| Logs | `/var/log/av-bridge/` and the systemd journal |
+| Logs | The systemd journal, and the portal (see [Monitor health and logs](/deploy/monitoring)) |
 | Service | `av-bridge.service`, running as user `av-bridge` |
 
 **Follow the logs:** `journalctl -u av-bridge -f`
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Docs build 23 Oct 2026 14:52 · page 0d5787a</p>
