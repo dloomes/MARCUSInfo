@@ -119,9 +119,16 @@
                     ]
                   },
                   {
-                    "group": "Control and AV-over-IP",
+                    "group": "Control",
                     "pages": [
+                      "devices/aurora-dido",
                       "devices/aurora-rxt",
+                      "devices/crestron"
+                    ]
+                  },
+                  {
+                    "group": "AV-over-IP",
+                    "pages": [
                       "devices/aurora-vpx"
                     ]
                   },

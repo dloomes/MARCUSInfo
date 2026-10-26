@@ -1,0 +1,101 @@
+---
+title: "Aurora DIDO"
+sidebarTitle: "Aurora DIDO"
+description: "4x4 HDMI matrix switchers and video wall processors. JSON over TCP on port 6970: video and audio routing, output resolutions, volumes and presets."
+icon: "table-cells"
+---
+
+**Works with:** Aurora Multimedia DIDO 4x4 HDMI matrix switchers and video wall processors.
+
+| | |
+|---|---|
+| **Type** | Vendor adapter |
+| **Vendor** | Aurora Multimedia |
+| **Device types** | Control |
+| **Connection** | JSON over TCP (port 6970) |
+| **Power on/off from the portal** | No |
+| **Protocol in the portal** | Aurora DIDO (`aurora_dido`) |
+
+## Before you start
+
+1. Check the Collector can reach the DIDO on TCP 6970.
+2. To recall presets from the portal, save them on the DIDO first (in its web interface). Their names appear in the **Presets** reading.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **Aurora DIDO**.
+3. Enter the settings below and save. The Collector picks up the new device within seconds.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | DIDO IP (port 6970 is implied). | `192.168.10.30` |
+| **Poll rate (seconds)** | No | How often to poll. Defaults to 60s. | `60` |
+
+## Readings
+
+These values appear under **Device Information** on the device page, and can be checked in Room Readiness routines.
+
+| Reading | Shown as |
+|---|---|
+| `fw_version` | Fw Version |
+| `api_version` | Api Version |
+| `serial_number` | Serial Number |
+| `mac` | Mac |
+| `ip_address` | Ip Address |
+| `ip_mode` | Ip Mode |
+| `out1_source` | Out1 Source |
+| `out2_source` | Out2 Source |
+| `out3_source` | Out3 Source |
+| `out4_source` | Out4 Source |
+| `resolution_mode` | Resolution Mode |
+| `out1_resolution` | Out1 Resolution |
+| `out2_resolution` | Out2 Resolution |
+| `out3_resolution` | Out3 Resolution |
+| `out4_resolution` | Out4 Resolution |
+| `lineout_audio` | Lineout Audio |
+| `dante_audio` | Dante Audio |
+| `out1_audio` | Out1 Audio |
+| `out2_audio` | Out2 Audio |
+| `out3_audio` | Out3 Audio |
+| `out4_audio` | Out4 Audio |
+| `lineout_volume` | Lineout Volume |
+| `linein_volume` | Linein Volume |
+| `linein_mute` | Linein Mute |
+| `buttons_locked` | Buttons Locked |
+| `presets` | Presets |
+| `preset_count` | Preset Count |
+| `response_ms` | Response Ms |
+
+## Commands
+
+Each command is a button on the device page, and can be used in Room Readiness routines.
+
+| Command | Button | Notes |
+|---|---|---|
+| `route_out1` | Route Out1 | Asks for the input, 1–4. |
+| `route_out2` | Route Out2 | Asks for the input, 1–4. |
+| `route_out3` | Route Out3 | Asks for the input, 1–4. |
+| `route_out4` | Route Out4 | Asks for the input, 1–4. |
+| `route_all` | Route All | Asks for the input, 1–4, and shows it on every output. |
+| `set_volume` | Set Volume | Asks for the level, 0–100. |
+| `mute_linein` | Mute Linein |  |
+| `unmute_linein` | Unmute Linein |  |
+| `recall_preset` | Recall Preset | Asks for the preset's name, as saved on the device. |
+| `lock_buttons` | Lock Buttons |  |
+| `unlock_buttons` | Unlock Buttons |  |
+| `reboot` | Reboot |  |
+
+<Note>
+**Readings:** the input shown on each output (**Out1 Source** to **Out4 Source**), each output's resolution, the audio routing, line-out and line-in volume, whether the front panel is locked, and the saved presets.
+</Note>
+
+<Note>
+**Commands:** **Route Out1** to **Route Out4** switch one output to an input; **Route All** switches every output. **Set Volume** sets the line-out level. **Recall Preset** applies a saved preset; it takes the DIDO two or three seconds.
+</Note>
+
+<Note>
+**New firmware:** if a reading shows as **... Reply** with the device's raw answer instead of a value, the firmware answers in a form the Collector doesn't recognise yet. Send the reply to support so it can be added.
+</Note>
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 26 Oct 2026 11:57 · page 03655b8</p>

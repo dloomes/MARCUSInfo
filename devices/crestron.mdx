@@ -1,0 +1,91 @@
+---
+title: "Crestron control processors"
+sidebarTitle: "Crestron processors"
+description: "3-Series and 4-Series control processors through their console, over SSH (or CTP). Model, firmware, uptime and load, the program loaded, and every IP-ID device the program registers, with online or offline for each. No change to the room's program."
+icon: "microchip"
+---
+
+**Works with:** Crestron 3-Series and 4-Series control processors, such as the CP4, MC4, RMC4, CP3 and PRO3.
+
+| | |
+|---|---|
+| **Type** | Vendor adapter |
+| **Vendor** | Crestron |
+| **Device types** | Control |
+| **Connection** | Processor console over SSH (TCP 22), or CTP (TCP 41795) |
+| **Power on/off from the portal** | No |
+| **Protocol in the portal** | Crestron control processors (`crestron`) |
+
+## Before you start
+
+1. Note a processor user that can log in to its console (the same login Crestron Toolbox uses). 4-Series processors require authentication; turn it on for a 3-Series that doesn't have it.
+2. Check the Collector can reach the processor on TCP 22. If SSH is turned off on the processor, add the tag `console: ctp` and allow TCP 41795 instead.
+3. On a 4-Series running its program in a slot other than 1, add the tag `program_slot` with that slot number.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **Crestron control processors**.
+3. Enter the settings below and save. The Collector picks up the new device within seconds.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | Processor IP (SSH port 22 is implied; 41795 with the console tag set to ctp). | `192.168.10.40` |
+| **Username** | Yes | A processor user that can log in to the console. | `admin` |
+| **Password** | Yes | That user's password. |  |
+| **Poll rate (seconds)** | No | How often to poll. Defaults to 60s. | `60` |
+
+## Readings
+
+These values appear under **Device Information** on the device page, and can be checked in Room Readiness routines.
+
+| Reading | Shown as |
+|---|---|
+| `model` | Model |
+| `firmware` | Firmware |
+| `firmware_date` | Firmware Date |
+| `tsid` | Tsid |
+| `mac` | Mac |
+| `hostname` | Hostname |
+| `ssh_host_key` | Ssh Host Key |
+| `uptime_s` | Uptime S |
+| `cpu_load_pct` | Cpu Load Pct |
+| `ram_free_mb` | Ram Free Mb |
+| `ram_total_mb` | Ram Total Mb |
+| `ram_used_pct` | Ram Used Pct |
+| `program_file` | Program File |
+| `program_name` | Program Name |
+| `program_compiled` | Program Compiled |
+| `program_tool` | Program Tool |
+| `ip_devices` | Ip Devices |
+| `ip_devices_online` | Ip Devices Online |
+| `ip_devices_offline` | Ip Devices Offline |
+| `offline_ip_devices` | Offline Ip Devices |
+| `response_ms` | Response Ms |
+
+## Commands
+
+Each command is a button on the device page, and can be used in Room Readiness routines.
+
+| Command | Button | Notes |
+|---|---|---|
+| `restart_program` | Restart Program |  |
+| `reboot` | Reboot |  |
+
+<Note>
+**No change to the room's program.** The Collector reads what the processor's own console reports. Nothing is loaded onto the processor.
+</Note>
+
+<Note>
+**Connected devices:** every device the program registers by IP ID (touch panels, DM and NVX endpoints, expanders) is listed with its status, as readings such as **Ipid 03 Status**. **Ip Devices Offline** counts those that are offline, and **Offline Ip Devices** names them, so a check or alert can catch a panel that has dropped off.
+</Note>
+
+<Note>
+**Commands interrupt the room.** **Restart Program** restarts the program in its slot, and **Reboot** restarts the processor. The room stops working until it's back, usually within a minute or two.
+</Note>
+
+<Note>
+**Unrecognised output:** console output differs between firmware versions. If a reading shows as **... Reply** with the processor's raw output instead of a value, send it to support so it can be added.
+</Note>
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 26 Oct 2026 13:39 · page 152834f</p>
