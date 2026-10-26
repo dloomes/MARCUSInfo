@@ -1,5 +1,5 @@
 {
-  "built": "26 Oct 2026 15:44",
+  "built": "26 Oct 2026 16:34",
   "files": {
     "admin/api-tokens.mdx": "7b0269f4bf53e808e78d90f3c4f3f4648dadf9c3d1b0e30fb7581ffaccea34a2",
     "admin/audit-log.mdx": "1246a653a3195e9c58d89fd32a302ddfff73adff4a0e9e6fa1f38843c3b33c63",
@@ -23,7 +23,7 @@
     "api-reference/hierarchy/list-rooms.mdx": "f5bf6719610cd80540a953e75bee23a6a03475e96242a6c9768e48bcb891a99e",
     "api-reference/introduction.mdx": "8ef64c90b63e5ea50dbbf7936f2ee909c5ba484187d047a95d52c9350a37b26d",
     "api-reference/meta/verify-a-token.mdx": "70f0fa2070957098b2198c842b0272630afed27a8eedf2c6a7f086ed22a8dc15",
-    "api-reference/openapi.json": "d17718aee806ea81429f04719655e200b14753bc8722326414cf426d9a758447",
+    "api-reference/openapi.json": "69fa6de298703c66eb05f92eecd58a2b63169489dc882d673ccc1744b1bd1927",
     "api-reference/pagination.mdx": "c930045e1a83f4ff65707323bcebfbf3a9aa72ba58253468bf297b8497d0dd05",
     "api-reference/room-readiness/get-a-run-with-its-steps.mdx": "a019c7be021b4d004767e16e26a222f01448e9b8d551481d09b40de0439f2933",
     "api-reference/room-readiness/list-rooms-with-their-latest-runs.mdx": "d6a752e91fe549169a2ae8227ffa70155c0d342eb98cc915b3488ca28b3d7079",
@@ -71,7 +71,7 @@
     "portal/getting-around.mdx": "fa13e7cb8108f87cc0301375d476dea711dff877f1e4776cf852b3b18c569d3c",
     "portal/overview-and-map.mdx": "eb50937cc94d8e50de074efbfc985aeb6a8726e537433510082ea73e65b5bbd6",
     "portal/reports.mdx": "166d63e6eed04480391a2c508d2ce4fc41f7a0f6a57bfe3485e1c19fdc4c3cdb",
-    "portal/room-readiness.mdx": "3de6ed7644ef2414029a65d5c275c78d17c4b1763143f48e9471475394f08cf1",
+    "portal/room-readiness.mdx": "84fc04c7f138119cc35635fe65d5056bf74dc0345890ba33b45a87168a8190bd",
     "portal/test-routines.mdx": "16eda72225d10222714ee27dcde6f63a44cea13e3500ef7a8e4e73731f67cca5",
     "quickstart.mdx": "491e6b85f0655e63799a21af843aeff6bb1db52ffda99fac9d6ac305d1fcebd3"
   }

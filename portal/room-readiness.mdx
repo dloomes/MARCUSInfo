@@ -112,6 +112,8 @@ To see one room's results, open the room from **Places** in the sidebar, or filt
 
 Select a run for its details: how far it got, and every step, with what it checked, on which device, what it expected, what it found and any error. For a power run, the steps are which devices switched off and back on.
 
+For **Expect status** and **Check metric** steps, each result says where its reading came from. **Fresh poll** means the device was polled for that step, which is the usual case. **Last report, 42 s old** means the step used the device's last regular report instead: ATEN PDUs always do, and so does any device whose fresh poll didn't come back within 60 seconds. A last report more than two minutes old is highlighted, because it may predate what the step was checking, such as a power-on or a reboot.
+
 To keep or share a run's results, select **Download PDF** on the run. The report shows the room and its place, whether it passed, when it ran and how long it took, why it failed, and every step's result. It's available once the run has finished.
 
 | Status | Meaning |
@@ -133,4 +135,4 @@ Each morning, 30 minutes after the later of the power-on time and the readiness 
 
 Integrations can read the same results through the Public API: each room's readiness check and its latest power and readiness runs, every run with its type, and every step. Create a token with the **Read Room Readiness** scope; see [API tokens](/admin/api-tokens) and the API reference.
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 26 Oct 2026 15:33 · page ff36efb</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 26 Oct 2026 16:34 · page 4a730bc</p>
