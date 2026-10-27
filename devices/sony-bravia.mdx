@@ -51,6 +51,12 @@ These values appear under **Device Information** on the device page, and can be 
 | `input_source` | Input Source |
 | `volume_speaker` | Volume Speaker |
 | `mute_speaker` | Mute Speaker |
+| `firmware_version` | Firmware Version |
+| `model` | Model |
+| `serial_number` | Serial Number |
+| `generation` | Generation |
+| `android_os` | Android Os |
+| `pro_mode` | Pro Mode |
 | `response_ms` | Response Ms |
 
 ## Commands
@@ -74,4 +80,8 @@ Each command is a button on the device page, and can be used in Room Readiness r
 **Power-on:** M.A.R.C.U.S. sends a Wake-on-LAN packet straight to the display's address, then the IP-control power command. The display's MAC address is learned automatically the first time it's reached while switched on; set the `mac_address` tag if you need power-on to work before that.
 </Note>
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page 353bad3</p>
+<Note>
+**Firmware:** the display's software version shows as **Firmware Version** (such as `PKG6.5603.0175`), with its Android version and Pro mode, and appears on the **Firmware** page. Older displays that don't report it show model and serial only. It's read when the display is first reached and every six hours after.
+</Note>
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 26 Oct 2026 17:01 · page 3799771</p>

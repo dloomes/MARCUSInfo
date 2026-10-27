@@ -187,6 +187,13 @@
             ]
           },
           {
+            "group": "Firmware",
+            "icon": "microchip",
+            "pages": [
+              "api-reference/firmware/list-firmware-versions"
+            ]
+          },
+          {
             "group": "Buildings and rooms",
             "icon": "building",
             "pages": [
