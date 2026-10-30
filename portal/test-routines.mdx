@@ -31,6 +31,15 @@ The room picker above the step list is only a preview: it greys out step types t
 | **Device command** | Sends a named command, such as `dial` or `recall_preset`, with optional parameters. The commands offered are the ones the target devices support. | Every device completes the command |
 | **Expect status** | Checks the target devices are online, or offline. | Every device has that status |
 | **Check metric** | Compares a reading, such as a microphone input level, against a threshold: greater than, at least, less than, at most or equal to. | Every device's reading meets the threshold |
+| **Ping** | Pings each target device's address from its Collector, whatever kind of device it is. You can set a maximum packet loss and response time. | Every device replies, within any limits set |
+
+### Ping
+
+**Ping** checks the network path to a device, not the device's own control connection. Use it on one device or on the whole room. Devices on a serial port have no address to ping, so a whole-room or device-type ping leaves them out.
+
+Each device gets 3 pings by default, up to 10, and each ping has a second to reply. With no limits set, any reply passes. The result shows each device's replies and average response time, such as **Replied 3/3, 4 ms**.
+
+Ping steps need Collector version 1.0.69 or later. On an older Collector the step fails and says the Collector needs updating.
 
 ### Up-to-date readings
 
@@ -62,6 +71,10 @@ Set **On failure** on each step:
 
 Any failed step marks the room as **Failed**, whichever option you choose. A step that runs past its **Timeout (seconds)** fails.
 
+### Diagram
+
+Select **Diagram** to see the routine as a flow chart: each step in order, sections as bands around their steps, and what happens when each step fails (the run stops, carries on, or retries). It shows the routine as it is in the builder, including changes you haven't saved yet. Download it as **PNG** for documents and email, or **SVG** to scale it in Word or PowerPoint.
+
 ### Advanced JSON
 
 Select **Advanced JSON** to edit the steps as JSON, for example to copy a routine between environments. Switch back to **Builder** to carry on visually.
@@ -70,4 +83,4 @@ Select **Advanced JSON** to edit the steps as JSON, for example to copy a routin
 
 Select **Test on a room**, pick a room and start. The routine runs straight away against that room, whatever routine it normally uses, and you're taken to the run to watch each step's result arrive. Save your changes first.
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page 8fd171f</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 30 Oct 2026 13:17 · page 6da27b5</p>

@@ -42,6 +42,7 @@
             "pages": [
               "admin/users-and-access",
               "admin/roles",
+              "admin/room-tags",
               "admin/single-sign-on",
               "admin/notifications",
               "admin/api-tokens",

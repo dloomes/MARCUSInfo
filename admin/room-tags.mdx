@@ -1,0 +1,94 @@
+---
+title: "Room tags"
+sidebarTitle: "Room tags"
+description: "Label rooms by type or purpose, and filter by those labels across the portal."
+icon: "tags"
+---
+
+**Room tags** are your own labels for rooms, such as **Courtroom**, **Hearing room**, **Pilot** or **Video link**. A room can have any number of them. Use them to find rooms of a kind: filter the Locations tree, the Devices list and the Room Readiness rooms by tag, or ask the Public API for them.
+
+You need the **Manage locations** permission (`hierarchy.crud`) to create tags and apply them. Everyone who can see the dashboard sees the tags and can filter by them.
+
+## Create tags
+
+Go to **Room tags** in the sidebar, under **Manage**, and select **New tag**. Give it:
+
+- a **name**, up to 60 characters. Names are unique ignoring case, so **Courtroom** and **courtroom** can't both exist;
+- a **colour**, which is how its chip looks wherever the tag appears;
+- an optional **description**, shown when you hover over the chip. Use it to say what the tag means, so everyone applies it the same way.
+
+Each tag shows how many rooms have it. Select the count to see those rooms on **Locations**. Rename or recolour a tag with its pencil; the change shows everywhere straight away.
+
+**Deleting a tag** removes it from every room that has it. The confirmation says how many. The rooms themselves aren't changed.
+
+## Tag rooms
+
+On **Locations**, each room shows its tags as chips.
+
+- **One room:** select the room's tag button, tick the tags it should have, and **Save**.
+- **Many rooms:** select **Select rooms**, then tick rooms, or tick a building to select all its rooms. In the bar at the bottom, choose a tag and select **Add tag** or **Remove tag**. Rooms that already have the tag, or don't, are left as they are. Select **Done selecting** when you've finished.
+
+### Import from a CSV
+
+To tag a large estate in one go, select **Import CSV** on the **Room tags** page. The file needs a header row with these columns, in any order:
+
+| Column | |
+|---|---|
+| `building` | The building's name. |
+| `room` | The room's name. |
+| `tags` | One or more tag names. Separate several with `;`. |
+| `region`, `location` | Optional. Add them when two buildings share a name. |
+
+```csv
+region,location,building,room,tags
+North,Leeds,Crown Court,Court 1,Courtroom;Video link
+North,Leeds,Crown Court,Court 2,Courtroom
+```
+
+- Tags are **added**; an import never removes a tag from a room.
+- Tag names that don't exist yet are **created**, in grey. Recolour them afterwards.
+- Every row is checked before anything changes. If any row has a problem, such as a room that can't be found, **nothing is imported** and each problem row is listed.
+
+**Download template** gives you a file with the right columns.
+
+## Filter by tag
+
+- **Locations:** choose a tag at the top. Only rooms with that tag are shown, with the regions, locations and buildings that hold them. The address keeps the filter (`/locations?tag=…`), so you can bookmark or share it.
+- **Devices:** the **All room tags** filter shows only devices in rooms with that tag.
+- **Room Readiness:** on the **Readiness checks** tab, filter the **Rooms** list by tag. Each room shows its tags under its name.
+- **Reports:** choose a tag at the top of **Reports**. Every report covers only rooms with that tag, and their devices and assets, and so does its **CSV**.
+- **Dashboards:** **Estate status**, **Open alerts**, **Rooms needing attention**, **Room Readiness**, **Room usage**, **Lowest uptime** and **Warranty** widgets have a **Room tag** setting, so you can build a dashboard or wall screen for, say, courtrooms only. The tag shows in the widget's title.
+
+## Act on every room with a tag
+
+- **Send a command:** in **Devices → Send to group**, choose a building and a tag to list only those devices, then **Select visible**. For example, reboot every device in the courtrooms of one court.
+- **Power schedule:** on the Room Readiness **Power schedule** tab, choose a tag above the rooms list. You can then, for all its rooms:
+  - **Defer tonight**, so none of them power down tonight;
+  - **Exclude…** them until a date, with a reason and a note, for example while they're refurbished;
+  - **Clear exclusions** on any of them that are excluded.
+
+Each room is changed separately, exactly as if you'd used its own button, so each change is checked against your access and recorded in the audit log. If some rooms fail, the message says how many.
+
+## Room Readiness by tag
+
+A tag can carry its own settings, used by every room with the tag unless the room has its own:
+
+- a **readiness check**: see [Checks by room tag](/portal/room-readiness#checks-by-room-tag);
+- **power schedule** times and days: see [Power schedule by room tag](/portal/room-readiness#power-schedule-by-room-tag);
+- **one-off dates**, such as closing every courtroom for a day: see [One-off dates](/portal/room-readiness#one-off-dates).
+
+A room with several tags takes its settings from the highest tag in the order you set in the **By room tag** cards.
+
+## In the Public API
+
+- `GET /pub/v1/rooms` returns each room's `tags`, by name.
+- `GET /pub/v1/rooms?tag=Courtroom` returns only rooms with that tag.
+- `GET /pub/v1/room-readiness/runs?tag=Courtroom` returns only runs for those rooms.
+
+The `tag` filter takes the tag's name and ignores case.
+
+## Audit
+
+Creating, renaming, recolouring and deleting tags, changing a room's tags, bulk tagging and CSV imports are all recorded in the [audit log](/admin/audit-log).
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 30 Oct 2026 15:21 · page a265c80</p>

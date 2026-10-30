@@ -403,10 +403,18 @@
           "Hierarchy"
         ],
         "summary": "List rooms",
-        "description": "Every room in the tenant, optionally filtered by parent building. Each row carries the building id + name so a picker or sync task doesn't need to join.\n\nRequires a token with the `view.dashboard` scope.",
+        "description": "Every room in the tenant, optionally filtered by parent building or room tag. Each row carries the building id + name and the room's tags, so a picker or sync task doesn't need to join.\n\nRequires a token with the `view.dashboard` scope.",
         "parameters": [
           {
             "$ref": "#/components/parameters/BuildingID"
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "Only rooms with this room tag (its name, ignoring case). Tags are set on the Room tags page.",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -901,6 +909,14 @@
                 "power",
                 "readiness"
               ]
+            }
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "Only runs for rooms with this room tag (its name, ignoring case). Tags are set on the Room tags page.",
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -1442,7 +1458,8 @@
           "id",
           "name",
           "building_id",
-          "building"
+          "building",
+          "tags"
         ],
         "properties": {
           "id": {
@@ -1458,6 +1475,13 @@
           },
           "building": {
             "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The room's tags, by name, set on the Room tags page. Empty when it has none."
           }
         }
       },
@@ -1884,7 +1908,7 @@
           },
           "type": {
             "type": "string",
-            "description": "e.g. `power_off`, `power_on`, `wait`, `expect_status`, `check_metric`, `device_command`."
+            "description": "e.g. `power_off`, `power_on`, `wait`, `expect_status`, `check_metric`, `ping`, `device_command`."
           },
           "device_id": {
             "type": [

@@ -45,16 +45,24 @@ You can also **exclude** a room up to and including a date, with a reason such a
 
 Customised rooms show **Customised**, and their button reads **Edit**. Select **Reset** to return a room to the defaults.
 
+### Power schedule by room tag
+
+If you use [room tags](/admin/room-tags), a tag can carry its own **Power off at** and **Power on at** times and **Days**, so every room with the tag shares them. For example, give **Courtroom** a 21:00 power-off for evening sittings.
+
+The **By room tag** card on the **Power schedule** tab lists every tag. Select **Set times** on a tag and tick **Customise** on what it should set; anything unticked comes from the default. **Remove** takes the tag's settings away.
+
+Each part of a room's schedule comes from the room's own settings first, then its tag's, then the default. A room with several tags uses the highest tag in the list that has settings; the arrows set the order, which is the same list as for [readiness checks by tag](#checks-by-room-tag). In the rooms list, a room using a tag's settings shows **From tag**, and its **Customise** dialog shows what it inherits from the tag.
+
 ### One-off dates
 
-For a day that differs from the weekly schedule, add a date under **One-off dates** on the **Power schedule** tab. Select **Add a date**, pick the day and the rooms it applies to (one room, or **Every room**), and choose:
+For a day that differs from the weekly schedule, add a date under **One-off dates** on the **Power schedule** tab. Select **Add a date**, pick the day and the rooms it applies to (one room, the **Rooms tagged** a tag, or **Every room**), and choose:
 
 | On this day | What happens |
 |---|---|
 | **Closed** | Rooms aren't switched back on that morning, and their readiness check doesn't run. Use it for bank holidays, closures and works. |
 | **Open** | Rooms are in use, even on a day the weekly schedule skips (a Saturday sitting). Set **Power on at** and **Power off at** for that day only (a late finish, an early start), or leave them blank for the room's usual times. The readiness check runs that morning too. |
 
-A room's own date wins over one for every room, so you can close the whole estate and keep one court open. Dates are in the organisation's timezone, and an excluded room stays excluded whatever its dates say. Select the bin on a date to remove it; the weekly schedule applies again. You need **Manage Room Readiness** to add or remove dates.
+A room's own date wins, then a date for one of its tags (the highest in the tag order, if several have one that day), then a date for every room. So you can close the whole estate, keep the courtrooms open, and still close one court. Dates are in the organisation's timezone, and an excluded room stays excluded whatever its dates say. Select the bin on a date to remove it; the weekly schedule applies again. You need **Manage Room Readiness** to add or remove dates.
 
 ### Defer tonight
 
@@ -83,9 +91,25 @@ Select **Save changes** when you're done.
 
 If a room's power cycle is still running at its check time, for example still warming up, the check waits for it to finish, for up to 30 minutes, so a room is never tested while it's still starting up. The run records how long it waited.
 
+### Checks by room tag
+
+If you use [room tags](/admin/room-tags), you can give a tag its own check, so every room with that tag gets it without setting rooms up one by one. For example, give **Courtroom** the "Court AM check" at 07:30 on weekdays, and every courtroom runs it, including rooms tagged later.
+
+The **By room tag** card lists every tag. Select **Set a check** on a tag and tick **Customise** on the **Routine**, **Run at** time or **Days** it should set. Anything you leave unticked comes from the default. Select **Remove** to take a tag's check away; its rooms go back to the default, or to another of their tags.
+
+Each part of a room's check comes from the first of these that sets it:
+
+1. the room's own settings (**Customise** on the room);
+2. its tag's check;
+3. the default.
+
+**A room with several tags** uses the highest tag in the **By room tag** list that has a check. Use the arrows to put the tags in order. Only that one tag applies: if it doesn't set the time, the room uses the default time, not another tag's.
+
+In the rooms table, a room using a tag's check shows **From tag** and the tag's name.
+
 ### Customise a room
 
-The rooms table shows each room's routine, time and days. Select **Customise** to give a room its own **Routine**, **Run at** time or **Days**, such as a different routine for a video-conferencing room, or a later time for a room that powers on later. Once a room is customised, its button reads **Edit**. A room's own routine is shown in darker text than the default. Select **Reset** to return it to the default.
+The rooms table shows each room's routine, time and days. Select **Customise** to give a room its own **Routine**, **Run at** time or **Days**, such as a different routine for a video-conferencing room, or a later time for a room that powers on later. Once a room is customised, its button reads **Edit**. A room's own routine is shown in darker text than the default. Select **Reset** to return it to its tag's check, or the default.
 
 A room whose check time falls while its power schedule has it switched off shows **Room switched off then**. Move the check after the power-on time, or it will fail.
 
@@ -137,4 +161,4 @@ Each morning, 30 minutes after the later of the power-on time and the readiness 
 
 Integrations can read the same results through the Public API: each room's readiness check and its latest power and readiness runs, every run with its type, and every step. Create a token with the **Read Room Readiness** scope; see [API tokens](/admin/api-tokens) and the API reference.
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 26 Oct 2026 17:01 · page edd4e03</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 30 Oct 2026 15:21 · page 278e13e</p>
