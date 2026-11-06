@@ -40,20 +40,37 @@ For an on-premises Collector, this is ordinary LAN traffic. A cloud-hosted Colle
 
 ## Inbound to the Collector
 
-**Nothing inbound is required from the internet.** No customer location needs public-facing ports.
+**You don't need to open any inbound ports.** The Collector only makes outbound connections, so there's nothing to allow from the internet or from your own network.
 
-The Collector has a local API for health checks, Prometheus metrics, device status and commands. By default it listens on `127.0.0.1:8080`, so it's reachable only from the Collector host itself. The cloud does not use it, and you don't need to open any port for it.
+### Optional: the Collector's local API
 
-To reach the local API from other hosts on your network, for example from site monitoring:
+The Collector also has a small local API on TCP port 8080, for health checks, Prometheus metrics, and device status and commands. The cloud doesn't use it. Out of the box it listens on `127.0.0.1:8080`, so only the Collector host itself can reach it.
+
+Only change this if another machine on your network needs it, such as a monitoring server. In that case:
 
 | From | To | Port | Purpose |
 |---|---|---|---|
-| Operator workstations and site tooling (optional) | Collector host | TCP 8080 | Local API: health check, Prometheus metrics, device status and commands |
+| Your monitoring server or operator workstations | Collector host | TCP 8080 | Health check, metrics, device status and commands |
 
-1. Set `hub.listen_addr` in `config.yaml`, such as `0.0.0.0:8080`.
-2. Set `api.auth.enabled: true` and list at least one key under `api.auth.api_keys`. Requests then need `Authorization: Bearer <key>`.
-3. Restart the Collector, and allow the port on the host firewall only from the hosts that need it.
+1. In `config.yaml`, open the API to the network and give it at least one key:
 
-Without a key, the Collector refuses to open the API to the network: it logs an error naming the setting and keeps listening on `127.0.0.1` only. `/healthz` stays unauthenticated so monitoring keeps working.
+   ```yaml
+   hub:
+     listen_addr: "0.0.0.0:8080"
+   api:
+     auth:
+       enabled: true
+       api_keys:
+         - "[a long random key]"
+   ```
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page fe7fd1b</p>
+2. Restart the Collector.
+3. On the host firewall, allow port 8080 only from the machines that need it.
+
+Callers then send the key with each request: `Authorization: Bearer [key]`. The health check, `/healthz`, never needs a key, so monitoring keeps working.
+
+<Note>
+**A key is required.** If you set a network address without a key, the Collector won't open the API to the network. It logs an error and keeps listening on `127.0.0.1` only.
+</Note>
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:15 · page 369ca55</p>
