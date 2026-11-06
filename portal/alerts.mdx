@@ -12,10 +12,12 @@ An alert is raised when something needs attention, most often a device or Collec
 | Alert | Raised when | Clears |
 |---|---|---|
 | **Device offline** | A device stops responding. Warning by default | Automatically, when it responds again |
-| **Collector offline** | A Collector stops checking in. Critical, because none of its devices can be monitored; Warning when a standby Collector has taken over its devices, or when the offline machine is the standby itself | Automatically, when it checks in again |
-| **Readiness check failed** | A room's [readiness check](/portal/room-readiness) fails. One alert per room, naming the failed steps. Warning | Automatically, when the room's next check passes |
-| **Power cycle failed** | A room's overnight power cycle fails, for example a device doesn't come back on. Warning | Automatically, when the room's next power cycle succeeds |
+| **Collector offline** (`collector_offline`) | A Collector stops checking in. Critical, because none of its devices can be monitored; Warning when a standby Collector has taken over its devices, or when the offline machine is the standby itself | Automatically, when it checks in again |
+| **Readiness check failed** (`readiness_failed`) | A room's [readiness check](/portal/room-readiness) fails. One alert per room, naming the failed steps. Warning | Automatically, when the room's next check passes |
+| **Power cycle failed** (`power_cycle_failed`) | A room's overnight power cycle fails, for example a device doesn't come back on. Warning | Automatically, when the room's next power cycle succeeds |
 | Device-specific alerts | A device reports a problem, depending on the device | When resolved |
+
+On the **Alerts** page each alert shows its key in small capitals, such as `readiness_failed`, with the message beside it. Alerts for a room link to the room, and device alerts to the device.
 
 Alerts are also closed automatically if their device is deleted.
 
@@ -31,7 +33,7 @@ Devices that [Room Readiness](/portal/room-readiness) has switched off for the n
 
 ## Work through alerts
 
-**Alerts** has four tabs: **Open** (the default), **Acknowledged**, **Resolved** and **All**. Each alert shows the device, what happened, when it opened and the details.
+**Alerts** has four tabs: **Open** (the default), **Acknowledged**, **Resolved** and **All**. Each alert shows the device (or the room, for a readiness or power cycle alert), what happened, when it opened and the details.
 
 - Select **Ack** to show you're dealing with it. The alert moves to **Acknowledged**, recording your name and the time, so colleagues don't duplicate the work.
 - Select **Resolve** when it's fixed and won't clear on its own.
@@ -50,4 +52,4 @@ Notifications go out when an alert first opens, not every time it repeats, so an
 
 Resolved alerts are kept for 12 months after they're resolved, then deleted. Open and acknowledged alerts are kept until they're resolved.
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:50 · page 1846f47</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page 22d1079</p>

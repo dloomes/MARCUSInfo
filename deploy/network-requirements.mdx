@@ -12,7 +12,11 @@ These requirements are the same for every deployment option.
 |---|---|---|---|
 | Collector host | `*.involvecloud.com` | TCP 443 | Long-polled command channel, telemetry push, configuration sync and the remote access tunnel |
 
-This is the only external firewall rule required for the Collector. Every connection uses TLS 1.2 or higher. The Collector's requests, and the handshake that opens the remote access tunnel, are signed with an HMAC-SHA256 key unique to the Collector, so they are authenticated independently of the transport.
+This is the only external firewall rule required for the Collector. Every connection uses TLS 1.2 or higher.
+
+<Note>
+**Outbound proxies.** If your network sends outbound traffic through an explicit proxy, add `HTTPS_PROXY=http://[proxy-host]:[port]` (and `NO_PROXY` for anything that must go direct) to the Collector's env file: `/etc/av-bridge/env` on Linux, `C:\ProgramData\av-bridge\.env` on Windows. Then restart the service. Every Collector connection then uses the proxy: telemetry, commands, configuration, remote access and updates. The proxy must allow `CONNECT` to port 443, and WebSocket upgrades for remote access. Collectors older than v1.0.82 only used the proxy for remote access and updates, so update them first. The Collector's requests, and the handshake that opens the remote access tunnel, are signed with an HMAC-SHA256 key unique to the Collector, so they are authenticated independently of the transport.
+</Note>
 
 The remote access tunnel, which lets administrators open a device's web interface from the portal, is a WebSocket on the same port. If outbound traffic passes through a proxy or TLS-inspecting firewall, it must allow WebSocket upgrades to `*.involvecloud.com`. Through the tunnel, the Collector only connects to its own devices, on ports 80, 443, 8080 or 8443, the device's own control port, or the port in its `web_port` tag, never to anything else on the network.
 
@@ -38,12 +42,18 @@ For an on-premises Collector, this is ordinary LAN traffic. A cloud-hosted Colle
 
 **Nothing inbound is required from the internet.** No customer location needs public-facing ports.
 
-An optional local-network port is available:
+The Collector has a local API for health checks, Prometheus metrics, device status and commands. By default it listens on `127.0.0.1:8080`, so it's reachable only from the Collector host itself. The cloud does not use it, and you don't need to open any port for it.
+
+To reach the local API from other hosts on your network, for example from site monitoring:
 
 | From | To | Port | Purpose |
 |---|---|---|---|
-| Operator workstations and site tooling (optional) | Collector host | TCP 8080 | Local API: health check, Prometheus metrics and the touch-panel proxy |
+| Operator workstations and site tooling (optional) | Collector host | TCP 8080 | Local API: health check, Prometheus metrics, device status and commands |
 
-The cloud does not use this port. Allow it only from your internal network.
+1. Set `hub.listen_addr` in `config.yaml`, such as `0.0.0.0:8080`.
+2. Set `api.auth.enabled: true` and list at least one key under `api.auth.api_keys`. Requests then need `Authorization: Bearer <key>`.
+3. Restart the Collector, and allow the port on the host firewall only from the hosts that need it.
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page 172bec4</p>
+Without a key, the Collector refuses to open the API to the network: it logs an error naming the setting and keeps listening on `127.0.0.1` only. `/healthz` stays unauthenticated so monitoring keeps working.
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page fe7fd1b</p>

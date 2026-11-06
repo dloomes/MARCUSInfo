@@ -33,7 +33,7 @@ If a device doesn't switch back on, the room fails, with the device named. A dev
 |---|---|
 | **Nightly lifecycle** switch | Turns the power schedule on for every room. Off until you switch it on, so you can set everything up first. |
 | **Power off at** / **Power on at** | For example off at 19:00 and back on at 07:30 the next morning, in the timezone on the Settings tab. |
-| **Days** | The days the cycle runs. On other days rooms stay on overnight. |
+| **Days of week** | The days the cycle runs. On other days rooms stay on overnight. |
 
 Select **Save changes** when you're done.
 
@@ -41,7 +41,7 @@ Select **Save changes** when you're done.
 
 The rooms table lists every room by building, with the times it's switched off and on. Select **Customise** on a room (**Edit** once it's customised) and tick **Customise** next to **Power off at**, **Power on at** or **Days of week** to give it its own; leave a field unticked to follow the default.
 
-You can also **exclude** a room up to and including a date, with a reason such as planned maintenance or a device awaiting replacement. An excluded room is neither switched off nor checked, and has no runs for those days.
+You can also **exclude** a room up to and including a date. Choose **Exclude until** and a **Reason**, such as planned maintenance or a device awaiting replacement; the reason is required, and the **Note (optional)** is free text. An excluded room is neither switched off nor checked, and has no runs for those days.
 
 Customised rooms show **Customised**, and their button reads **Edit**. Select **Reset** to return a room to the defaults.
 
@@ -67,6 +67,8 @@ A room's own date wins, then a date for one of its tags (the highest in the tag 
 ### Defer tonight
 
 If a room is in use this evening, select **Defer tonight**. The room skips tonight's power-down and returns to its schedule tomorrow; its readiness check the next morning is unaffected. You need **Defer tonight's power-down**, which operators have by default.
+
+To do it for many rooms, filter the rooms list by [room tag](/admin/room-tags). A bar appears with **Defer tonight**, **Exclude…** and **Clear exclusions**, which apply to every room with that tag. The rooms list on **Readiness checks** has the same tag filter.
 
 ### Overnight status and alerts
 
@@ -138,7 +140,7 @@ Select a run for its details: how far it got, and every step, with what it check
 
 Each step's result is summarised in a line per device: what it looked for (such as `Judge_Level > -4`), and what it found (such as `online` or `Succeeded`). Select **Raw** under a result for everything the step recorded, including each device's raw reply.
 
-For **Expect status** and **Check metric** steps, each result says where its reading came from. **Fresh poll** means the device was polled for that step, which is the usual case. **Last report, 42 s old** means the step used the device's last regular report instead: ATEN PDUs always do, and so does any device whose fresh poll didn't come back within 60 seconds. A last report more than two minutes old is highlighted, because it may predate what the step was checking, such as a power-on or a reboot.
+For **Expect status** and **Check metric** steps, each result says where its reading came from. **Fresh poll** means the device was polled for that step, which is the usual case. **Last report, 42 s old** means the step used the device's last regular report instead: ATEN PDUs always do, and so does any device whose fresh poll didn't come back within 60 seconds. **No reading** means no reading was available at all. A last report more than two minutes old is highlighted, because it may predate what the step was checking, such as a power-on or a reboot.
 
 To keep or share a run's results, select **Download PDF** on the run. The report shows the room and its place, whether it passed, when it ran and how long it took, why it failed, and every step's result. It's available once the run has finished.
 
@@ -161,4 +163,4 @@ Each morning, 30 minutes after the later of the power-on time and the readiness 
 
 Integrations can read the same results through the Public API: each room's readiness check and its latest power and readiness runs, every run with its type, and every step. Create a token with the **Read Room Readiness** scope; see [API tokens](/admin/api-tokens) and the API reference.
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 30 Oct 2026 15:21 · page 278e13e</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page 78bd227</p>

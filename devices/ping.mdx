@@ -32,7 +32,7 @@ icon: "wave-square"
 | **Tags → `ping_timeout_ms`** | No | Per-packet timeout. Defaults to 1000ms. | `2000` |
 
 <Note>
-**Tags** are set under **Advanced (JSON) → Tags** in the device form, as a JSON object, for example `{"ping_count": "5"}`.
+**Tags** are set in the **Tags** section of the device form: select **Add tag**, then enter the name and value, for example `ping_count` = `5`.
 </Note>
 
 ## Readings
@@ -58,7 +58,11 @@ Each command is a button on the device page, and can be used in Room Readiness r
 | `ping` | Ping |  |
 
 <Note>
-**Windows Collectors:** set the tag `ping_privileged` to `true` on each ping device. Windows only allows raw ICMP, and the Collector service already runs with the rights it needs.
+**Windows Collectors** need nothing extra: the Collector uses raw ICMP there by default, and its service already has the rights it needs.
 </Note>
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 26 Oct 2026 15:44 · page 35405d5</p>
+<Note>
+**Linux Collectors** ping without root, which needs the `av-bridge` user's group inside the kernel's `net.ipv4.ping_group_range` (many distributions allow all groups by default). If pings fail with a permission error, widen that range with `sysctl`, or set the tag `ping_privileged` to `true` and give the service `CAP_NET_RAW`.
+</Note>
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page 64d39d7</p>

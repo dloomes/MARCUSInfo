@@ -47,7 +47,8 @@
               "admin/notifications",
               "admin/api-tokens",
               "admin/branding",
-              "admin/audit-log"
+              "admin/audit-log",
+              "admin/data-requests"
             ]
           },
           {

@@ -10,8 +10,8 @@ The Collector installs directly onto a Linux host (`amd64` or `arm64`) and runs 
 ## Before you start
 
 - A Linux host with systemd that meets the sizing in [Size the host](/deploy/sizing) and the network requirements in [Network requirements](/deploy/network-requirements).
-- Root access (`sudo`) and `curl`.
-- An enrolment token: in the portal, go to **Collectors → New collector** and name the Collector. The portal issues a **single-use token** and a ready-to-paste install command.
+- Root access (`sudo`), `curl` and `jq` (for example `sudo apt install jq`).
+- An enrolment token: in the portal, go to **Collectors → New collector** and name the Collector. The portal issues a **single-use token**, valid for 7 days, and a ready-to-paste install command.
 
 ## Run the installer
 
@@ -24,7 +24,7 @@ curl -fsSL https://[portal-host]/public/collectors/install.sh \
 
 The installer:
 
-1. Checks the host for root access, `curl` and systemd.
+1. Checks the host for root access, `curl`, `jq` and systemd.
 2. Redeems the token with M.A.R.C.U.S. Cloud and receives the Collector's identity and HMAC key.
 3. Creates a dedicated non-root `av-bridge` system user.
 4. Installs the Collector binary and writes its configuration.
@@ -36,7 +36,7 @@ The Collector then downloads its device list from the cloud automatically. The w
 
 | Item | Location |
 |---|---|
-| Binary | `/usr/local/bin/av-bridge` |
+| Binary | `/opt/av-bridge/bin/av-bridge`, linked from `/usr/local/bin/av-bridge` |
 | Configuration | `/etc/av-bridge/config.yaml` and `/etc/av-bridge/env` |
 | State | `/var/lib/av-bridge/` |
 | Logs | The systemd journal, and the portal (see [Monitor health and logs](/deploy/monitoring)) |
@@ -44,4 +44,4 @@ The Collector then downloads its device list from the cloud automatically. The w
 
 **Follow the logs:** `journalctl -u av-bridge -f`
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page 0d5787a</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page 5349c74</p>

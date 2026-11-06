@@ -54,7 +54,7 @@ If a device's Collector can't take a reading (it's offline, or older than versio
 Every step except **Section** and **Wait** has a **Target**:
 
 - **Whole room**: every device in the room;
-- **By device type**: every display, camera, video codec, DSP or control panel in the room;
+- **By device type**: every display, camera, video codec, DSP / audio, control panel, AV-over-IP or power / PDU device in the room;
 - **Specific device**: one named device.
 
 Steps only ever reach devices in the room being tested. Targeting by type lets one routine work across rooms with different equipment.
@@ -69,7 +69,7 @@ Set **On failure** on each step:
 | **continue** | Records the failure and carries on, so one run shows every problem. |
 | **retry:1**, **retry:3** | Tries the step again up to that many times before failing it. |
 
-Any failed step marks the room as **Failed**, whichever option you choose. A step that runs past its **Timeout (seconds)** fails.
+Any failed step marks the room as **Failed**, whichever option you choose. **Power on**, **Power off** and **Device command** steps have a **Timeout (seconds)**; one that runs past it fails. **Check metric** has a **Sample window (seconds)** instead.
 
 ### Diagram
 
@@ -83,4 +83,4 @@ Select **Advanced JSON** to edit the steps as JSON, for example to copy a routin
 
 Select **Test on a room**, pick a room and start. The routine runs straight away against that room, whatever routine it normally uses, and you're taken to the run to watch each step's result arrive. Save your changes first.
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 30 Oct 2026 13:17 · page 6da27b5</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page 459294b</p>

@@ -20,6 +20,8 @@ The Collector is available as a minimal container image built from `scratch`. It
 | State | A small volume at `/var/lib/av-bridge/` |
 | Ports | TCP 8080 is optional (local API only). No ports are needed for cloud operation. |
 
+The configuration the Linux installer writes refers to `${CLOUD_WEBHOOK_URL}` and `${CLOUD_HMAC_SECRET}`, which it reads from `/etc/av-bridge/env`. In a container, either write those values into `config.yaml` directly, or pass the same variables to the container (for example `env_file: ./env` in Compose, or a Kubernetes Secret as environment variables).
+
 ## Docker Compose
 
 ```yaml
@@ -54,4 +56,4 @@ The same commands work on any Docker host, including a VM in AWS, Azure or Googl
 **One container per Collector.** Each Collector has its own identity and HMAC key. To scale out, add more Collectors, each enrolled separately. Never run two copies of the same one.
 </Note>
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page 2cd5af3</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page b819a61</p>

@@ -77,6 +77,8 @@ Each row on the **Locations** page has a button that adds the next level down:
 
 Use the pencil to rename anything, and the bin to delete it. Before deleting, the portal tells you what's inside, such as rooms and devices.
 
+To group rooms across buildings, such as every courtroom, use [room tags](/admin/room-tags).
+
 ## 2. Import your assets
 
 ### Get the template
@@ -171,6 +173,7 @@ Every import is recorded in the [audit log](/admin/audit-log) as **asset.import*
 | Problem | What to do |
 | --- | --- |
 | `CSV missing required column: name` (or `category`) | Check the heading row. Headings must be spelled as in the template; capitals don't matter. |
+| `name is required` | A row has no name. Fill in the `name` column on every row. |
 | `category '…' not in allowlist` | Use one of the [category values](#categories), in lower case, such as `touch_panel`, not `Touch Panel`. |
 | `status '…' not in allowlist` | Use one of the [status values](#statuses), or leave it blank. |
 | `building '…' not found` | Check the spelling against **Locations**, or create the building first. You can also see this if your access doesn't include that building. |
@@ -246,4 +249,4 @@ Many devices report their own model, serial number and firmware. Once a device i
   </Card>
 </CardGroup>
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page ab2c1c0</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page 3fc987c</p>

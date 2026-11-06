@@ -11,7 +11,9 @@ M.A.R.C.U.S. monitors and controls the AV and video collaboration equipment acro
     Sign in with your organisation's Microsoft account, or with the email and password your administrator gave you.
   </Step>
   <Step title="Install a Collector">
-    Go to **Collectors** and select **New collector**. Copy the one-line install command it gives you and run it on a Linux or Windows host that can reach your AV network. The Collector shows as online within a minute or so.
+    Go to **Collectors** and select **New collector**. Copy the one-line install command it gives you and run it on a Linux or Windows host that can reach your AV network. On Windows, run it in an elevated PowerShell (**Run as administrator**). The Collector shows as online within a minute or so.
+
+    The command contains a single-use enrolment token that expires after 7 days. If it leaks or runs out, select **New collector** again to get a new one.
 
     The Collector needs outbound HTTPS (TCP 443) to `*.involvecloud.com` and nothing inbound. See [Network requirements](/deploy/network-requirements).
   </Step>
@@ -37,4 +39,4 @@ M.A.R.C.U.S. monitors and controls the AV and video collaboration equipment acro
   </Card>
 </CardGroup>
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page e8297dd</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page 6ce82b1</p>

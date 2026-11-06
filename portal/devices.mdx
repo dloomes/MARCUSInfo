@@ -10,7 +10,9 @@ icon: "display"
 There are three ways to reach a device:
 
 - **Places**, in the sidebar: open a region, building and room, then select the device.
-- **Devices**, in the sidebar: search by name, room, address or protocol, and filter by status and type.
+- **Devices**, in the sidebar: search by name, room, address or protocol, and filter by status, type and room tag.
+
+The type filter uses the device categories: **Display**, **Conferencing**, **Audio**, **Camera**, **Control**, **AV-over-IP** and **Power**. The room tag filter, **All room tags**, shows only if your organisation has [room tags](/admin/room-tags).
 - **Overview**: select a summary card or building tile to open a filtered list.
 
 When you arrive at **Devices** from a region, building, room or Collector, the filter shows as a chip at the top, such as **Building: North Wing**. Select the chip's cross to clear it.
@@ -19,17 +21,28 @@ The list refreshes every 30 seconds.
 
 ## The device page
 
-Select **View** on a device to open its page. The header shows its status, room, type, protocol and model, and when it last updated.
+Select **View** on a device to open its page. The header shows its status, location, type, protocol and make and model, when it was **Last contacted**, and when the page last updated. **Last contacted** is the last time the device reported online. It turns amber while the device isn't online.
 
-Sony displays also show their power state next to their status: **Power on** or **Standby**. A display in standby still answers on the network, so it shows as **Online** as well. The power state shows on the **Devices** list too.
+The header has these buttons:
 
-Video codecs show their call state next to their status in the same way: **In a call** (or **In 2 calls**), **Ringing**, **Connecting**, **On hold** or **Idle**. It shows on the **Devices** list and the device page while the codec is online. Cisco and Poly codecs report it; see [Supported devices](/devices/overview).
+- **Refresh** reloads the page.
+- **Reconnect** and **Edit** (see below).
+- **Delete** removes the device, after you confirm. You need the **Manage devices** permission.
+- **Touch Panel** opens a touch panel's own page, for Aurora RXT panels and devices with a `touch_panel_path` tag. See [Touch Panel](#touch-panel).
+
+Sony displays also show their power state next to their status: **Power on**, **Standby** or **Off**. A display in standby still answers on the network, so it shows as **Online** as well. The power state shows on the **Devices** list too.
+
+Video codecs show their call state next to their status in the same way: **In a call** (or **In 2 calls**), **Ringing**, **Connecting**, **On hold**, **Ending call** or **Idle**. This call-status pill shows on the **Devices** list and the device page while the codec is online. Cisco and Poly codecs report it; see [Supported devices](/devices/overview).
 
 ### Device Information
 
 **Device Information** shows everything the device reports, refreshed every 10 seconds: identity such as model, serial number and firmware version, network details, and the device's own readings, such as power state, input, volume or temperature. Which readings appear depends on the device; see [Supported devices](/devices/overview).
 
 If the device reports faults, **Fault Count** and **Faults** appear first. Select a list to expand it.
+
+Devices with several outlets or ports, such as a PDU or a network switch, show them in **Outlets** and **Ports** tables, with one row for each outlet or port and one column for each reading.
+
+Devices that report levels, such as a DSP with subscribed levels, show them in a **Levels** card, not in **Device Information**.
 
 ### Commands
 
@@ -45,8 +58,7 @@ Video codecs running as a Microsoft Teams Rooms or Zoom Rooms appliance show **C
 
 ### Events
 
-- **Live events** shows changes as they happen, such as a device going offline or recovering, or an input changing.
-- **Recent events** shows the last 50.
+**Recent events** shows the last five changes, such as a device going offline or recovering, or an input changing. For the full history, select **Activity**.
 
 ### Activity
 
@@ -62,7 +74,7 @@ Select **Web interface** in the header to open the device's own web page in a ne
 
 **Automatic** uses the scheme and port in the device's address when it's a web address, such as `https://10.0.4.21:8443`, or the device's `web_port` tag. Otherwise it's HTTP on port 80. Only ports 80, 443, 8080 and 8443, the device's own port and its `web_port` tag can be opened, and only on that device's own address.
 
-To open a device on the same page every time, give it a `web_path` tag, such as `web_path: /login`. **Path** then starts with that page unless you enter another.
+To open a device on the same page every time, give it a `web_path` tag, such as `web_path: /login`. Edit the device and add the tag under **Tags**. **Path** then starts with that page unless you enter another.
 
 Each session:
 
@@ -77,6 +89,14 @@ You need the **Remote access** permission, which administrators have. The device
 <Note>
 Only the device's web page is relayed. Remote desktop, SSH and Telnet aren't available yet.
 </Note>
+
+### Touch Panel
+
+**Touch Panel** appears on Aurora RXT touch panels and on any device with a `touch_panel_path` tag, on the device page and in the device list. Select it to open the panel's own page in a new browser tab, relayed through the device's Collector over HTTPS in the same way as [Web interface](#web-interface), so it works from anywhere. The session is recorded in the audit log like any other.
+
+The page opened is the device's `touch_panel_path` tag, such as `touch_panel_path: /user`. Without the tag it's `/user`.
+
+You need the **Remote access** permission. Without it, **Touch Panel** links straight to the panel's address on your network instead, which works only from a computer that can reach the panel.
 
 ## If a device isn't responding
 
@@ -95,15 +115,17 @@ Only the device's web page is relayed. Remote desktop, SSH and Telnet aren't ava
 ## Send a command to many devices
 
 1. On **Devices**, select **Send to group**.
-2. Enter the **Command name**, such as `power_off`, and any arguments.
-3. Choose the devices, or use **Select visible** to take everything matching your search.
-4. Select **Send**.
+2. Enter the **Command name**, such as `power_off`, and any arguments in **Args (JSON, optional)**.
+3. Choose the devices, or use **Select visible** to take everything matching your search. You can narrow the list by building or [room tag](/admin/room-tags) first.
+4. Select **Send to** and the number of devices, such as **Send to 12 devices**.
 
 Each device runs the command if it has it, and the summary shows how many were queued and how many failed. Follow up on individual devices from their pages. You need the **Bulk command fan-out** permission.
 
 ## Add or change a device
 
 Administrators with the **Manage devices** permission can select **New device** on the **Devices** page, or **Edit** on a device page. See [Supported devices](/devices/overview) for what to enter for each kind of device.
+
+In **Tags**, select **Add tag** to give the device a tag name and value. Tag names can't contain spaces. Tags you add stay saved.
 
 Leave **Poll rate (seconds)** blank to use the default for the kind of device: every 60 seconds for most, every 5 minutes for ATEN power distribution units, which log in for each reading. Set a value only where you need faster or slower updates.
 
@@ -113,4 +135,4 @@ Edit the device and choose a different **Collector**. When you save, the device 
 
 To move every device off a failed Collector at once, use **Replace** on the **Collectors** page. See [Replace a failed Collector](/deploy/backup#replace-a-failed-collector).
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page 7b4da43</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page 468ac7c</p>

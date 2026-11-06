@@ -1,0 +1,73 @@
+---
+title: "Data requests"
+sidebarTitle: "Data requests"
+description: "Export everything held about a person, erase them, and see how customer offboarding works."
+icon: "user-shield"
+---
+
+When someone asks what personal data you hold about them, or asks you to delete it, use **Data requests**. You can export a person's data, or erase them, without contacting Involve.
+
+You need the **Manage data requests** permission (in the **Privacy** group). Admin roles have it by default, and you can add it to any [custom role](/admin/roles). Go to **Data requests** in the sidebar, under **Manage**. Without the permission, the page says "You don't have permission to manage data requests."
+
+Export and erase only look inside your own organisation. If nothing is held for that email address, you see "no data found for that email".
+
+You can also start from **Users**: the **Export data** and **Erase** icons on a user's row open **Data requests** with their email address filled in.
+
+## Export a person's data
+
+1. Enter the person's email address, for example `alex@example.com`.
+2. Select **Download ZIP**. M.A.R.C.U.S. builds a ZIP file and downloads it.
+
+The ZIP has a **CSV** file and a **JSON** file for each table that holds something about that person, plus a **README** that explains what each file contains.
+
+- **Device telemetry isn't included.**
+- **Secrets are left out.** Password hashes, tokens, encrypted values, credentials inside settings and authorisation headers are removed. Webhook and Teams URLs are cut back to the address of the site, such as `https://example.com`.
+- **Spreadsheets are kept safe.** In the CSV files, any cell that starts with `=`, `+`, `-` or `@` gets a `'` in front, so a spreadsheet won't run it as a formula. The JSON file holds the exact values.
+- **Deleted accounts are found too.** The export uses the audit log to find people whose accounts were deleted earlier.
+
+Every export is recorded in the [audit log](/admin/audit-log). The entry doesn't hold the email address, only a fingerprint of it and a count of tables.
+
+## Erase a person
+
+1. Enter the person's email address and select **Preview**. You see how many records will change, before anything does.
+2. If it looks right, type the email address again to confirm, and select **Erase**.
+
+What happens:
+
+- The person's account is deleted.
+- Their name, email and other personal values are replaced with a stand-in such as `erased-user-1a2b3c4d`. If the account no longer exists, the stand-in is worked out from the email address.
+- **Audit log entries are kept, but anonymised.** They now show the stand-in, so the history stays complete without the person.
+- **Personal dashboards are deleted.** Shared dashboards are kept and now show the stand-in as their owner.
+
+You can't erase yourself, and you can't erase the last admin. If you aren't Involve staff, you also can't erase someone who has permissions or access that you don't. Erasing can't be undone.
+
+Erasing is recorded in the [audit log](/admin/audit-log), against the stand-in, with counts of what changed. A **Preview** isn't recorded.
+
+### What erasure can't reach
+
+After erasure, an amber list shows the places M.A.R.C.U.S. can't clean up for you. Deal with these yourself:
+
+- **Microsoft Entra ID.** Remove the person there too. If you don't, they're created again the next time they sign in.
+- **Notification channels** that send to the person's email address. Change the channel's recipients.
+- **Room Readiness recipients** and the **helpdesk email**.
+- **The organisation support contact**, if it's this person.
+- **Application logs**, which are kept for 30 days, and **backups**, which are kept for 35 days. Both clear themselves on schedule.
+
+## Old sign-in tokens
+
+M.A.R.C.U.S. tidies up expired credentials automatically. Password reset, sign-in link and Collector enrolment tokens are deleted 30 days after they expire or are used. API tokens are deleted 90 days after they're revoked or expire. Active tokens are never deleted.
+
+## When your organisation leaves
+
+Offboarding a whole organisation is done by the Involve helpdesk, not from the portal. It works like this:
+
+| When | What happens |
+|---|---|
+| **Day 0** | Sign-in, API tokens, Collectors, notifications and scheduled work all stop. Open sessions, remote access sessions and live connections are closed. Involve can download a full ZIP export of your organisation's data. Every download is recorded. |
+| **Before day 30** | If you change your mind, Involve can cancel at any time and everything is restored. |
+| **Day 30** | Your organisation and all its data are permanently deleted. A deletion certificate is recorded automatically, with a count of rows deleted for each table. |
+| **Day 65** | Backups that held your data have expired (35 days after deletion). |
+
+To start offboarding, or to cancel it, contact the Involve helpdesk.
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page 4312ed3</p>

@@ -60,9 +60,13 @@ Use the icons on the user's row:
 | **Edit user** | Change their name, roles and scope. The email address can't be changed; delete and recreate the user instead. |
 | **Reset password** | Sets a new password and signs them out everywhere. Share the new password by another route. Not available if your organisation requires Microsoft sign-in. |
 | **Disable user** | Stops them signing in straight away and ends their sessions. Use this when someone leaves; you can re-enable them later. |
-| **Delete user** | Removes them permanently. Their actions stay in the [audit log](/admin/audit-log). |
+| **Delete user** | Removes them permanently. Their actions stay in the [audit log](/admin/audit-log), with their email address. To remove the email address too, use **Erase**. |
+| **Export data** | Downloads everything held about them. Opens [Data requests](/admin/data-requests) with their email address filled in. Needs **Manage data requests**. |
+| **Erase** | Erases them and anonymises their audit entries. Opens [Data requests](/admin/data-requests). Needs **Manage data requests**. Disabled on your own row. |
 
 You can't disable or delete your own account.
+
+Each row also shows a **disabled** or **you** chip where they apply, and when the user last signed in, or **Never signed in**.
 
 <Note>
 For users who sign in with Microsoft, roles from [sign-in mappings](/admin/single-sign-on) are marked **from Entra** in **Edit user**. They follow the user's Entra groups: unticking one only lasts until their next sign-in while they're still in the group. Roles you tick by hand stay until you remove them.
@@ -72,4 +76,4 @@ For users who sign in with Microsoft, roles from [sign-in mappings](/admin/singl
 
 If your organisation has several business units, such as separate departments or agencies, M.A.R.C.U.S. can keep each one's rooms, devices and users apart within a single portal. Your service provider switches this on. Business units are then managed on the **Locations** page, regions are assigned to them, and users can be scoped to them as above.
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page f12d300</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page 1014b8b</p>

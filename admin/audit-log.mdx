@@ -8,11 +8,13 @@ The audit log records every change made in the portal: devices, locations, users
 
 ## Read the log
 
-Entries are newest first, and the page refreshes every 30 seconds. Each entry shows what was changed, the action (**Created**, **Updated**, **Deleted** or **Submitted**), who did it and when.
+Entries are newest first, and the page refreshes every 30 seconds. Each entry shows what was changed, the action (**Created**, **Updated**, **Deleted** or **Submitted**; any other kind of action, such as a data export or an asset import, reads **Action**), who did it and when.
 
 Expand an entry to see exactly what changed: a field-by-field comparison of before and after.
 
 Secrets, such as device passwords and token values, are never recorded.
+
+Entries for [data requests](/admin/data-requests), such as `privacy.access_export` and `privacy.erase`, show the person who did it as `user:` followed by an ID, not their name or email. People who've been erased appear in older entries as a stand-in such as `erased-user-1a2b3c4d`. If your organisation is offboarded, the log also shows `customer.offboard` and `customer.offboard_cancel` entries.
 
 ## One device's history
 
@@ -26,4 +28,4 @@ The page shows the latest 100 entries. For the full history, a longer retention,
 
 The audit log is kept for 24 months, then deleted.
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page 9441cf4</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page 14f6839</p>

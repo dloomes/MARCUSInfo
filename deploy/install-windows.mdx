@@ -32,7 +32,7 @@ The installer:
 The whole process typically takes **under 15 minutes**.
 
 <Note>
-**Tokens are single-use.** If you run the installer again with a token that has already been redeemed, it stops without making changes. To re-enrol a host, issue a new token from the portal.
+**Tokens are single-use and expire after 7 days.** If you run the installer again with a token that has already been redeemed or has expired, it stops without making changes. To re-enrol a host, issue a new token from the portal.
 </Note>
 
 ## What gets installed
@@ -40,10 +40,11 @@ The whole process typically takes **under 15 minutes**.
 | Item | Location |
 |---|---|
 | Binary | `C:\Program Files\av-bridge\av-bridge.exe` |
-| Configuration | `C:\ProgramData\av-bridge\config.yaml` and `C:\ProgramData\av-bridge\env` |
-| Logs | `C:\ProgramData\av-bridge\logs\` |
+| Configuration | `C:\ProgramData\av-bridge\config.yaml` and `C:\ProgramData\av-bridge\.env` |
+| State | `C:\ProgramData\av-bridge\state\bridge.db` |
+| Logs | `C:\ProgramData\av-bridge\logs\av-bridge.log` (10 MB per file, 5 old files kept) |
 | Service | `av-bridge` (Windows Service Control Manager) |
 
 **Restart the service:** `Restart-Service av-bridge`
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page 1669750</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page c9c2cc0</p>

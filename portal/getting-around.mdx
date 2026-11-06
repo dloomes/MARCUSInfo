@@ -42,13 +42,17 @@ The sidebar on the left takes you everywhere. You only see the items your role a
 
 | Section | What's in it |
 |---|---|
-| **Overview**, **Map**, **Dashboards** | Your estate at a glance. See [Overview and Map](/portal/overview-and-map) and [Dashboards](/portal/dashboards). |
+| **Overview**, **Map**, **Dashboards** | Links at the top of the sidebar, above **Places**. Your estate at a glance. See [Overview and Map](/portal/overview-and-map) and [Dashboards](/portal/dashboards). |
 | **Places** | Your regions, buildings and rooms, with every device and a coloured status dot. Select a region, building or room to list its devices, or a device to open it. Buildings without a region are under **No region**; if you don't use regions, buildings are at the top. |
-| **Monitor** | **Alerts** (with a count of open alerts, red when any is critical), **Collectors**, **Devices**, **Adapters**, [**Reports**](/portal/reports), **Firmware** and **Activity**. |
-| **Manage** | **Locations**, **Assets**, **Room Readiness**, and the administration pages: **Users**, **Roles**, **Sign-in mappings**, **Notifications**, **API tokens** and **Branding**. **Roles** appears only if you have the **Manage roles** permission. |
+| **Monitor** | **Alerts** (with a count of open alerts, red when any is critical), **Collectors**, **Devices**, **Adapters**, [**Reports**](/portal/reports), **Firmware** and **Activity**. Select **Logs** on a Collector to read what it sends of its own log; see [Monitoring](/deploy/monitoring). |
+| **Manage** | **Locations**, **Room tags** (see [Room tags](/admin/room-tags)), **Assets**, **Room Readiness**, and the administration pages: **Users**, **Roles**, **Sign-in mappings**, **Notifications**, **Data requests** (see [Data requests](/admin/data-requests)), **API tokens** and **Branding**. Each item appears only if your role allows it; for example, **Roles** needs the **Manage roles** permission and **Data requests** needs **Manage data requests**. |
 | **System** | **Health** and **Downloads**. |
 
 Select a section heading to collapse or expand it. The portal remembers which sections you've collapsed.
+
+### On a phone or tablet
+
+On a small screen the sidebar becomes a drawer. A bar across the top has a menu button, the product name, an alerts bell and your account button. The bell shows how many alerts are open, and turns red when any is critical. Select the menu button to open the drawer from the left. It closes when you choose a link, select outside it or press **Esc**.
 
 ## Choose where you land
 
@@ -56,12 +60,14 @@ When you sign in, you land on **Overview** unless you've chosen **Map**. To chan
 
 ## Your account menu
 
-Your name, at the top right of each page, opens a menu showing your email address and role, and **Sign out**.
+Your account menu is in the bar at the top of each page. On a phone it's the account button in the top bar, which shows your initials. It opens a menu showing your email address and role, and **Sign out**.
 
-Next to it, the connection indicator shows **Connected** while the portal is receiving live updates. If it shows **Disconnected**, check your network connection; the page reconnects on its own.
+### Connection indicator
+
+**Overview**, **Map**, the device page, **Activity** and **Health** show a connection indicator in the page header. It checks every 10 seconds that the portal can reach M.A.R.C.U.S. Cloud. It reads **Checking…** at first, then **Connected**. If it shows **Disconnected**, check your network connection; it keeps checking and recovers on its own.
 
 <Tip>
 Press **Esc** to close any dialog. If you've changed something in a form, the portal asks before discarding it.
 </Tip>
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page 79a28c4</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page e815d9d</p>

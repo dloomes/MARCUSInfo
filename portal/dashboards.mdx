@@ -24,8 +24,10 @@ The dashboard you last opened opens next time you come to **Dashboards**. Switch
 2. Select **Add widget** and choose one. Widgets that show one room or one device ask which.
 3. Drag a widget by its handle to move it. With the keyboard, focus the handle, press Space, use the arrow keys, then press Space again.
 4. Choose each widget's size: **Small**, **Medium**, **Large** or **Full width**. On a phone every widget is full width; on a tablet, small and medium widgets sit two to a row.
-5. Select a widget's settings button to change what it shows, or its cross to remove it.
+5. Select a widget's settings button to change what it shows, then **Done**. Select its cross to remove the widget.
 6. Select **Save**, or **Cancel** to leave the dashboard as it was.
+
+With a dashboard open, **Rename** changes its name and the bin button deletes it. You can rename and delete your own dashboards; shared ones need **Share dashboards**.
 
 Widgets refresh on their own: every 30 seconds for live information, every 10 minutes for **Warranty** and **Firmware**, and every 15 minutes for **Room usage** and **Lowest uptime**.
 
@@ -33,14 +35,14 @@ Widgets refresh on their own: every 30 seconds for live information, every 10 mi
 
 | Widget | Shows | Settings |
 |---|---|---|
-| **Estate status** | Devices online, offline, unknown and switched off. Select a number to list those devices. | Building |
-| **Open alerts** | The newest open alerts, with their device. | Severity, how many |
-| **Rooms needing attention** | Rooms with devices offline or not reporting, worst first. | Building, how many |
-| **Room Readiness, last 24 hours** | Runs passed, failed and running, and the rooms that failed with the reason. | Power schedule, readiness checks or both; how many |
-| **Room usage** | The busiest or least-used rooms, in hours a day. Uses the same calls and people counts as the **Room usage** report under [Reports](/portal/reports). | Busiest or least used, period, how many |
-| **Lowest uptime** | The devices with the lowest uptime. | Period, how many |
+| **Estate status** | Devices online, offline, unknown and switched off. Select a number to list those devices. | Building, room tag |
+| **Open alerts** | The newest open alerts, with their device. | Severity, room tag, how many |
+| **Rooms needing attention** | Rooms with devices offline or not reporting, worst first. | Building, room tag, how many |
+| **Room Readiness, last 24 hours** | Runs passed, failed and running, and the rooms that failed with the reason. | Runs (all, power schedule or readiness checks), room tag, how many |
+| **Room usage** | The busiest or least-used rooms, in hours a day. Uses the same calls and people counts as the **Room usage** report under [Reports](/portal/reports). | Busiest or least used, period, room tag, how many |
+| **Lowest uptime** | The devices with the lowest uptime. | Period, room tag, how many |
 | **Collectors** | Collectors online, and any that aren't with when they were last seen. | |
-| **Warranty** | Assets out of warranty, and those expiring within 90 days. | How many |
+| **Warranty** | Assets out of warranty, and those expiring within 90 days. | Room tag, how many |
 | **Firmware** | Devices on and off their target firmware version. | How many |
 | **Room** | Every device in one room with its status and power state. | Room |
 | **Device** | One device's status and its latest readings. | Device |
@@ -51,6 +53,8 @@ Widgets refresh on their own: every 30 seconds for live information, every 10 mi
 | **Big number** | One figure in large type: devices offline or not reporting, open or critical alerts, rooms needing attention, Room Readiness failures, Collectors not online, or rooms in use now. It turns red once it reaches the number you set. | Figure, red from, label |
 | **Clock** | The time and date. | Time zone, 12- or 24-hour, seconds |
 | **Notice** | A message you write, such as a change freeze or a room out of use, styled as information, a warning or critical. | Message, style |
+
+Widgets that show rooms can be limited to the rooms with a [room tag](/admin/room-tags), using their **Room tag** setting. The widget's heading then adds the tag's name.
 
 Each widget only shows what your access allows. If your access is limited to some rooms, widgets only show those rooms. A widget whose information you can't see, such as **Recent activity** without the **View audit log** permission, says so.
 
@@ -91,4 +95,4 @@ Sharing a dashboard shares its layout, not its information. Each person sees the
 
 Creating, changing, sharing and deleting dashboards is recorded in the activity log.
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page 7fe6796</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page 98183cb</p>
