@@ -1,0 +1,106 @@
+---
+title: "NEC projector"
+sidebarTitle: "NEC projectors"
+description: "NEC and Sharp NEC projectors, such as the PA-series laser models, over NEC's projector control protocol on TCP port 7142. Power, input, picture and sound mute, volume and lens shutter; power state including warming up and cooling down, input and signal, light-source and filter hours, faults and identity."
+icon: "projector"
+---
+
+**Works with:** NEC and Sharp NEC projectors that support NEC's projector control commands over the network, including the PA-series laser models such as the NP-PA804UL and NP-PA1004UL.
+
+| | |
+|---|---|
+| **Type** | Vendor adapter |
+| **Vendor** | Sharp NEC |
+| **Device types** | Projector |
+| **Connection** | NEC projector control protocol over TCP (port 7142) |
+| **Power on/off from the portal** | Yes |
+| **Protocol in the portal** | NEC projector (`nec_projector`) |
+
+## Before you start
+
+1. Connect the projector's LAN port to the network and note its IP address. Control commands use TCP port 7142.
+2. So that the projector can be monitored and switched on while in standby, set its **Standby Mode** to **Normal** or **Network Standby**, not a power-saving mode that turns the network off.
+3. If **Control ID** is turned on in the projector's menu, set the `control_id` tag to the same number.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **NEC projector**.
+3. Enter the settings below and save. The Collector picks up the new device within seconds.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | Projector IP or hostname. Port 7142 is the NEC control port default; append :port to override. | `192.168.30.60` |
+| **Tags → `control_id`** | No | The projector's Control ID (1–254), only if Control ID is turned on in its menu. | `1` |
+
+<Note>
+**Tags** are set in the **Tags** section of the device form: select **Add tag**, then enter the name and value, for example `control_id` = `1`.
+</Note>
+
+## Readings
+
+These values appear under **Device Information** on the device page, and can be checked in Room Readiness routines.
+
+| Reading | Shown as |
+|---|---|
+| `power_status` | Power Status |
+| `operation_status` | Operation Status |
+| `current_input` | Current Input |
+| `signal_present` | Signal Present |
+| `display_content` | Display Content |
+| `picture_mute` | Picture Mute |
+| `sound_mute` | Sound Mute |
+| `onscreen_mute` | Onscreen Mute |
+| `volume` | Volume |
+| `light_source_hours` | Light Source Hours |
+| `light_source_life_pct` | Light Source Life Pct |
+| `filter_hours` | Filter Hours |
+| `fault_count` | Fault Count |
+| `faults` | Faults |
+| `model` | Model |
+| `serial_number` | Serial Number |
+| `mac_address` | Mac Address |
+| `response_ms` | Response Ms |
+
+## Commands
+
+Each command is a button on the device page, and can be used in Room Readiness routines.
+
+| Command | Button | Notes |
+|---|---|---|
+| `power_on` | Power On |  |
+| `power_off` | Power Off |  |
+| `input_hdmi1` | Input Hdmi1 |  |
+| `input_hdmi2` | Input Hdmi2 |  |
+| `input_displayport` | Input Displayport |  |
+| `input_hdbaset` | Input Hdbaset |  |
+| `input_bnc_video` | Input Bnc Video |  |
+| `input_bnc_yc` | Input Bnc Yc |  |
+| `input_select` | Input Select | Asks for the input terminal code in hex, such as `A1` (HDMI1) or `BF` (HDBaseT). |
+| `picture_mute` | Picture Mute |  |
+| `picture_unmute` | Picture Unmute |  |
+| `sound_mute` | Sound Mute |  |
+| `sound_unmute` | Sound Unmute |  |
+| `set_volume` | Set Volume | Asks for the level, 0–100. |
+| `volume_up` | Volume Up |  |
+| `volume_down` | Volume Down |  |
+| `shutter_close` | Shutter Close |  |
+| `shutter_open` | Shutter Open |  |
+
+<Note>
+**Warming up and cooling down:** the projector accepts no other commands while it powers on or cools down. **Power Status** shows **warming** or **cooling** during that time, and a command sent then fails with a message saying so. **Power On** during cool-down is refused until cooling has finished.
+</Note>
+
+<Note>
+**Standby:** in standby the projector reports its power state, light-source and filter hours, faults and identity; input, mute and volume readings return when it's switched on.
+</Note>
+
+<Note>
+**One connection:** the Collector connects only for each poll or command, so a room control system can use the projector's control port in between.
+</Note>
+
+<Note>
+**Firmware:** NEC's control commands don't report a firmware version, so these projectors don't appear on the **Firmware** page.
+</Note>
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 10 Nov 2026 13:55 · page bae9202</p>

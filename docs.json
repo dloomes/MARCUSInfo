@@ -33,7 +33,8 @@
               "portal/alerts",
               "portal/reports",
               "portal/room-readiness",
-              "portal/test-routines"
+              "portal/test-routines",
+              "portal/roadmap"
             ]
           },
           {
@@ -96,6 +97,7 @@
                   {
                     "group": "Displays",
                     "pages": [
+                      "devices/nec-projector",
                       "devices/philips-sicp",
                       "devices/sony-bravia"
                     ]

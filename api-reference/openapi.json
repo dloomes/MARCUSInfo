@@ -1262,7 +1262,7 @@
           },
           "type": {
             "type": "string",
-            "description": "Device category: `display`, `conferencing`, `audio`, `camera`, `control`, `avoip` (AV-over-IP) or `power`."
+            "description": "Device category: `display`, `conferencing`, `audio`, `camera`, `control`, `avoip` (AV-over-IP), `power` or `projector`."
           },
           "protocol": {
             "type": "string",
