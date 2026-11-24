@@ -1,0 +1,80 @@
+---
+title: "Microsoft Teams Rooms"
+sidebarTitle: "Teams Rooms"
+description: "Monitor Microsoft Teams Rooms through Poly Lens, with no Collector on site."
+icon: "video"
+---
+
+M.A.R.C.U.S. can monitor a **Microsoft Teams Room** through [Poly Lens](/admin/integrations). The room appears like any other device, with status, alerts, dashboards and reports, but there's nothing to install on site and no Collector is needed. M.A.R.C.U.S. reads from Lens over the internet every minute.
+
+## Windows rooms without Poly Lens
+
+A Teams Room on **Windows** can instead be read directly by a Collector on the same network, over Windows Remote Management. Choose **Direct (Windows remote management)** under **Managed by** when you add it. This gives Teams sign-in, Teams health, call state and named peripherals without Poly Lens, but needs a one-off setup on the room PC. See [Windows Teams Rooms setup](/portal/teams-rooms-windows). Android rooms are only available through Poly Lens.
+
+The rest of this page covers rooms managed through Poly Lens.
+
+## Before you start
+
+- Poly Lens must be [connected](/admin/integrations#connect-poly-lens) on the **Integrations** page. Until it is, **Poly Lens** shows as unavailable when you add a room.
+- The room must already be visible in Poly Lens.
+- You need the **Manage devices** permission.
+
+## Add a Teams Room
+
+Go to **Devices**, select **New device** and choose the device type **Microsoft Teams Room**.
+
+1. **Platform**: choose **Windows** (Teams Rooms on Windows) or **Android** (Teams Rooms on Android).
+2. **Managed by**: choose **Poly Lens**.
+3. **Lens device**: search by name, serial or room and select the device. Each entry shows whether it's online in Lens. Devices already linked in M.A.R.C.U.S. are greyed out and marked **Linked already**. If a device matches one a Collector already monitors, it shows **Already monitored as "name"**. You can still link it if you want both views.
+4. **Room in M.A.R.C.U.S.**: M.A.R.C.U.S. suggests the room whose name matches the room name in Lens. Change it, or leave it unassigned.
+5. Optionally change the **Name**; it starts as the Lens device name.
+6. Select **Create device**.
+
+Add rooms one at a time. If Lens doesn't return Teams details, the list says so and shows every device it can see.
+
+If tagging is switched on in the integration, M.A.R.C.U.S. then tags the device in Lens. See [Tagging in Lens](/admin/integrations#tagging-in-lens).
+
+## What the device page shows
+
+The header shows **Online** or **Offline**, and **In a call** or **Idle**, as reported by Lens. The page has these cards:
+
+- **Teams Rooms**: the Teams app version.
+- **Peripherals**: **All peripherals linked**, or **Peripheral missing** if Lens reports one isn't connected. Lens doesn't say which one.
+- **Device**: model, software version, serial number and **Last seen by Lens**.
+- **Source**: **Poly Lens** and the Lens account, the device's name in Lens, the tag state (**Tag pending**, tagged, or **Lens role can't tag devices**) and **Open in Lens**.
+
+Readings also feed the Devices list, dashboards, reports, room views and the Public API like those of any other device.
+
+### What Lens doesn't tell us
+
+Poly Lens has no Microsoft Teams integration for these rooms, so M.A.R.C.U.S. can't show whether Teams is signed in, or Teams' own health status.
+
+## Alerts
+
+| Alert | Raised when | Severity |
+|---|---|---|
+| **Teams Room offline** | Lens has reported the room offline for 5 minutes | Critical |
+| **Peripheral missing** | Lens has reported a peripheral not linked for 10 minutes | Warning |
+
+Each alert clears by itself when the condition ends. You get one notification when it opens and one when it clears, through your [alert channels](/admin/notifications).
+
+Teams Rooms often update and restart overnight, so nothing opens between 01:00 and 05:00 in the building's time zone (Europe/London if the building has none). If the condition is still there at 05:00, the alert opens then. Rooms that [Room Readiness](/portal/room-readiness) has switched off for the night don't raise offline alerts.
+
+## If Lens can't be reached
+
+If M.A.R.C.U.S. can't contact Lens, the room shows **unknown** with **Poly Lens unreachable**, not offline, and the **Poly Lens** card on [Integrations](/admin/integrations) shows **Needs attention**. If the integration is disconnected, the room shows **Integration disconnected**. See [Troubleshooting](/admin/integrations#troubleshooting).
+
+## What doesn't apply
+
+Because there's no Collector, some features aren't available for Lens-managed rooms:
+
+- **Commands** and **Reconnect** are refused.
+- **Web interface** and other remote access isn't offered.
+- You can't move the device between Collectors.
+- In [Room Readiness](/portal/room-readiness), **power** and **ping** steps are skipped with **managed by Poly Lens**. **Check** steps use the last reading from Lens.
+
+## Remove a room
+
+**Delete** the device as usual. If tagging is on, M.A.R.C.U.S. removes its `marcus:` tag from the device in Lens.
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 24 Nov 2026 09:07 · page a46c0d8</p>

@@ -1,7 +1,7 @@
 ---
 title: "Aurora RXT-x Touch Panels"
 sidebarTitle: "Aurora RXT panels"
-description: "Wall-mount control touch panels. JSON-RPC over Telnet on port 6975, with proximity, lux, and relay control."
+description: "Wall-mount control touch panels. JSON-RPC over Telnet on port 6975, with proximity, lux, relay control and RS-232 port settings. A projector or other device wired to an RXT serial port can be monitored through it (set via_rxt_serial on that device)."
 icon: "tablet-screen-button"
 ---
 
@@ -47,6 +47,10 @@ These values appear under **Device Information** on the device page, and can be 
 | `proximity` | Proximity |
 | `auto_brightness` | Auto Brightness |
 | `relay_N` | Relay N |
+| `rs232_N_baud` | Rs232 N Baud |
+| `rs232_N_format` | Rs232 N Format |
+| `rs232_N_handshaking` | Rs232 N Handshaking |
+| `rs232_N_signal_level` | Rs232 N Signal Level |
 | `event_manager` | Event Manager |
 | `response_ms` | Response Ms |
 
@@ -74,4 +78,4 @@ Each command is a button on the device page, and can be used in Room Readiness r
 **Touch-panel web UI:** **Touch Panel** on the device page opens the panel's own page (`/user`, or the device's `touch_panel_path` tag) through remote access, so it works from anywhere. It needs the **Remote access** permission.
 </Note>
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page e80a127</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 24 Nov 2026 09:07 · page 00a819d</p>

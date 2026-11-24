@@ -1,0 +1,129 @@
+---
+title: "Windows Teams Rooms setup"
+sidebarTitle: "Windows Teams Rooms setup"
+description: "Let a Collector read a Microsoft Teams Rooms on Windows PC directly, over Windows Remote Management."
+icon: "windows"
+---
+
+A Collector can monitor a **Microsoft Teams Rooms on Windows** PC directly, with no Poly Lens or other cloud service in between. The Collector connects to the room PC over **Windows Remote Management (WinRM)** every minute and runs one fixed, read-only PowerShell script. This page covers what it reads, what to set up on the PC, and how to add the room in the portal.
+
+<Note>
+Direct monitoring hasn't been tried on every Teams Rooms build yet. If a reading looks wrong or stays blank, tell your Involve contact which Teams Rooms app and Windows versions the room runs.
+</Note>
+
+## What M.A.R.C.U.S. reads
+
+Nothing is changed on the PC. Each minute the Collector reads:
+
+- **Teams**: whether Teams is signed in, Teams' own health status, the Teams Rooms app version, the time of the last heartbeat, and the newest error from the last 15 minutes. These come from the Teams Rooms event log (**Skype Room System**).
+- **Calls**: whether the room is in a call, from whether the microphone or camera is in use right now. Whether Teams has media ports open is read too and shown, but doesn't decide the call state on its own: Teams can hold those ports while the room is idle. If the microphone and camera can't be read (see [Account](#account)), the call state shows as **Unknown**.
+- **Peripherals**: each camera, microphone, speaker and display the Teams Rooms app reports, and whether it's connected.
+- **The PC**: Windows version, uptime, manufacturer, model and serial number.
+
+No call content, audio, video, meeting titles or attendee details are read.
+
+## Network and ports
+
+| From | To | Port | Protocol |
+|---|---|---|---|
+| The Collector | The Teams Room PC | **5986** (TCP) | WinRM over HTTPS |
+
+Port 5985 (WinRM over plain HTTP) works too, but isn't recommended: the traffic, including the sign-in exchange, can then be read on the network.
+
+Nothing on the PC connects out to M.A.R.C.U.S.
+
+## Account
+
+The Collector signs in with a **local account on the room PC** (NTLM). There are two choices:
+
+- **A monitoring account (recommended).** The setup script's `-CreateMonitoringAccount -GrantWmiAccess` options create a least-privilege local account that can read the Teams Rooms event log, peripherals and PC details, but isn't an administrator. It can't read whether the microphone or camera is in use, so the call state shows as **Unknown**.
+- **The Teams Rooms Admin account.** This gives the call state too, but needs the script's `-AllowLocalAdminRemote` option, which turns off a Windows protection: anyone holding a local administrator password (or its hash) can then use it over the network, so one password shared across rooms opens all of them. Only choose this if every room PC has its **own** Admin password, for example with **Windows LAPS**. The script warns about this when you use the option.
+
+Don't use the **Skype** account the Teams Rooms app signs in with.
+
+If the PC rejects the username or password, the Collector **stops trying to sign in for 30 minutes**, so repeated failures don't lock the account (Windows locks a local account after about 10 bad attempts in 10 minutes by default). The device shows **WinRM sign-in rejected — retrying at** and the time of the next attempt. Correcting the username or password in the portal tries again straight away.
+
+## Set up the PC
+
+Run the setup script, `mtr-windows-setup.ps1`, once on each room PC. Your Involve contact can supply it. The script:
+
+1. Turns on WinRM and adds an **HTTPS listener** on port 5986 with a self-signed certificate.
+2. Adds a Windows Firewall rule that lets **only the Collector's IP address** reach port 5986. It refuses a subnet wider than /16 (IPv4) or /48 (IPv6) unless you add `-AllowWideScope`.
+3. Optionally creates the monitoring account described above.
+
+To run it:
+
+1. Sign in to the room PC as the Admin account (in Teams Rooms, open **More** › **Settings** › **Windows Settings**, then sign in as Admin).
+2. Copy `mtr-windows-setup.ps1` to the PC.
+3. Open **Windows PowerShell** as administrator and run it with your Collector's IP address. The comments at the top of the script give the exact options.
+
+   ```powershell
+   Set-ExecutionPolicy -Scope Process Bypass
+   .\mtr-windows-setup.ps1
+   ```
+
+4. Sign out of Admin so the room returns to Teams Rooms.
+
+If the room has more than one Collector (a warm standby pair), allow each Collector's IP address.
+
+## Add the room in the portal
+
+Go to **Devices**, select **New device** and choose the device type **Microsoft Teams Room**.
+
+1. **Platform**: choose **Windows**.
+2. **Managed by**: choose **Direct (Windows remote management)**. It's only offered for Windows.
+3. Fill in the usual Collector device fields:
+   - **Collector**: the Collector on the same network as the room PC.
+   - **Reported ID** and **Name**.
+   - **Address**: the room PC's IP address or hostname.
+   - **Username** and **Password**: the account above.
+   - **WinRM port**: leave blank for 5986.
+4. Select **Create device**.
+
+The type stays **Microsoft Teams Room** and the protocol **Microsoft Teams Rooms on Windows (WinRM)**. Two tags are set for you:
+
+- `winrm_https`: `true`. Set it to `false` only to use plain HTTP on port 5985.
+- `tls_skip_verify`: `true`, because the setup script gives the PC a self-signed certificate. The connection is still encrypted; only the certificate check is skipped. If you install a certificate your Collector trusts, remove this tag.
+
+## What the device page shows
+
+The header shows **Online** or **Offline**, **Teams: signed in** or **signed out**, Teams' health and **In a call** when the room is in one. The cards are:
+
+- **Teams Rooms**: app version, last heartbeat and the last error.
+- **Call**: in a call, idle or unknown, with the two signals underneath (**Mic/camera in use** and **Teams media ports open**). With the monitoring account, only the media ports signal is shown and the call state is unknown.
+- **Peripherals**: each peripheral by name, connected or missing.
+- **Device**: model, Windows version, serial number and uptime.
+- **Source**: **Direct via Collector** and the Collector's name, and the WinRM connection.
+
+## Alerts
+
+These rooms raise the same alerts as [Teams Rooms managed by Poly Lens](/portal/teams-rooms#alerts):
+
+| Alert | Raised when | Severity |
+|---|---|---|
+| **Teams Room offline** | The PC hasn't answered for 5 minutes | Critical |
+| **Teams signed out** | Teams has reported signed out for 10 minutes | Critical |
+| **Teams health** | Teams has reported itself unhealthy for 10 minutes | Warning |
+| **Peripheral missing** | A peripheral has been missing for 10 minutes; the alert names it | Warning |
+
+Nothing opens between 01:00 and 05:00 in the building's time zone, when Teams Rooms update and restart. Rooms that [Room Readiness](/portal/room-readiness) has switched off don't raise offline alerts.
+
+## Security
+
+- **Read-only.** The script the Collector runs only reads. M.A.R.C.U.S. sends no commands to the room PC.
+- **Encrypted.** WinRM runs over HTTPS. Use plain HTTP only on a network you trust.
+- **Credentials encrypted.** The username and password are stored encrypted, sent only to the Collector that reads the room, and never shown again in the portal.
+- **Restrict the firewall.** Allow port 5986 only from the Collector's IP address, as the setup script does. Don't open it to the whole network.
+- **Use the monitoring account**, not Admin, unless you need the call state. If you do use Admin, give every room PC its own Admin password with Windows LAPS.
+- **No account lockouts.** After a rejected sign-in the Collector waits 30 minutes before trying again.
+
+## Troubleshooting
+
+| What you see | What to check |
+|---|---|
+| Offline with **WinRM sign-in rejected — retrying at …** | The username or password. Try `.\Admin` or `PCNAME\Admin` as the username. Saving the corrected details tries again at once; otherwise the Collector waits until the time shown. |
+| Call state **Unknown** | Expected with the monitoring account, which can't read the microphone and camera. |
+| Offline, no sign-in error | That the PC is on, port 5986 is open from the Collector, and the setup script has been run. |
+| Online, but Teams readings blank | The Teams Rooms app hasn't written a heartbeat yet. Wait a few minutes after the room starts. |
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 24 Nov 2026 09:07 · page 6ddd764</p>

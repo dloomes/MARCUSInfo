@@ -1,0 +1,78 @@
+---
+title: "Integrations"
+sidebarTitle: "Integrations"
+description: "Connect M.A.R.C.U.S. to Poly Lens so it can monitor Microsoft Teams Rooms without a Collector."
+icon: "plug"
+---
+
+The **Integrations** page, under **Manage** in the sidebar, shows the outside services M.A.R.C.U.S. can connect to. Each has a card with its status and a short summary.
+
+Anyone who can see the dashboard can open the page and see the cards. You need the **Manage integrations** permission (`integration.manage`) to connect, change or disconnect one. Administrators have it by default.
+
+## The cards
+
+| Integration | What the card shows |
+|---|---|
+| **Poly Lens** | **Connected**, **Not connected** or **Needs attention**, with the Lens account name, how many devices are linked and when M.A.R.C.U.S. last checked Lens. |
+| **Logitech Sync** | **Coming soon**. |
+| **Microsoft 365** | **Coming soon**. |
+| **ServiceNow** | **Connected** when you have a ServiceNow [alert channel](/admin/notifications), otherwise **Not connected**. It's managed under **Alert channels**, and the card links there. |
+
+**Needs attention** means M.A.R.C.U.S. couldn't read from Lens at the last check. The card shows the reason. See [Troubleshooting](#troubleshooting).
+
+## Connect Poly Lens
+
+You need an API credential from Poly Lens first.
+
+1. In Poly Lens, go to **Admin Portal → Account Settings → API Credentials** and select **Add New**.
+2. Copy the **Client ID** and the **Client secret**.
+3. In M.A.R.C.U.S., select **Connect** on the **Poly Lens** card.
+4. Paste the **Client ID** and **Client secret**.
+5. Select **Test**. M.A.R.C.U.S. lists the Lens accounts the credential can see.
+6. Choose the **Lens account** to use.
+7. Decide whether to tick **Allow M.A.R.C.U.S. to tag linked devices in Lens**. See [Tagging in Lens](#tagging-in-lens).
+8. Select **Test and connect**.
+
+The client secret is stored encrypted and is never shown again, to anyone. When you edit the connection later, leave the secret blank to keep the current one.
+
+You can then [add Teams Rooms managed by Poly Lens](/portal/teams-rooms). You don't need a Collector for them. M.A.R.C.U.S. talks to Lens directly, from the cloud, and checks it every minute.
+
+## Tagging in Lens
+
+Tagging is optional and off unless you tick the box. When it's on, M.A.R.C.U.S. adds a tag to each Lens device you link, named `marcus:` followed by the device's M.A.R.C.U.S. ID. You can use it in Lens to see which devices M.A.R.C.U.S. is watching. M.A.R.C.U.S. removes the tag when you delete the room's device. It never changes anything else in Lens.
+
+Lens can take up to about 10 minutes to accept a new tag, so the tag usually appears within a few minutes of linking the room. Until then the device page shows **Tag pending**. If Lens still hasn't accepted it after 30 minutes, the device page shows **Lens role can't tag devices**; monitoring is not affected.
+
+Tagging needs the Lens API credential to be allowed to edit devices. If it isn't, the device page shows **Lens role can't tag devices**. Monitoring still works; to get tags, give the credential a role that can edit devices in Lens.
+
+## Change the connection
+
+Select **Manage** on the card to change the credential or the tagging setting.
+
+Only Involve support can change which **Lens account** an existing connection uses, and the client secret must be entered again when they do. Everyone else sees the account name but can't change it.
+
+## Disconnect Poly Lens
+
+Select **Manage**, then **Disconnect**, and confirm. M.A.R.C.U.S. stops reading from Lens and deletes the stored client secret.
+
+Rooms already linked stay in M.A.R.C.U.S. with their history. Their status becomes **unknown**, with the reason **Integration disconnected**, until you connect again. Reconnect to the same Lens account to bring them back.
+
+Because the connection is gone, M.A.R.C.U.S. can't remove its `marcus:` tags from Lens while disconnected. If you delete a room's device in that time, remove the tag in Lens yourself.
+
+## Troubleshooting
+
+| You see | What it means and what to do |
+|---|---|
+| **Poly Lens rejected these credentials** | The Client ID or secret is wrong, or the credential has been deleted in Lens. Check them, or add a new API credential in Lens. |
+| **Your Poly Lens API role doesn't have permission for this** | The credential's role can't read devices. Give it a role with read access to devices in Lens, then try again. |
+| **These credentials work but no Poly Lens accounts are visible to them** | The credential isn't attached to any account. Check it in Lens. |
+| **Poly Lens is rate limiting requests; try again shortly** | Lens is limiting requests. Wait a minute and try again. |
+| **Could not reach Poly Lens**, or the card shows **Needs attention** with **Poly Lens unreachable** | M.A.R.C.U.S. couldn't contact Lens. Rooms linked from Lens show **unknown**, not offline, so you aren't alerted to rooms that may be fine. They recover on their own when Lens is reachable. If it continues, check Poly's service status and that the credential is still valid. |
+| **Poly Lens rejected the stored credentials; reconnect the integration** | The credential has been revoked or has expired in Lens. Select **Manage**, enter a new Client ID and secret, and connect. |
+| **Only Involve support can change the Poly Lens account** | Ask Involve to change the account. |
+
+## Audit
+
+Connecting, changing, tagging changes, disconnecting and linking or removing Lens rooms are recorded in the [audit log](/admin/audit-log). Secrets are never recorded.
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 24 Nov 2026 09:07 · page 07fcd41</p>

@@ -1,0 +1,86 @@
+---
+title: "Microsoft Teams Rooms on Windows (WinRM)"
+sidebarTitle: "Teams Rooms on Windows"
+description: "Microsoft Teams Rooms on Windows, read directly by the Collector over Windows Remote Management (WinRM, HTTPS on port 5986). Read-only: Teams sign-in and health, app version, call state (microphone/camera in use and Teams media ports), peripherals, Windows version and uptime. Polled every 60 seconds. Run the setup script from the \"Windows Teams Rooms setup\" docs page on the room PC first."
+icon: "windows"
+---
+
+**Works with:** Microsoft Teams Rooms on Windows, on any certified Teams Rooms PC (for example Lenovo, HP, Dell, Yealink or Logitech compute units).
+
+| | |
+|---|---|
+| **Type** | Vendor adapter |
+| **Vendor** | Microsoft |
+| **Device types** | teams_room |
+| **Connection** | Windows Remote Management (WinRM) over HTTPS (port 5986), signed in with a local account using NTLM |
+| **Power on/off from the portal** | No |
+| **Protocol in the portal** | Microsoft Teams Rooms on Windows (WinRM) (`mtr_windows`) |
+
+## Before you start
+
+1. Turn on WinRM over HTTPS on the Teams Rooms PC and allow port 5986 from the Collector only. The **Windows Teams Rooms setup** page explains how, using the setup script your Involve contact provides.
+2. Choose the account M.A.R.C.U.S. signs in with: a dedicated monitoring account (recommended), or the PC's Admin account if you want call status. Note its username and password.
+3. Add the room in the portal as a **Microsoft Teams Room**, platform **Windows**, managed by **Direct (Windows remote management)**.
+
+## Add the device
+
+1. In the portal, go to **Devices** and select **New device**.
+2. Choose the **Collector** that can reach the device, and set **Protocol** to **Microsoft Teams Rooms on Windows (WinRM)**.
+3. Enter the settings below and save. The Collector picks up the new device within seconds.
+
+| Setting | Required | What to enter | Example |
+|---|---|---|---|
+| **Address** | Yes | The Teams Room PC's IP or hostname. WinRM over HTTPS on port 5986 is assumed; see the Windows Teams Rooms setup page for enabling the HTTPS listener. | `192.168.20.60` |
+| **Username** | Yes | A local account on the Teams Room PC that can sign in over WinRM (for example the MTR Admin account, or a dedicated monitoring account added by the setup script). | `Admin` |
+| **Password** | Yes | That account's password. Stored encrypted. |  |
+| **Tags → `port`** | No | WinRM port, if not the default 5986 (HTTPS) or 5985 (HTTP). | `5986` |
+| **Tags → `winrm_https`** | No | Defaults to "true" (HTTPS on 5986). Set to "false" only to use plain HTTP on port 5985, which is not recommended. | `true` |
+| **Tags → `tls_skip_verify`** | No | Set to "true" to accept the room PC's self-signed WinRM certificate (what the setup script creates). The connection is still encrypted; only the certificate check is skipped, as for other devices with self-signed certificates. | `true` |
+
+<Note>
+**Tags** are set in the **Tags** section of the device form: select **Add tag**, then enter the name and value, for example `port` = `5986`.
+</Note>
+
+## Readings
+
+These values appear under **Device Information** on the device page, and can be checked in Room Readiness routines.
+
+| Reading | Shown as |
+|---|---|
+| `teams_signed_in` | Teams Signed In |
+| `teams_health` | Teams Health |
+| `teams_app_version` | Teams App Version |
+| `call_state` | Call State |
+| `active_calls` | Active Calls |
+| `call_signal_mic` | Call Signal Mic |
+| `call_signal_udp` | Call Signal Udp |
+| `udp_media_sockets` | Udp Media Sockets |
+| `peripherals` | Peripherals |
+| `peripherals_missing` | Peripherals Missing |
+| `peripherals_linked` | Peripherals Linked |
+| `software_version` | Software Version |
+| `uptime_s` | Uptime S |
+| `last_heartbeat` | Last Heartbeat |
+| `last_error` | Last Error |
+
+## Commands
+
+This adapter monitors only; it has no commands.
+
+<Note>
+**Read-only:** the Collector runs one fixed, read-only script each minute. It reads the Teams Rooms event log, peripheral health, whether the microphone or camera is in use, and the PC's details. It never changes settings or restarts anything.
+</Note>
+
+<Note>
+**Call status:** needs the Admin account. With a dedicated monitoring account, call status shows **unknown**; everything else still works.
+</Note>
+
+<Note>
+**Wrong password:** after a rejected sign-in the Collector waits 30 minutes before trying again, so it can't lock the account. Editing the device's settings retries straight away.
+</Note>
+
+<Note>
+**Not yet confirmed on hardware:** this support was built from Microsoft's documentation and hasn't been tested on a Teams Rooms PC yet. Tell your Involve contact if a reading looks wrong.
+</Note>
+
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 24 Nov 2026 09:07 · page 0e33a99</p>

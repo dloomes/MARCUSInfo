@@ -1337,6 +1337,22 @@
             "additionalProperties": {
               "type": "string"
             }
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "collector",
+              "poly_lens"
+            ],
+            "description": "`collector` for devices polled by a Collector; `poly_lens` for devices with no Collector, managed through the Poly Lens integration."
+          },
+          "platform": {
+            "type": "string",
+            "enum": [
+              "windows",
+              "android"
+            ],
+            "description": "The device's operating platform, for Microsoft Teams Rooms devices. Absent otherwise."
           }
         },
         "example": {
@@ -1361,7 +1377,8 @@
           "tags": {
             "site": "hq",
             "row": "front"
-          }
+          },
+          "source": "collector"
         }
       },
       "DeviceDetail": {
@@ -2149,10 +2166,6 @@
     }
   },
   "servers": [
-    {
-      "url": "https://api.uat.involvecloud.com",
-      "description": "UAT"
-    },
     {
       "url": "https://api.involvecloud.com",
       "description": "Production"

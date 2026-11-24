@@ -27,7 +27,7 @@ Results are newest first (for devices, most recently seen first), and the cursor
 cursor=""
 while :; do
   page=$(curl -s -H "Authorization: Bearer $TOKEN" \
-    "https://api.uat.involvecloud.com/pub/v1/devices?limit=500${cursor:+&cursor=$cursor}")
+    "https://api.involvecloud.com/pub/v1/devices?limit=500${cursor:+&cursor=$cursor}")
   echo "$page" | jq -c '.data[]'
   cursor=$(echo "$page" | jq -r '.next_cursor // empty')
   [ -z "$cursor" ] && break
@@ -40,4 +40,4 @@ For a feed such as alerts, events or the audit trail, poll on a schedule and sto
 
 Paginated endpoints: devices, a device's events, assets, alerts, events and audit. Buildings and rooms return a complete list in one response.
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page 9785b3e</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 24 Nov 2026 09:07 · page 7f8db0d</p>

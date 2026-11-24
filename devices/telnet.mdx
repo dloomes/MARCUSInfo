@@ -29,6 +29,14 @@ icon: "terminal"
 |---|---|---|---|
 | **Address** | Yes | host:port of the Telnet endpoint. | `192.168.70.10:23` |
 | **Commands** | No | Named command strings sent on demand from the portal. |  |
+| **Tags → `via_rxt_serial`** | No | Wired to an Aurora RXT's RS-232 port instead of the network: 1 or 2, the RXT serial port. The address is then the RXT's IP, and the Collector reaches the device through the RXT's serial-over-IP port. | `1` |
+| **Tags → `via_vpx_serial`** | No | Wired to an Aurora VPX's RS-232 port instead of the network: true. The address is then the VPX's IP, and soip_tcp_port is required. The Collector switches on the VPX's serial-over-IP passthrough, and won't take over a port routed to another VPX or in use by another client. | `true` |
+| **Tags → `soip_tcp_port`** | No | With via_rxt_serial: the TCP port the RXT shares the serial port on, default 6900 for port 1 and 6901 for port 2. With via_vpx_serial: the VPX's serial-over-IP passthrough port (required). | `6900` |
+| **Tags → `serial_settings`** | No | With via_rxt_serial or via_vpx_serial: serial settings to apply to the port, as baud, data bits, stop bits, parity (and handshaking on an RXT). Left unchanged when not set. | `38400 8 1 n none` |
+
+<Note>
+**Tags** are set in the **Tags** section of the device form: select **Add tag**, then enter the name and value, for example `via_rxt_serial` = `1`.
+</Note>
 
 ## Readings
 
@@ -38,4 +46,4 @@ Reachability and response time are recorded on every poll. The device's own valu
 
 Commands are strings you define per device in the **Commands** section of the device form. Each one becomes a button on the device page. Put `{name}` in a command to ask for a value when the button is pressed.
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 23 Oct 2026 15:20 · page 1bdc351</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 24 Nov 2026 09:07 · page d60dc3f</p>

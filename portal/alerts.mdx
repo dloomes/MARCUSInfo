@@ -15,6 +15,8 @@ An alert is raised when something needs attention, most often a device or Collec
 | **Collector offline** (`collector_offline`) | A Collector stops checking in. Critical, because none of its devices can be monitored; Warning when a standby Collector has taken over its devices, or when the offline machine is the standby itself | Automatically, when it checks in again |
 | **Readiness check failed** (`readiness_failed`) | A room's [readiness check](/portal/room-readiness) fails. One alert per room, naming the failed steps. Warning | Automatically, when the room's next check passes |
 | **Power cycle failed** (`power_cycle_failed`) | A room's overnight power cycle fails, for example a device doesn't come back on. Warning | Automatically, when the room's next power cycle succeeds |
+| **Teams Room offline** | A [Teams Room managed by Poly Lens](/portal/teams-rooms) has been offline in Lens for 5 minutes. Critical | Automatically, when it's back online |
+| **Peripheral missing** | A Lens-managed Teams Room has reported a peripheral not linked for 10 minutes. Warning | Automatically, when all are linked again |
 | Device-specific alerts | A device reports a problem, depending on the device | When resolved |
 
 On the **Alerts** page each alert shows its key in small capitals, such as `readiness_failed`, with the message beside it. Alerts for a room link to the room, and device alerts to the device.
@@ -22,6 +24,8 @@ On the **Alerts** page each alert shows its key in small capitals, such as `read
 Alerts are also closed automatically if their device is deleted.
 
 Devices that [Room Readiness](/portal/room-readiness) has switched off for the night don't raise offline alerts until the morning warm-up is over.
+
+Teams Room alerts from Poly Lens are held between 01:00 and 05:00 in the building's time zone, while rooms update and restart. They open at 05:00 if the condition is still present.
 
 ## Severity
 
@@ -52,4 +56,4 @@ Notifications go out when an alert first opens, not every time it repeats, so an
 
 Resolved alerts are kept for 12 months after they're resolved, then deleted. Open and acknowledged alerts are kept until they're resolved.
 
-<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 06 Nov 2026 14:07 · page 22d1079</p>
+<p className="docs-build-stamp" style={{fontSize: "0.75rem", opacity: 0.6, marginTop: "3rem"}}>Updated 24 Nov 2026 09:07 · page 2f184de</p>
